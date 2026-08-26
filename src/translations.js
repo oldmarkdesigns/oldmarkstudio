@@ -3,39 +3,6 @@ const translations = {
     nav: {
       links: ['Tjänster', 'Arbete', 'Process'],
       linkIds: ['#services', '#work', '#process'],
-      cta: 'Kontakta oss',
-    },
-    contactModal: {
-      title: 'Kontakta oss',
-      subtitle: 'Berätta om ditt projekt så hör vi av oss inom 24 timmar.',
-      nameLabel: 'Namn',
-      namePlaceholder: 'Ditt namn',
-      emailLabel: 'E-post',
-      emailPlaceholder: 'din@epost.se',
-      phoneLabel: 'Telefon',
-      phonePlaceholder: '070-123 45 67',
-      messageLabel: 'Meddelande',
-      messagePlaceholder: 'Berätta kort om ditt projekt...',
-      submit: 'Skicka meddelande',
-      close: 'Stäng',
-      sentTitle: 'Nästan klart!',
-      sentBody: 'Vi öppnade ditt e-postprogram med meddelandet ifyllt — tryck skicka där för att slutföra.',
-    },
-    quoteModal: {
-      title: 'Registrera dig och få en kostnadsfri offert för hemsida',
-      subtitle: '',
-      nameLabel: 'Namn',
-      namePlaceholder: 'Ditt namn',
-      emailLabel: 'Email',
-      emailPlaceholder: 'din@epost.se',
-      phoneLabel: 'Telefon',
-      phonePlaceholder: '070-123 45 67',
-      messageLabel: 'Berätta kort om ditt företag!',
-      messagePlaceholder: '',
-      submit: 'Kom igång',
-      close: 'Stäng',
-      sentTitle: 'Nästan klart!',
-      sentBody: 'Vi öppnade ditt e-postprogram med förfrågan ifylld — tryck skicka där för att slutföra.',
     },
     hero: {
       line1: 'Design. Bygg.',
@@ -44,7 +11,6 @@ const translations = {
       subheading:
         'En stockholmsbaserad studio för grundare och produktteam som behöver digitalt arbete gjort rätt — och snabbt.',
       ctaPrimary: 'Se vårt arbete',
-      ctaSecondary: 'Boka ett kostnadsfritt samtal',
       descriptor:
         'Appdesign · Webbutveckling · CRO · UX-granskningar · Designsystem',
       badge: 'OLDMARK STUDIO · STOCKHOLM · ',
@@ -110,7 +76,6 @@ const translations = {
           period: 'kr/mån',
           desc: 'För dig som behöver en professionell webbplats utan krångel.',
           features: ['Upp till 5 sidor', 'Responsiv design', 'Grundläggande SEO', 'Hosting inkluderad', 'E-postsupport'],
-          cta: 'Kom igång',
           featured: false,
         },
         {
@@ -120,7 +85,6 @@ const translations = {
           period: 'kr/mån',
           desc: 'Vår mest populära nivå — för växande företag som vill ha mer.',
           features: ['Allt i Bas', 'Obegränsat antal sidor', 'Skräddarsydd design', 'Avancerad SEO', 'Månatliga uppdateringar', 'Prioriterad support'],
-          cta: 'Kom igång',
           featured: true,
         },
         {
@@ -129,7 +93,6 @@ const translations = {
           period: '',
           desc: 'Föredrar du inget abonnemang? Vi bygger webbplatsen till ett fast engångspris — du äger den helt och hållet.',
           features: ['Fast projektpris', 'Ingen bindningstid eller månadskostnad', 'Full äganderätt av design och kod', 'Valfri hosting-leverantör', 'Support vid behov, timdebiterat'],
-          cta: 'Kom igång',
           featured: false,
         },
       ],
@@ -148,7 +111,6 @@ const translations = {
       ctaBtn: 'Kontakta oss',
       questionsCardTitle: 'Har du frågor?',
       questionsCardBody: 'Boka ett kostnadsfritt samtal så går vi igenom vad som passar er bäst — inga förpliktelser.',
-      questionsCardBtn: 'Boka ett samtal',
     },
     process: {
       label: 'PROCESS',
@@ -189,7 +151,6 @@ const translations = {
           name: 'NO20',
           location: 'Stockholms skärgård',
           desc: 'Lyxigt flytande boende mitt i skärgården — vi designade varumärket och webbplatsen från grunden.',
-          cta: 'Se projektet',
         },
         {
           slug: 'sea4you',
@@ -197,7 +158,6 @@ const translations = {
           name: 'Sea4You',
           location: 'Saltsjöbaden',
           desc: 'Redesign och uppstädning av webbplatsen för Sveriges Targa-återförsäljare, byggd för enkelt underhåll.',
-          cta: 'Se projektet',
         },
         {
           slug: 'iris-glaciers',
@@ -205,7 +165,6 @@ const translations = {
           name: 'Iris Glaciers',
           location: 'Nystartat varumärke',
           desc: 'Design och utveckling av en komplett e-handelsupplevelse för ett helt nytt glasögonmärke.',
-          cta: 'Se projektet',
         },
         {
           slug: 'deco-home',
@@ -213,7 +172,6 @@ const translations = {
           name: 'Deco Home',
           location: 'Stockholm',
           desc: 'Ny webbplats med design, utveckling och varumärkesarbete för en skräddarsydd inredningsstudio.',
-          cta: 'Se projektet',
         },
       ],
     },
@@ -260,7 +218,6 @@ const translations = {
       accentWord: 'tillsammans.',
       subheading:
         'Har du ett projekt i åtanke, eller vill du bara prata igenom vad du behöver? Skicka ett meddelande.',
-      cta: 'Boka kostnadsfritt samtal',
       muted: 'Baserade i Stockholm · Tillgängliga för projekt och retainers',
       cardTag: 'OLDMARKSTUDIO · STOCKHOLM',
       statNumber: '100',
@@ -293,39 +250,6 @@ const translations = {
     nav: {
       links: ['Services', 'Work', 'Process'],
       linkIds: ['#services', '#work', '#process'],
-      cta: 'Get in touch',
-    },
-    contactModal: {
-      title: 'Get in touch',
-      subtitle: "Tell us about your project and we'll get back to you within 24 hours.",
-      nameLabel: 'Name',
-      namePlaceholder: 'Your name',
-      emailLabel: 'Email',
-      emailPlaceholder: 'you@email.com',
-      phoneLabel: 'Phone',
-      phonePlaceholder: '+1 234 567 890',
-      messageLabel: 'Message',
-      messagePlaceholder: 'Tell us briefly about your project...',
-      submit: 'Send message',
-      close: 'Close',
-      sentTitle: 'Almost there!',
-      sentBody: "We've opened your email app with the message filled in — hit send there to finish up.",
-    },
-    quoteModal: {
-      title: 'Sign up and get a free quote for your website',
-      subtitle: '',
-      nameLabel: 'Name',
-      namePlaceholder: 'Your name',
-      emailLabel: 'Email',
-      emailPlaceholder: 'you@email.com',
-      phoneLabel: 'Phone',
-      phonePlaceholder: '+1 234 567 890',
-      messageLabel: 'Tell us briefly about your company!',
-      messagePlaceholder: '',
-      submit: 'Get started',
-      close: 'Close',
-      sentTitle: 'Almost there!',
-      sentBody: "We've opened your email app with the request filled in — hit send there to finish up.",
     },
     hero: {
       line1: 'Design. Build.',
@@ -334,7 +258,6 @@ const translations = {
       subheading:
         'A Stockholm-based studio for founders and product teams who need digital work done well — and fast.',
       ctaPrimary: 'See our work',
-      ctaSecondary: 'Book a free call',
       descriptor:
         'App design · Web development · CRO · UX audits · Design systems',
       badge: 'OLDMARK STUDIO · STOCKHOLM · ',
@@ -400,7 +323,6 @@ const translations = {
           period: 'kr/mo',
           desc: 'For a professional website without the hassle.',
           features: ['Up to 5 pages', 'Responsive design', 'Basic SEO', 'Hosting included', 'Email support'],
-          cta: 'Get started',
           featured: false,
         },
         {
@@ -410,7 +332,6 @@ const translations = {
           period: 'kr/mo',
           desc: 'Our most popular tier — for growing companies who want more.',
           features: ['Everything in Basic', 'Unlimited pages', 'Custom design', 'Advanced SEO', 'Monthly updates', 'Priority support'],
-          cta: 'Get started',
           featured: true,
         },
         {
@@ -419,7 +340,6 @@ const translations = {
           period: '',
           desc: 'Prefer no subscription? We build the site for a fixed one-time price — you own it outright.',
           features: ['Fixed project price', 'No lock-in or monthly cost', 'Full ownership of design and code', 'Hosting provider of your choice', 'Support on request, billed hourly'],
-          cta: 'Get started',
           featured: false,
         },
       ],
@@ -438,7 +358,6 @@ const translations = {
       ctaBtn: 'Contact us',
       questionsCardTitle: 'Have questions?',
       questionsCardBody: "Book a free call and we'll walk through what fits you best — no obligations.",
-      questionsCardBtn: 'Book a call',
     },
     process: {
       label: 'PROCESS',
@@ -479,7 +398,6 @@ const translations = {
           name: 'NO20',
           location: 'Stockholm Archipelago',
           desc: 'A luxury floating home in the heart of the archipelago — we built the brand and website from scratch.',
-          cta: 'View project',
         },
         {
           slug: 'sea4you',
@@ -487,7 +405,6 @@ const translations = {
           name: 'Sea4You',
           location: 'Saltsjöbaden',
           desc: 'A redesign and cleanup of the website for Sweden’s Targa boat dealer, built for easy maintenance.',
-          cta: 'View project',
         },
         {
           slug: 'iris-glaciers',
@@ -495,7 +412,6 @@ const translations = {
           name: 'Iris Glaciers',
           location: 'New brand launch',
           desc: 'Design and development of a complete e-commerce experience for a brand-new eyewear label.',
-          cta: 'View project',
         },
         {
           slug: 'deco-home',
@@ -503,7 +419,6 @@ const translations = {
           name: 'Deco Home',
           location: 'Stockholm',
           desc: 'New website with design, development, and brand work for a bespoke interior design studio.',
-          cta: 'View project',
         },
       ],
     },
@@ -550,7 +465,6 @@ const translations = {
       accentWord: 'together.',
       subheading:
         'Have a project in mind, or just want to talk through what you need? Send a message.',
-      cta: 'Book a free call',
       muted: 'Based in Stockholm · Available for projects and retainers',
       cardTag: 'OLDMARKSTUDIO · STOCKHOLM',
       statNumber: '100',

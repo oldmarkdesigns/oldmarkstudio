@@ -1,9 +1,7 @@
-import { PillButton, Reveal } from './ui'
-import { useContactModal } from './contactModalContext'
+import { PillButton, Reveal, MailContactButton } from './ui'
 import { FeaturedWebCard } from './Services'
 
-export default function Hero({ t, servicesT }) {
-  const openContact = useContactModal()
+export default function Hero({ t, servicesT, lang }) {
   const webItem = servicesT.items[1]
 
   function scrollTo(id) {
@@ -73,11 +71,7 @@ export default function Hero({ t, servicesT }) {
               variant="primary"
               onClick={() => scrollTo('#work')}
             />
-            <PillButton
-              label={t.ctaSecondary}
-              variant="secondary"
-              onClick={openContact}
-            />
+            <MailContactButton lang={lang} />
           </div>
 
           <p

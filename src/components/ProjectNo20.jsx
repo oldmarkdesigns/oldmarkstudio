@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { SectionLabel, ArrowIcon } from './ui'
-import { useContactModal } from './contactModalContext'
+import { SectionLabel, MailContactButton } from './ui'
 import no20Hero from '../assets/no20-hero.png'
 import no20Design from '../assets/no20-design.png'
 import no20Mobile from '../assets/no20-mobile.png'
@@ -38,7 +37,6 @@ function Reveal({ children, delay = 0 }) {
 // ─── Page ─────────────────────────────────────────────────────────────────────
 export default function ProjectNo20({ lang = 'sv' }) {
   const navigate = useNavigate()
-  const openContact = useContactModal()
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'instant' })
@@ -86,7 +84,6 @@ export default function ProjectNo20({ lang = 'sv' }) {
     ctaBody: isSv
       ? 'Vi jobbar med varumärken och produkter som förtjänar mer än ett generiskt digitalt uttryck. Hör av dig.'
       : 'We work with brands and products that deserve more than a generic digital expression. Get in touch.',
-    ctaBtn: isSv ? 'Kontakta oss' : 'Contact us',
   }
 
   return (
@@ -322,16 +319,7 @@ export default function ProjectNo20({ lang = 'sv' }) {
           <p className="text-primary/70 mb-8" style={{ fontSize: 15, lineHeight: 1.7, maxWidth: 440 }}>
             {copy.ctaBody}
           </p>
-          <button
-            onClick={openContact}
-            className="inline-flex items-center gap-2 rounded-full font-medium transition-opacity duration-150 hover:opacity-85"
-            style={{ fontSize: 13, letterSpacing: '0.01em', padding: '10px 10px 10px 22px', background: '#181817', color: '#ffffff' }}
-          >
-            {copy.ctaBtn}
-            <span className="flex items-center justify-center rounded-full" style={{ width: 28, height: 28, background: 'rgba(255,255,255,0.15)' }}>
-              <ArrowIcon size={13} />
-            </span>
-          </button>
+          <MailContactButton lang={lang} />
         </section>
       </Reveal>
 

@@ -1,13 +1,11 @@
 import { useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { getService } from '../data/services'
-import { SectionLabel, ArrowIcon, Reveal } from './ui'
-import { useContactModal } from './contactModalContext'
+import { SectionLabel, Reveal, MailContactButton } from './ui'
 
 export default function ServicePage({ lang = 'sv' }) {
   const { slug } = useParams()
   const navigate = useNavigate()
-  const openContact = useContactModal()
   const service = getService(slug)
 
   useEffect(() => {
@@ -145,16 +143,7 @@ export default function ServicePage({ lang = 'sv' }) {
                 <p className="text-primary/68 mb-5" style={{ fontSize: 13, lineHeight: 1.6 }}>
                   {isSv ? 'Boka ett kostnadsfritt samtal — vi går igenom ert projekt.' : 'Book a free call — we\'ll walk through your project.'}
                 </p>
-                <button
-                  onClick={openContact}
-                  className="inline-flex items-center gap-2 rounded-full font-medium transition-opacity duration-150 hover:opacity-85"
-                  style={{ fontSize: 12, letterSpacing: '0.01em', padding: '9px 10px 9px 18px', background: '#181817', color: '#ffffff' }}
-                >
-                  {isSv ? 'Kontakta oss' : 'Get in touch'}
-                  <span className="flex items-center justify-center rounded-full" style={{ width: 26, height: 26, background: 'rgba(255,255,255,0.15)' }}>
-                    <ArrowIcon size={12} />
-                  </span>
-                </button>
+                <MailContactButton lang={lang} />
               </div>
             </Reveal>
           </div>

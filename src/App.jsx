@@ -15,7 +15,6 @@ import IrisGlaciersPage from './components/IrisGlaciersPage'
 import DecoHomePage from './components/DecoHomePage'
 import ServicePage from './components/ServicePage'
 import WebSolutionPage from './components/WebSolutionPage'
-import { ContactModalProvider } from './components/ContactModal'
 
 const AGENCY_NAME = 'Oldmark Studio'
 
@@ -25,13 +24,13 @@ function HomePage({ lang, setLang }) {
     <div className="bg-background min-h-screen font-sans">
       <Nav t={t.nav} lang={lang} setLang={setLang} agencyName={AGENCY_NAME} />
       <main>
-        <Hero t={t.hero} servicesT={t.services} />
+        <Hero t={t.hero} servicesT={t.services} lang={lang} />
         <Services t={t.services} />
         <WhoWeWorkWith t={t.who} />
         <Process t={t.process} lang={lang} />
-        <Contact t={t.contact} />
+        <Contact t={t.contact} lang={lang} />
       </main>
-      <Footer t={t.footer} />
+      <Footer t={t.footer} lang={lang} />
     </div>
   )
 }
@@ -44,7 +43,7 @@ function ArticleRoute({ lang, setLang }) {
       <main style={{ paddingTop: '5rem' }}>
         <ArticlePage lang={lang} />
       </main>
-      <Footer t={t.footer} />
+      <Footer t={t.footer} lang={lang} />
     </div>
   )
 }
@@ -54,7 +53,6 @@ export default function App() {
 
   return (
     <BrowserRouter>
-      <ContactModalProvider lang={lang}>
       <Routes>
         <Route path="/" element={<HomePage lang={lang} setLang={setLang} />} />
         <Route path="/artikel/:slug" element={<ArticleRoute lang={lang} setLang={setLang} />} />
@@ -64,7 +62,7 @@ export default function App() {
             <main style={{ paddingTop: '5rem' }}>
               <ServicePage lang={lang} />
             </main>
-            <Footer t={translations[lang].footer} />
+            <Footer t={translations[lang].footer} lang={lang} />
           </div>
         } />
         <Route path="/webbutveckling" element={
@@ -73,7 +71,7 @@ export default function App() {
             <main style={{ paddingTop: '5rem' }}>
               <WebSolutionPage lang={lang} />
             </main>
-            <Footer t={translations[lang].footer} />
+            <Footer t={translations[lang].footer} lang={lang} />
           </div>
         } />
         <Route path="/projekt/no20" element={
@@ -82,7 +80,7 @@ export default function App() {
             <main style={{ paddingTop: '5rem' }}>
               <ProjectNo20 lang={lang} />
             </main>
-            <Footer t={translations[lang].footer} />
+            <Footer t={translations[lang].footer} lang={lang} />
           </div>
         } />
         <Route path="/projekt/sea4you" element={
@@ -91,7 +89,7 @@ export default function App() {
             <main style={{ paddingTop: '5rem' }}>
               <Sea4YouPage lang={lang} />
             </main>
-            <Footer t={translations[lang].footer} />
+            <Footer t={translations[lang].footer} lang={lang} />
           </div>
         } />
         <Route path="/projekt/iris-glaciers" element={
@@ -100,7 +98,7 @@ export default function App() {
             <main style={{ paddingTop: '5rem' }}>
               <IrisGlaciersPage lang={lang} />
             </main>
-            <Footer t={translations[lang].footer} />
+            <Footer t={translations[lang].footer} lang={lang} />
           </div>
         } />
         <Route path="/projekt/deco-home" element={
@@ -109,11 +107,10 @@ export default function App() {
             <main style={{ paddingTop: '5rem' }}>
               <DecoHomePage lang={lang} />
             </main>
-            <Footer t={translations[lang].footer} />
+            <Footer t={translations[lang].footer} lang={lang} />
           </div>
         } />
       </Routes>
-      </ContactModalProvider>
     </BrowserRouter>
   )
 }

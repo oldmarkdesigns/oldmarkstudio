@@ -1,8 +1,5 @@
 import { useEffect, useState } from 'react'
-import { PillButton, SectionLabel, Reveal } from './ui'
-import { useContactModal } from './contactModalContext'
-
-const EMAIL = 'oldmarkdesigns@gmail.com'
+import { SectionLabel, Reveal, MailContactButton } from './ui'
 
 // ─── Rotates testimonials with a cross-dissolve. Content below is placeholder
 // copy — swap for real customer quotes before this goes live. ─────────────────
@@ -40,9 +37,7 @@ function TestimonialRotator({ items }) {
   )
 }
 
-export default function Contact({ t }) {
-  const openContact = useContactModal()
-
+export default function Contact({ t, lang }) {
   return (
     <section
       id="contact"
@@ -77,34 +72,9 @@ export default function Contact({ t }) {
             {t.subheading}
           </p>
 
-          <div style={{ marginBottom: '2.5rem' }}>
-            <PillButton
-              label={t.cta}
-              variant="primary"
-              onClick={openContact}
-            />
+          <div style={{ marginBottom: '1.5rem' }}>
+            <MailContactButton lang={lang} />
           </div>
-
-          <a
-            href={`mailto:${EMAIL}`}
-            className="font-serif text-primary/80 transition-all duration-150 hover:text-accent inline-block"
-            style={{
-              fontSize: 'clamp(13px, 2.25vw, 28px)',
-              fontWeight: 400,
-              letterSpacing: '-0.015em',
-              lineHeight: 1.1,
-              marginBottom: '1.5rem',
-              borderBottom: '1px solid rgba(26,24,20,0)',
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.borderBottomColor = 'rgba(157,174,159,0.6)'
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.borderBottomColor = 'rgba(26,24,20,0)'
-            }}
-          >
-            {EMAIL}
-          </a>
 
           <p style={{ fontSize: 11.5, letterSpacing: '0.06em', color: 'rgba(26,24,20,0.4)' }}>
             {t.muted}

@@ -186,6 +186,105 @@ export function PillButton({ label, onClick, href, variant = 'primary', classNam
   )
 }
 
+export const CONTACT_EMAIL = 'samuel@oldmark.se'
+
+// ─── Small copy-to-clipboard icon button with a "Kopiera"/"Copy" hover tooltip.
+// Reused by MailContactButton and the footer's plain-text email. ──────────────
+export function CopyIconButton({ lang = 'sv', color = 'rgba(26,24,20,0.55)', hoverBg = 'rgba(26,24,20,0.08)' }) {
+  const isSv = lang === 'sv'
+  const [hover, setHover] = useState(false)
+  const [copied, setCopied] = useState(false)
+
+  function handleCopy(e) {
+    e.preventDefault()
+    e.stopPropagation()
+    navigator.clipboard.writeText(CONTACT_EMAIL)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 1800)
+  }
+
+  return (
+    <div
+      className="relative"
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+    >
+      <button
+        onClick={handleCopy}
+        aria-label={isSv ? 'Kopiera' : 'Copy'}
+        className="flex items-center justify-center rounded-full transition-colors duration-150"
+        style={{ width: 26, height: 26, color, background: 'transparent' }}
+        onMouseOver={(e) => { e.currentTarget.style.background = hoverBg }}
+        onMouseOut={(e) => { e.currentTarget.style.background = 'transparent' }}
+      >
+        {copied ? (
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M20 6L9 17l-5-5" />
+          </svg>
+        ) : (
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+            <rect x="9" y="9" width="12" height="12" rx="2" />
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+          </svg>
+        )}
+      </button>
+      <span
+        className="absolute left-1/2 pointer-events-none"
+        style={{
+          bottom: '130%',
+          transform: `translateX(-50%) translateY(${hover || copied ? '0px' : '4px'})`,
+          opacity: hover || copied ? 1 : 0,
+          transition: 'opacity 0.15s ease, transform 0.15s ease',
+          fontSize: 10.5,
+          letterSpacing: '0.04em',
+          whiteSpace: 'nowrap',
+          background: '#181817',
+          color: '#ffffff',
+          padding: '4px 9px',
+          borderRadius: 6,
+        }}
+      >
+        {copied ? (isSv ? 'Kopierad!' : 'Copied!') : (isSv ? 'Kopiera' : 'Copy')}
+      </span>
+    </div>
+  )
+}
+
+// ─── Email + copy icon, always expanded.
+// variant 'light' is for use on dark surfaces (e.g. the featured pricing tier). ─
+export function MailContactButton({ lang = 'sv', variant = 'dark' }) {
+  const isLight = variant === 'light'
+
+  return (
+    <div
+      className="inline-flex items-center shrink-0 rounded-full"
+      style={{
+        height: 44,
+        background: isLight ? '#ffffff' : '#181817',
+        paddingLeft: 16,
+        paddingRight: 14,
+        gap: 8,
+      }}
+    >
+      <div className="flex items-center gap-1.5" style={{ whiteSpace: 'nowrap' }}>
+        <a
+          href={`mailto:${CONTACT_EMAIL}`}
+          className="transition-opacity duration-150 hover:opacity-70"
+          style={{ fontSize: 13, letterSpacing: '0.01em', color: isLight ? '#181817' : '#ffffff' }}
+        >
+          {CONTACT_EMAIL}
+        </a>
+
+        <CopyIconButton
+          lang={lang}
+          color={isLight ? '#181817' : '#ffffff'}
+          hoverBg={isLight ? 'rgba(24,24,23,0.08)' : 'rgba(255,255,255,0.15)'}
+        />
+      </div>
+    </div>
+  )
+}
+
 export function SectionLabel({ children, dark = false }) {
   return (
     <div className="flex items-center gap-3 mb-5">

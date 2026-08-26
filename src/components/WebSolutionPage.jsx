@@ -1,11 +1,10 @@
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import translations from '../translations'
-import { SectionLabel, Icon, ArrowIcon, Reveal } from './ui'
-import { useContactModal } from './contactModalContext'
+import { SectionLabel, Icon, Reveal, MailContactButton } from './ui'
 
-// ─── Questions card — simple CTA next to the header, opens the contact modal ──
-function QuestionsCard({ t, onCta }) {
+// ─── Questions card — simple CTA next to the header ────────────────────────────
+function QuestionsCard({ t, lang }) {
   return (
     <div
       className="rounded-2xl"
@@ -17,22 +16,13 @@ function QuestionsCard({ t, onCta }) {
       <p style={{ fontSize: 14, color: 'rgba(26,24,20,0.65)', lineHeight: 1.6, marginBottom: '1.75rem' }}>
         {t.questionsCardBody}
       </p>
-      <button
-        onClick={onCta}
-        className="inline-flex items-center gap-2 rounded-full font-medium transition-opacity duration-150 hover:opacity-85"
-        style={{ fontSize: 13, padding: '11px 10px 11px 20px', background: '#181817', color: '#ffffff' }}
-      >
-        {t.questionsCardBtn}
-        <span className="flex items-center justify-center rounded-full" style={{ width: 24, height: 24, background: 'rgba(255,255,255,0.15)' }}>
-          <ArrowIcon size={11} />
-        </span>
-      </button>
+      <MailContactButton lang={lang} />
     </div>
   )
 }
 
 // ─── Pricing card ───────────────────────────────────────────────────────────────
-function TierCard({ tier, onCta }) {
+function TierCard({ tier, lang }) {
   const featured = tier.featured
   return (
     <div
@@ -79,19 +69,9 @@ function TierCard({ tier, onCta }) {
           </li>
         ))}
       </ul>
-      <button
-        onClick={onCta}
-        className="inline-flex items-center justify-center gap-2 rounded-full font-medium transition-opacity duration-150 hover:opacity-85"
-        style={{
-          fontSize: 13,
-          padding: '11px 0',
-          background: featured ? '#ffffff' : 'transparent',
-          color: featured ? '#181817' : '#1a1814',
-          border: featured ? 'none' : '1px solid rgba(26,24,20,0.2)',
-        }}
-      >
-        {tier.cta}
-      </button>
+      <div className="flex justify-center">
+        <MailContactButton lang={lang} variant={featured ? 'light' : 'dark'} />
+      </div>
     </div>
   )
 }
@@ -99,7 +79,6 @@ function TierCard({ tier, onCta }) {
 // ─── Page ─────────────────────────────────────────────────────────────────────
 export default function WebSolutionPage({ lang = 'sv' }) {
   const navigate = useNavigate()
-  const openContact = useContactModal()
   const t = translations[lang].webSolution
 
   useEffect(() => {
@@ -112,14 +91,6 @@ export default function WebSolutionPage({ lang = 'sv' }) {
     requestAnimationFrame(() => requestAnimationFrame(() =>
       window.scrollTo({ top: saved ? parseInt(saved, 10) : 0, behavior: 'instant' })
     ))
-  }
-
-  function goToContact() {
-    openContact()
-  }
-
-  function goToQuote() {
-    openContact('quote')
   }
 
   return (
@@ -164,7 +135,7 @@ export default function WebSolutionPage({ lang = 'sv' }) {
           </div>
 
           <Reveal delay={100}>
-            <QuestionsCard t={t} onCta={goToContact} />
+            <QuestionsCard t={t} lang={lang} />
           </Reveal>
         </div>
       </header>
@@ -215,7 +186,7 @@ export default function WebSolutionPage({ lang = 'sv' }) {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
           {t.tiers.map((tier, i) => (
             <Reveal key={tier.name} delay={i * 60}>
-              <TierCard tier={{ ...tier, badge: t.featuredBadge }} onCta={goToQuote} />
+              <TierCard tier={{ ...tier, badge: t.featuredBadge }} lang={lang} />
             </Reveal>
           ))}
         </div>
@@ -234,16 +205,7 @@ export default function WebSolutionPage({ lang = 'sv' }) {
           <p className="text-primary/70 mb-8" style={{ fontSize: 15, lineHeight: 1.7, maxWidth: 440 }}>
             {t.ctaBody}
           </p>
-          <button
-            onClick={goToContact}
-            className="inline-flex items-center gap-2 rounded-full font-medium transition-opacity duration-150 hover:opacity-85"
-            style={{ fontSize: 13, letterSpacing: '0.01em', padding: '10px 10px 10px 22px', background: '#181817', color: '#ffffff' }}
-          >
-            {t.ctaBtn}
-            <span className="flex items-center justify-center rounded-full" style={{ width: 28, height: 28, background: 'rgba(255,255,255,0.12)' }}>
-              <ArrowIcon size={13} />
-            </span>
-          </button>
+          <MailContactButton lang={lang} />
         </section>
       </Reveal>
 

@@ -1,11 +1,10 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { useContactModal } from './contactModalContext'
+import { MailContactButton } from './ui'
 
 export default function Nav({ t, lang, setLang }) {
   const navigate = useNavigate()
   const location = useLocation()
-  const openContact = useContactModal()
 
   function handleLogoClick() {
     if (location.pathname === '/') {
@@ -88,13 +87,7 @@ export default function Nav({ t, lang, setLang }) {
             {lang === 'sv' ? 'EN' : 'SV'}
           </button>
 
-          <button
-            onClick={openContact}
-            className="inline-flex items-center rounded-full bg-[#181817] font-medium transition-opacity duration-150 hover:opacity-90"
-            style={{ fontSize: 12, letterSpacing: '0.01em', padding: '8px 20px', color: '#ffffff' }}
-          >
-            {t.cta}
-          </button>
+          <MailContactButton lang={lang} />
         </div>
 
         {/* Mobile controls */}
@@ -139,20 +132,9 @@ export default function Nav({ t, lang, setLang }) {
               {link}
             </a>
           ))}
-          <button
-            onClick={() => { setMenuOpen(false); openContact() }}
-            className="text-center mt-2 font-medium"
-            style={{
-              fontSize: 12,
-              letterSpacing: '0.03em',
-              background: '#181817',
-              color: '#ffffff',
-              padding: '10px 0',
-              borderRadius: 999,
-            }}
-          >
-            {t.cta}
-          </button>
+          <div className="flex justify-center mt-2">
+            <MailContactButton lang={lang} />
+          </div>
         </div>
       )}
     </header>
