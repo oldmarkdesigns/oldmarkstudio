@@ -133,7 +133,7 @@ export default function ProjectNo20({ lang = 'sv' }) {
               {copy.location}
             </span>
             <a
-              href="https://no20.vercel.app/"
+              href="https://no20.se"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 rounded-full font-medium transition-opacity duration-150 hover:opacity-85"

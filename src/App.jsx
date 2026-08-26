@@ -12,6 +12,7 @@ import ArticlePage from './components/ArticlePage'
 import ProjectNo20 from './components/ProjectNo20'
 import Sea4YouPage from './components/Sea4YouPage'
 import IrisGlaciersPage from './components/IrisGlaciersPage'
+import DecoHomePage from './components/DecoHomePage'
 import ServicePage from './components/ServicePage'
 import WebSolutionPage from './components/WebSolutionPage'
 import { ContactModalProvider } from './components/ContactModal'
@@ -98,6 +99,15 @@ export default function App() {
             <Nav t={translations[lang].nav} lang={lang} setLang={setLang} agencyName="Oldmark Studio" />
             <main style={{ paddingTop: '5rem' }}>
               <IrisGlaciersPage lang={lang} />
+            </main>
+            <Footer t={translations[lang].footer} />
+          </div>
+        } />
+        <Route path="/projekt/deco-home" element={
+          <div className="bg-background min-h-screen font-sans">
+            <Nav t={translations[lang].nav} lang={lang} setLang={setLang} agencyName="Oldmark Studio" />
+            <main style={{ paddingTop: '5rem' }}>
+              <DecoHomePage lang={lang} />
             </main>
             <Footer t={translations[lang].footer} />
           </div>
