@@ -321,9 +321,7 @@ export default function Skills({ lang = 'sv', inProcess = false }) {
   ]
 
   const inner = (
-      <div className="max-w-[1600px] mx-auto"
-        style={inProcess ? { paddingTop: '5rem' } : {}}
-      >
+      <div className="max-w-[1600px] mx-auto">
 
         <h3 className="font-serif" style={{ fontSize: 24, lineHeight: 1.1, fontWeight: 400, color: '#1a1814', marginBottom: '1.5rem' }}>
           {isSv ? 'Verktygslåda' : 'Toolbox'}

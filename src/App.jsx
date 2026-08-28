@@ -4,8 +4,10 @@ import translations from './translations'
 import Nav from './components/Nav'
 import Hero from './components/Hero'
 import Services from './components/Services'
+import SubscriptionValue from './components/SubscriptionValue'
 import Process from './components/Process'
 import WhoWeWorkWith from './components/WhoWeWorkWith'
+import About from './components/About'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
 import ArticlePage from './components/ArticlePage'
@@ -26,8 +28,10 @@ function HomePage({ lang, setLang }) {
       <main>
         <Hero t={t.hero} servicesT={t.services} lang={lang} />
         <Services t={t.services} />
+        <SubscriptionValue t={t.webSolution} />
         <WhoWeWorkWith t={t.who} />
-        <Process t={t.process} lang={lang} />
+        <Process t={t.process} />
+        <About t={t.about} />
         <Contact t={t.contact} lang={lang} />
       </main>
       <Footer t={t.footer} lang={lang} />

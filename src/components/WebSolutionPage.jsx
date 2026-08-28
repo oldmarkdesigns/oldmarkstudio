@@ -2,6 +2,8 @@ import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import translations from '../translations'
 import { SectionLabel, Icon, Reveal, MailContactButton } from './ui'
+import Skills from './Skills'
+import SubscriptionValue from './SubscriptionValue'
 
 // ─── Questions card — simple CTA next to the header ────────────────────────────
 function QuestionsCard({ t, lang }) {
@@ -21,56 +23,79 @@ function QuestionsCard({ t, lang }) {
   )
 }
 
-// ─── Pricing card ───────────────────────────────────────────────────────────────
-function TierCard({ tier, lang }) {
-  const featured = tier.featured
+// ─── Primary offer card — the subscription, visually emphasized. Price is
+// "by agreement" rather than a number, since it's negotiated per client. ───────
+function OfferCard({ offer, lang }) {
   return (
     <div
-      className="rounded-2xl flex flex-col"
-      style={{
-        padding: '2rem',
-        background: featured ? '#181817' : '#ffffff',
-        border: featured ? 'none' : '1px solid rgba(26,24,20,0.1)',
-        boxShadow: featured ? '0 24px 60px rgba(0,0,0,0.35)' : '0 2px 16px rgba(0,0,0,0.04)',
-      }}
+      className="rounded-2xl h-full flex flex-col"
+      style={{ padding: '2.5rem', background: '#181817', boxShadow: '0 24px 60px rgba(0,0,0,0.35)' }}
     >
-      {featured && (
-        <span
-          className="inline-flex self-start rounded-full uppercase"
-          style={{ fontSize: 10, letterSpacing: '0.14em', padding: '5px 12px', background: '#ffffff', color: '#181817', marginBottom: '1.25rem' }}
-        >
-          {tier.badge}
-        </span>
-      )}
-      <h3 className="font-serif" style={{ fontSize: 24, fontWeight: 400, color: featured ? '#ffffff' : '#1a1814', marginBottom: '0.5rem' }}>
-        {tier.name}
-      </h3>
-      <div className="flex items-baseline gap-1.5" style={{ marginBottom: '0.75rem' }}>
-        {tier.pricePrefix && (
-          <span style={{ fontSize: 13, color: featured ? 'rgba(255,255,255,0.6)' : 'rgba(26,24,20,0.55)' }}>{tier.pricePrefix}</span>
-        )}
-        <span className="font-serif" style={{ fontSize: 'clamp(30px, 3vw, 40px)', fontWeight: 400, color: featured ? '#ffffff' : '#1a1814', lineHeight: 1 }}>
-          {tier.price}
-        </span>
-        {tier.period && (
-          <span style={{ fontSize: 13, color: featured ? 'rgba(255,255,255,0.6)' : 'rgba(26,24,20,0.55)' }}>{tier.period}</span>
-        )}
+      <div className="grid grid-cols-1 sm:grid-cols-[1fr_auto] gap-10 h-full">
+        <div className="flex flex-col">
+          <h3 className="font-serif" style={{ fontSize: 26, fontWeight: 400, color: '#ffffff', marginBottom: '0.75rem' }}>
+            {offer.name}
+          </h3>
+          <div style={{ marginBottom: '1.1rem' }}>
+            <span className="uppercase" style={{ fontSize: 11.5, letterSpacing: '0.08em', color: 'rgba(255,255,255,0.5)' }}>
+              {offer.badge}
+            </span>
+            <div className="font-serif" style={{ fontSize: 'clamp(22px, 2.6vw, 30px)', fontWeight: 400, color: '#ffffff', lineHeight: 1.15, marginTop: 4 }}>
+              {offer.priceStatement}
+            </div>
+          </div>
+          <p style={{ fontSize: 14.5, lineHeight: 1.65, color: 'rgba(255,255,255,0.75)', marginBottom: '1.75rem', maxWidth: 340 }}>
+            {offer.desc}
+          </p>
+          <div className="mt-auto">
+            <MailContactButton lang={lang} variant="light" />
+          </div>
+        </div>
+
+        <ul style={{ display: 'flex', flexDirection: 'column', gap: 12, alignSelf: 'center' }}>
+          {offer.features.map((f, i) => (
+            <li key={i} className="flex items-start gap-2.5" style={{ fontSize: 14, color: 'rgba(255,255,255,0.85)' }}>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ffffff" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" style={{ marginTop: 2, flexShrink: 0 }}>
+                <path d="M20 6L9 17l-5-5" />
+              </svg>
+              {f}
+            </li>
+          ))}
+        </ul>
       </div>
-      <p style={{ fontSize: 13.5, lineHeight: 1.6, color: featured ? 'rgba(255,255,255,0.75)' : 'rgba(26,24,20,0.65)', marginBottom: '1.75rem' }}>
-        {tier.desc}
+    </div>
+  )
+}
+
+// ─── Secondary offer card — one-off project. Deliberately quieter than the
+// subscription card: no dark fill, no shadow, smaller type. ────────────────────
+function OneOffCard({ offer, lang }) {
+  return (
+    <div
+      className="rounded-2xl h-full flex flex-col"
+      style={{ padding: '2.25rem', background: '#ffffff', border: '1px solid rgba(26,24,20,0.12)' }}
+    >
+      <h3 className="font-serif" style={{ fontSize: 19, fontWeight: 400, color: '#1a1814', marginBottom: '0.6rem' }}>
+        {offer.name}
+      </h3>
+      <span className="uppercase" style={{ fontSize: 11, letterSpacing: '0.08em', color: 'rgba(26,24,20,0.4)', marginBottom: '1rem' }}>
+        {offer.badge}
+      </span>
+      <p style={{ fontSize: 13.5, lineHeight: 1.65, color: 'rgba(26,24,20,0.65)', marginBottom: '1.5rem' }}>
+        {offer.desc}
       </p>
-      <ul style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: '2rem', flex: 1 }}>
-        {tier.features.map((f, i) => (
-          <li key={i} className="flex items-start gap-2.5" style={{ fontSize: 13.5, color: featured ? 'rgba(255,255,255,0.85)' : 'rgba(26,24,20,0.75)' }}>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={featured ? '#ffffff' : 'var(--color-accent)'} strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" style={{ marginTop: 2, flexShrink: 0 }}>
+      <ul style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: '1.75rem' }}>
+        {offer.features.map((f, i) => (
+          <li key={i} className="flex items-start gap-2.5" style={{ fontSize: 13, color: 'rgba(26,24,20,0.7)' }}>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#181817" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" style={{ marginTop: 3, flexShrink: 0, opacity: 0.6 }}>
               <path d="M20 6L9 17l-5-5" />
             </svg>
             {f}
           </li>
         ))}
       </ul>
-      <div className="flex justify-center">
-        <MailContactButton lang={lang} variant={featured ? 'light' : 'dark'} />
+      <div className="mt-auto">
+        <MailContactButton lang={lang} />
       </div>
     </div>
   )
@@ -171,7 +196,15 @@ export default function WebSolutionPage({ lang = 'sv' }) {
         </div>
       </section>
 
-      {/* Pricing */}
+      {/* Subscription value — same card as the landing page, no scroll-takeover here */}
+      <SubscriptionValue t={t} />
+
+      {/* Toolbox — moved here from the homepage process section */}
+      <section className="px-6 sm:px-10 lg:px-24 mb-24 max-w-[1600px] mx-auto">
+        <Skills lang={lang} inProcess />
+      </section>
+
+      {/* Pricing — one offer, no tiers */}
       <section className="px-6 sm:px-10 lg:px-24 mb-24 max-w-[1600px] mx-auto">
         <Reveal>
           <SectionLabel>{t.pricingLabel}</SectionLabel>
@@ -183,13 +216,12 @@ export default function WebSolutionPage({ lang = 'sv' }) {
             {t.pricingSubtitle}
           </p>
         </Reveal>
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
-          {t.tiers.map((tier, i) => (
-            <Reveal key={tier.name} delay={i * 60}>
-              <TierCard tier={{ ...tier, badge: t.featuredBadge }} lang={lang} />
-            </Reveal>
-          ))}
-        </div>
+        <Reveal delay={60}>
+          <div className="grid grid-cols-1 lg:grid-cols-[1.6fr_1fr] gap-6 items-stretch" style={{ maxWidth: 1080 }}>
+            <OfferCard offer={t.offer} lang={lang} />
+            <OneOffCard offer={t.oneOff} lang={lang} />
+          </div>
+        </Reveal>
       </section>
 
       {/* CTA */}
