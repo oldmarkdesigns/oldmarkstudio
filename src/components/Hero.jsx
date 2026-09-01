@@ -68,7 +68,7 @@ export default function Hero({ t, servicesT, lang }) {
           <div className="flex flex-wrap items-center gap-3" style={{ marginBottom: '3rem' }}>
             <PillButton
               label={t.ctaPrimary}
-              variant="primary"
+              variant="secondary"
               onClick={() => scrollTo('#work')}
             />
             <MailContactButton lang={lang} />
