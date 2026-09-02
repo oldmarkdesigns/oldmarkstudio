@@ -28,7 +28,7 @@ function HomePage({ lang, setLang }) {
       <main>
         <Hero t={t.hero} servicesT={t.services} lang={lang} />
         <Services t={t.services} />
-        <SubscriptionValue t={t.webSolution} />
+        <SubscriptionValue t={t.webSolution} showCta />
         <WhoWeWorkWith t={t.who} />
         <Process t={t.process} />
         <About t={t.about} />

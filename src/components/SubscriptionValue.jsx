@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
-import { SectionLabel, Reveal, Icon } from './ui'
+import { useNavigate } from 'react-router-dom'
+import { SectionLabel, Reveal, Icon, PillButton } from './ui'
 
 // ─── Small illustration — a website mockup with a recurring/subscription
 // badge, in the brand's near-black tone. ────────────────────────────────────
@@ -85,10 +86,18 @@ function useScrollFocus(cardRef) {
 
 // ─── "Why a subscription" — one card, aligned with the rest of the landing
 // page's padding (not full-bleed like the dedicated Webbutveckling page).
-// Used on both the landing page and the Webbutveckling page. ──────────────────
-export default function SubscriptionValue({ t }) {
+// Used on both the landing page and the Webbutveckling page; `showCta` adds
+// the "Läs mer och kom igång" link through to the full page — landing page
+// only, since the Webbutveckling page already has its own pricing/CTA below. ──
+export default function SubscriptionValue({ t, showCta = false }) {
   const cardRef = useRef(null)
+  const navigate = useNavigate()
   useScrollFocus(cardRef)
+
+  function goToWebSolution() {
+    sessionStorage.setItem('homeScrollY', String(window.scrollY))
+    navigate('/webbutveckling')
+  }
 
   const reducedMotion = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
@@ -138,6 +147,12 @@ export default function SubscriptionValue({ t }) {
                     </li>
                   ))}
                 </ul>
+
+                {showCta && (
+                  <div style={{ marginTop: '2.5rem' }}>
+                    <PillButton label={t.valueCta} variant="primary" onClick={goToWebSolution} />
+                  </div>
+                )}
               </div>
 
               <div className="hidden lg:flex shrink-0 ml-auto">

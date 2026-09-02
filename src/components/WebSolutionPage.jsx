@@ -1,24 +1,44 @@
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import translations from '../translations'
-import { SectionLabel, Icon, Reveal, MailContactButton } from './ui'
+import { SectionLabel, Icon, Reveal, MailContactButton, PillButton } from './ui'
 import Skills from './Skills'
 import SubscriptionValue from './SubscriptionValue'
 
-// ─── Questions card — simple CTA next to the header ────────────────────────────
-function QuestionsCard({ t, lang }) {
+const PRICING_SECTION_ID = 'pricing'
+const NAV_OFFSET = 96 // fixed nav height (h-16 = 64px) + comfortable breathing room, same at every breakpoint
+
+// ─── Subscription teaser — a smaller, simplified take on the landing page's
+// "Varför prenumeration" card, next to the header. Same core message and
+// visual style (gradient card, same copy), stripped down to a heading, one
+// short line, and the CTA — no bullet list or illustration. The button
+// scrolls down to the pricing section further down this same page, offset so
+// the fixed nav never covers the "PRIS" heading. ───────────────────────────────
+function SubscriptionTeaserCard({ t }) {
+  function scrollToPricing() {
+    const el = document.getElementById(PRICING_SECTION_ID)
+    if (!el) return
+    const top = el.getBoundingClientRect().top + window.scrollY - NAV_OFFSET
+    window.scrollTo({ top, behavior: 'smooth' })
+  }
+
   return (
     <div
       className="rounded-2xl"
-      style={{ background: '#ffffff', border: '1px solid rgba(26,24,20,0.1)', boxShadow: '0 2px 24px rgba(0,0,0,0.05)', padding: '2rem' }}
+      style={{
+        background: 'linear-gradient(135deg, #fbf2f6 0%, #fdf8f2 50%, #fdf3e9 100%)',
+        border: '1px solid rgba(26,24,20,0.08)',
+        padding: '2rem',
+      }}
     >
-      <h2 className="font-serif" style={{ fontSize: 22, color: '#1a1814', marginBottom: '0.6rem', fontWeight: 400 }}>
-        {t.questionsCardTitle}
+      <SectionLabel>{t.valueLabel}</SectionLabel>
+      <h2 className="font-serif" style={{ fontSize: 22, color: '#1a1814', marginBottom: '0.6rem', fontWeight: 400, lineHeight: 1.2 }}>
+        {t.valueTitle}
       </h2>
       <p style={{ fontSize: 14, color: 'rgba(26,24,20,0.65)', lineHeight: 1.6, marginBottom: '1.75rem' }}>
-        {t.questionsCardBody}
+        {t.valueSubtitle}
       </p>
-      <MailContactButton lang={lang} />
+      <PillButton label={t.pricingTeaserCta} variant="primary" onClick={scrollToPricing} />
     </div>
   )
 }
@@ -160,7 +180,7 @@ export default function WebSolutionPage({ lang = 'sv' }) {
           </div>
 
           <Reveal delay={100}>
-            <QuestionsCard t={t} lang={lang} />
+            <SubscriptionTeaserCard t={t} />
           </Reveal>
         </div>
       </header>
@@ -196,7 +216,7 @@ export default function WebSolutionPage({ lang = 'sv' }) {
         </div>
       </section>
 
-      {/* Subscription value — same card as the landing page, no scroll-takeover here */}
+      {/* Subscription value — same full card as the landing page, unchanged */}
       <SubscriptionValue t={t} />
 
       {/* Toolbox — moved here from the homepage process section */}
@@ -205,7 +225,7 @@ export default function WebSolutionPage({ lang = 'sv' }) {
       </section>
 
       {/* Pricing — one offer, no tiers */}
-      <section className="px-6 sm:px-10 lg:px-24 mb-24 max-w-[1600px] mx-auto">
+      <section id={PRICING_SECTION_ID} className="px-6 sm:px-10 lg:px-24 mb-24 max-w-[1600px] mx-auto">
         <Reveal>
           <SectionLabel>{t.pricingLabel}</SectionLabel>
           <h2 className="font-serif text-primary"
