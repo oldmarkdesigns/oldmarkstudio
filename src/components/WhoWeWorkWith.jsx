@@ -25,11 +25,19 @@ function ProjectCard({ c, index, onSelect }) {
         <img
           src={CASE_IMAGES[c.slug]}
           alt={c.name}
-          className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+          className="absolute inset-0 w-full h-full object-cover"
         />
         <div
           className="absolute inset-0 pointer-events-none"
           style={{ background: 'linear-gradient(180deg, rgba(24,24,23,0.05) 0%, rgba(24,24,23,0.1) 40%, rgba(24,24,23,0.8) 100%)' }}
+        />
+        {/* Hover overlay — darkens the whole card so the revealed description
+            stays readable against any background image. Same opacity-based
+            transition as the rest of the card, so it responds to the tap-based
+            hover touch devices already use to reveal the arrow/description. */}
+        <div
+          className="absolute inset-0 pointer-events-none opacity-0 transition-opacity duration-300 ease-out group-hover:opacity-100"
+          style={{ background: 'rgba(24,24,23,0.75)' }}
         />
 
         <span
@@ -49,7 +57,10 @@ function ProjectCard({ c, index, onSelect }) {
           >
             {c.name}
           </h3>
-          <div className="overflow-hidden transition-all duration-300 ease-out max-h-0 group-hover:max-h-24">
+          <div
+            className="overflow-hidden max-h-0 opacity-0 group-hover:max-h-24 group-hover:opacity-100"
+            style={{ transition: 'max-height 0.9s cubic-bezier(0.22,1,0.36,1), opacity 0.7s cubic-bezier(0.22,1,0.36,1)' }}
+          >
             <p className="text-cream/80" style={{ fontSize: 13.5, lineHeight: 1.6, marginTop: '0.6rem', maxWidth: 360 }}>
               {c.desc}
             </p>
