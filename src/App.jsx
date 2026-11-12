@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import translations from './translations'
+import Home from './home/Home'
 import Nav from './components/Nav'
 import Hero from './components/Hero'
 import Services from './components/Services'
@@ -15,8 +16,10 @@ import ProjectNo20 from './components/ProjectNo20'
 import Sea4YouPage from './components/Sea4YouPage'
 import IrisGlaciersPage from './components/IrisGlaciersPage'
 import DecoHomePage from './components/DecoHomePage'
+import HemmaPage from './components/HemmaPage'
 import ServicePage from './components/ServicePage'
 import WebSolutionPage from './components/WebSolutionPage'
+import AppDevPage from './components/AppDevPage'
 
 const AGENCY_NAME = 'Oldmark Studio'
 
@@ -39,81 +42,25 @@ function HomePage({ lang, setLang }) {
   )
 }
 
-function ArticleRoute({ lang, setLang }) {
-  const t = translations[lang]
-  return (
-    <div className="bg-background min-h-screen font-sans">
-      <Nav t={t.nav} lang={lang} setLang={setLang} agencyName={AGENCY_NAME} />
-      <main style={{ paddingTop: '5rem' }}>
-        <ArticlePage lang={lang} />
-      </main>
-      <Footer t={t.footer} lang={lang} />
-    </div>
-  )
-}
-
 export default function App() {
   const [lang, setLang] = useState('sv')
+  // Every page past the homepage is built on the same frame (src/home/page.jsx).
+  const page = { t: translations[lang], lang, setLang }
 
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<HomePage lang={lang} setLang={setLang} />} />
-        <Route path="/artikel/:slug" element={<ArticleRoute lang={lang} setLang={setLang} />} />
-        <Route path="/tjanst/:slug" element={
-          <div className="bg-background min-h-screen font-sans">
-            <Nav t={translations[lang].nav} lang={lang} setLang={setLang} agencyName="Oldmark Studio" />
-            <main style={{ paddingTop: '5rem' }}>
-              <ServicePage lang={lang} />
-            </main>
-            <Footer t={translations[lang].footer} lang={lang} />
-          </div>
-        } />
-        <Route path="/webbutveckling" element={
-          <div className="bg-background min-h-screen font-sans">
-            <Nav t={translations[lang].nav} lang={lang} setLang={setLang} agencyName="Oldmark Studio" />
-            <main style={{ paddingTop: '5rem' }}>
-              <WebSolutionPage lang={lang} />
-            </main>
-            <Footer t={translations[lang].footer} lang={lang} />
-          </div>
-        } />
-        <Route path="/projekt/no20" element={
-          <div className="bg-background min-h-screen font-sans">
-            <Nav t={translations[lang].nav} lang={lang} setLang={setLang} agencyName="Oldmark Studio" />
-            <main style={{ paddingTop: '5rem' }}>
-              <ProjectNo20 lang={lang} />
-            </main>
-            <Footer t={translations[lang].footer} lang={lang} />
-          </div>
-        } />
-        <Route path="/projekt/sea4you" element={
-          <div className="bg-background min-h-screen font-sans">
-            <Nav t={translations[lang].nav} lang={lang} setLang={setLang} agencyName="Oldmark Studio" />
-            <main style={{ paddingTop: '5rem' }}>
-              <Sea4YouPage lang={lang} />
-            </main>
-            <Footer t={translations[lang].footer} lang={lang} />
-          </div>
-        } />
-        <Route path="/projekt/iris-glaciers" element={
-          <div className="bg-background min-h-screen font-sans">
-            <Nav t={translations[lang].nav} lang={lang} setLang={setLang} agencyName="Oldmark Studio" />
-            <main style={{ paddingTop: '5rem' }}>
-              <IrisGlaciersPage lang={lang} />
-            </main>
-            <Footer t={translations[lang].footer} lang={lang} />
-          </div>
-        } />
-        <Route path="/projekt/deco-home" element={
-          <div className="bg-background min-h-screen font-sans">
-            <Nav t={translations[lang].nav} lang={lang} setLang={setLang} agencyName="Oldmark Studio" />
-            <main style={{ paddingTop: '5rem' }}>
-              <DecoHomePage lang={lang} />
-            </main>
-            <Footer t={translations[lang].footer} lang={lang} />
-          </div>
-        } />
+        <Route path="/" element={<Home t={translations[lang]} lang={lang} setLang={setLang} />} />
+        <Route path="/v1" element={<HomePage lang={lang} setLang={setLang} />} />
+        <Route path="/artikel/:slug" element={<ArticlePage {...page} />} />
+        <Route path="/tjanst/:slug" element={<ServicePage {...page} />} />
+        <Route path="/webbutveckling" element={<WebSolutionPage {...page} />} />
+        <Route path="/apputveckling" element={<AppDevPage {...page} />} />
+        <Route path="/projekt/no20" element={<ProjectNo20 {...page} />} />
+        <Route path="/projekt/sea4you" element={<Sea4YouPage {...page} />} />
+        <Route path="/projekt/iris-glaciers" element={<IrisGlaciersPage {...page} />} />
+        <Route path="/projekt/deco-home" element={<DecoHomePage {...page} />} />
+        <Route path="/projekt/hemma" element={<HemmaPage {...page} />} />
       </Routes>
     </BrowserRouter>
   )

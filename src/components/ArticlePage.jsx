@@ -1,40 +1,6 @@
-import { useEffect, useRef, useState } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { getArticle } from '../data/articles'
-import { SectionLabel } from './ui'
-
-// ─── Reveal on scroll ─────────────────────────────────────────────────────────
-function useRevealRef() {
-  const ref = useRef(null)
-  const [visible, setVisible] = useState(false)
-  useEffect(() => {
-    const el = ref.current
-    if (!el) return
-    const obs = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) { setVisible(true); obs.disconnect() } },
-      { threshold: 0.08 }
-    )
-    obs.observe(el)
-    return () => obs.disconnect()
-  }, [])
-  return [ref, visible]
-}
-
-function Reveal({ children, delay = 0 }) {
-  const [ref, visible] = useRevealRef()
-  return (
-    <div
-      ref={ref}
-      style={{
-        opacity: visible ? 1 : 0,
-        transform: visible ? 'none' : 'translateY(22px)',
-        transition: `opacity 0.65s cubic-bezier(0.22,1,0.36,1) ${delay}ms, transform 0.65s cubic-bezier(0.22,1,0.36,1) ${delay}ms`,
-      }}
-    >
-      {children}
-    </div>
-  )
-}
+import { SubPage, PageHead, NotFound } from '../home/page'
 
 // ─── Hero illustrations per article ──────────────────────────────────────────
 
@@ -447,208 +413,58 @@ const ILLUSTRATIONS = {
 
 // ─── Article page ─────────────────────────────────────────────────────────────
 
-export default function ArticlePage({ lang = 'sv' }) {
+export default function ArticlePage({ t, lang = 'sv', setLang }) {
   const { slug } = useParams()
-  const navigate = useNavigate()
   const article = getArticle(slug)
-
-  useEffect(() => {
-    // Instant jump — no animation so user lands at top immediately
-    window.scrollTo({ top: 0, behavior: 'instant' })
-  }, [slug])
+  const isSv = lang === 'sv'
+  const back = isSv ? 'Tillbaka' : 'Back'
 
   if (!article) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <p className="text-primary/68" style={{ fontSize: 14 }}>Artikel hittades inte.</p>
-      </div>
+      <SubPage t={t} lang={lang} setLang={setLang}>
+        <NotFound back={back} text={isSv ? 'Artikel hittades inte.' : 'Article not found.'} />
+      </SubPage>
     )
   }
 
-  const t = article[lang]
+  const a = article[lang]
   const Illustration = ILLUSTRATIONS[slug]
 
   return (
-    <div className="bg-background min-h-screen font-sans">
-      {/* Back button */}
-      <div className="px-6 sm:px-10 lg:px-24 pt-8 max-w-[1600px] mx-auto">
-        <button
-          onClick={() => {
-            const saved = sessionStorage.getItem('homeScrollY')
-            navigate('/')
-            // Restore position after React flushes the new page
-            requestAnimationFrame(() => {
-              requestAnimationFrame(() => {
-                window.scrollTo({ top: saved ? parseInt(saved, 10) : 0, behavior: 'instant' })
-              })
-            })
-          }}
-          className="inline-flex items-center gap-2 text-primary/68 hover:text-primary/70 transition-colors duration-150"
-          style={{ fontSize: 12, letterSpacing: '0.08em' }}
-        >
-          <svg width="14" height="10" viewBox="0 0 14 10" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M1 5h12M1 5l4-4M1 5l4 4" />
-          </svg>
-          TILLBAKA
-        </button>
-      </div>
+    <SubPage t={t} lang={lang} setLang={setLang}>
+      <PageHead back={back} label={article.tag} title={a.title} lede={a.excerpt}>
+        <p className="st-page-meta">
+          {article.date} · {article.readTime} {isSv ? 'läsning' : 'read'}
+        </p>
+      </PageHead>
 
-      {/* Header */}
-      <header className="px-6 sm:px-10 lg:px-24 pt-12 pb-14 max-w-[1600px] mx-auto">
-        <div className="max-w-3xl">
-          <Reveal>
-            <SectionLabel>{article.tag}</SectionLabel>
-          </Reveal>
-          <Reveal delay={60}>
-            <h1
-              className="font-serif text-primary"
-              style={{
-                fontSize: 'clamp(32px, 5vw, 68px)',
-                lineHeight: 1.04,
-                letterSpacing: '-0.02em',
-                fontWeight: 400,
-                marginBottom: '1.75rem',
-              }}
-            >
-              {t.title}
-            </h1>
-          </Reveal>
-          <Reveal delay={120}>
-            <p
-              className="text-primary/68"
-              style={{ fontSize: 16, lineHeight: 1.7, maxWidth: 560, marginBottom: '2rem' }}
-            >
-              {t.excerpt}
-            </p>
-            <p
-              className="text-primary/60 uppercase"
-              style={{ fontSize: 11, letterSpacing: '0.12em' }}
-            >
-              {article.date} · {article.readTime} läsning
-            </p>
-          </Reveal>
-        </div>
-      </header>
-
-      {/* Hero illustration */}
       {Illustration && (
-        <Reveal delay={180}>
-          <div
-            className="mx-6 sm:mx-10 lg:mx-24 rounded-2xl overflow-hidden mb-20"
-            style={{ maxWidth: 'calc(1600px - 12rem)', height: 'clamp(260px, 38vw, 420px)' }}
-          >
+        <div className="st-wrap st-page-media">
+          <figure className="st-art" aria-hidden="true">
             <Illustration />
-          </div>
-        </Reveal>
+          </figure>
+        </div>
       )}
 
-      {/* Article body */}
-      <article className="px-6 sm:px-10 lg:px-24 max-w-[1600px] mx-auto">
-        <div className="max-w-2xl">
-          {/* Intro */}
-          <Reveal>
-            <p
-              className="text-primary/70 font-serif"
-              style={{
-                fontSize: 'clamp(17px, 1.6vw, 21px)',
-                lineHeight: 1.7,
-                fontWeight: 400,
-                marginBottom: '3.5rem',
-                borderLeft: '2px solid rgba(157,174,159,0.35)',
-                paddingLeft: '1.5rem',
-              }}
-            >
-              {t.intro}
-            </p>
-          </Reveal>
-
-          {/* Sections */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '3rem' }}>
-            {t.sections.map((section, i) => (
-              <Reveal key={i} delay={i * 40}>
-                <section>
-                  <h2
-                    className="font-serif text-primary"
-                    style={{
-                      fontSize: 'clamp(20px, 2vw, 26px)',
-                      lineHeight: 1.2,
-                      fontWeight: 400,
-                      letterSpacing: '-0.01em',
-                      marginBottom: '1.25rem',
-                    }}
-                  >
-                    {section.heading}
-                  </h2>
-                  {section.body.split('\n\n').map((para, j) => (
-                    <p
-                      key={j}
-                      className="text-primary/60"
-                      style={{
-                        fontSize: 15,
-                        lineHeight: 1.8,
-                        marginBottom: j < section.body.split('\n\n').length - 1 ? '1rem' : 0,
-                      }}
-                    >
-                      {para}
-                    </p>
-                  ))}
-                </section>
-              </Reveal>
+      <article className="st-section">
+        <div className="st-wrap st-split">
+          <div />
+          <div className="st-prose">
+            <p className="st-lede">{a.intro}</p>
+            {a.sections.map((section) => (
+              <section key={section.heading}>
+                <h2>{section.heading}</h2>
+                {section.body.split('\n\n').map((para) => (
+                  <p key={para.slice(0, 32)}>{para}</p>
+                ))}
+              </section>
             ))}
-          </div>
-
-          {/* Conclusion */}
-          <Reveal>
-            <div
-              style={{
-                marginTop: '4rem',
-                paddingTop: '3rem',
-                borderTop: '1px solid rgba(26,24,20,0.08)',
-              }}
-            >
-              <p
-                className="font-serif text-primary/80"
-                style={{
-                  fontSize: 'clamp(17px, 1.6vw, 21px)',
-                  lineHeight: 1.7,
-                  fontWeight: 400,
-                  fontStyle: 'italic',
-                }}
-              >
-                {t.conclusion}
-              </p>
+            <div className="st-prose-end">
+              <p>{a.conclusion}</p>
             </div>
-          </Reveal>
+          </div>
         </div>
       </article>
-
-      {/* Footer spacer */}
-      <div style={{ height: '8rem' }} />
-
-      {/* Back to articles */}
-      <div
-        className="px-6 sm:px-10 lg:px-24 pb-24 max-w-[1600px] mx-auto"
-        style={{ borderTop: '1px solid rgba(26,24,20,0.06)', paddingTop: '4rem' }}
-      >
-        <button
-          onClick={() => {
-            const saved = sessionStorage.getItem('homeScrollY')
-            navigate('/')
-            requestAnimationFrame(() => {
-              requestAnimationFrame(() => {
-                window.scrollTo({ top: saved ? parseInt(saved, 10) : 0, behavior: 'instant' })
-              })
-            })
-          }}
-          className="inline-flex items-center gap-3 text-primary/68 hover:text-accent transition-colors duration-150"
-          style={{ fontSize: 12, letterSpacing: '0.1em' }}
-        >
-          <svg width="14" height="10" viewBox="0 0 14 10" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M1 5h12M1 5l4-4M1 5l4 4" />
-          </svg>
-          TILLBAKA TILL STARTSIDAN
-        </button>
-      </div>
-    </div>
+    </SubPage>
   )
 }

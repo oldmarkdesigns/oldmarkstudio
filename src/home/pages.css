@@ -1,0 +1,542 @@
+/* Pages past the homepage: services, the subscription, the project cases and
+   the articles. Built from the homepage's tokens and parts (home.css), so they
+   share its paper, type, rules and gaps. Scoped to .st like the homepage. */
+
+/* ─── Head ─────────────────────────────────────────────────────────────────── */
+.st-page-head {
+  display: grid;
+  justify-items: start;
+  gap: 20px;
+  padding-top: calc(var(--nav-h) + clamp(24px, 4vh, 48px));
+}
+
+.st-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  margin-bottom: clamp(8px, 3vh, 32px);
+  font-size: 0.875rem;
+  color: var(--ink-2);
+  transition: color 0.3s;
+}
+
+.st-back:hover {
+  color: var(--ink);
+}
+
+.st-back svg {
+  transition: transform 0.5s var(--ease);
+}
+
+.st-back:hover svg {
+  transform: translateX(-4px);
+}
+
+.st-page-title {
+  max-width: 16ch;
+  font-size: clamp(2.75rem, 6.2vw, 6rem);
+  line-height: 0.98;
+  letter-spacing: -0.05em;
+  text-wrap: balance;
+}
+
+.st-page-lede {
+  max-width: 30em;
+  font-size: clamp(1.25rem, 1.8vw, 1.625rem);
+  line-height: 1.35;
+  letter-spacing: -0.02em;
+  color: var(--ink-2);
+  text-wrap: pretty;
+}
+
+/* With an image: the words on the left, the image on the right, both
+   starting at the label. */
+.st-page-head-row {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  gap: 40px var(--gutter);
+  align-items: start;
+  width: 100%;
+}
+
+.st-page-head-text {
+  display: grid;
+  justify-items: start;
+  gap: 20px;
+}
+
+.st-page-head-media {
+  overflow: hidden;
+  aspect-ratio: 4 / 5;
+  background: var(--plate);
+}
+
+.st-page-head-media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (max-width: 900px) {
+  .st-page-head-row {
+    grid-template-columns: 1fr;
+  }
+  .st-page-head-media {
+    margin-top: 12px;
+  }
+}
+
+/* A quiet line under the head: where, when, and a link out. */
+.st-page-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 28px;
+  margin-top: 12px;
+  font-size: 0.9375rem;
+  color: var(--ink-3);
+}
+
+.st-page-meta .st-link {
+  color: var(--ink);
+}
+
+/* ─── Media ────────────────────────────────────────────────────────────────── */
+/* A wide image under the head, square-cornered on the grey plate like the
+   studio photo on the homepage. */
+.st-page-media {
+  margin-top: clamp(48px, 8vh, 96px);
+}
+
+.st-page-media figure {
+  overflow: hidden;
+  background: var(--plate);
+}
+
+.st-page-media img,
+.st-page-media svg {
+  display: block;
+  width: 100%;
+  height: clamp(280px, 42vw, 640px);
+  object-fit: cover;
+}
+
+.st-page-media--whole img {
+  height: auto;
+}
+
+/* ─── Sections ─────────────────────────────────────────────────────────────── */
+.st-section {
+  margin-top: var(--space);
+  padding-top: var(--space);
+  border-top: 1px solid var(--line);
+}
+
+/* The page's last section keeps the same gap before the contact band. */
+.st-sub main > :last-child {
+  padding-bottom: var(--space);
+}
+
+.st-section-side {
+  display: grid;
+  gap: 20px;
+  align-content: start;
+}
+
+.st-section-title {
+  max-width: 12em;
+  font-size: clamp(1.75rem, 2.8vw, 2.75rem);
+  line-height: 1.06;
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+}
+
+.st-section-intro {
+  max-width: 26em;
+  color: var(--ink-2);
+}
+
+.st-section-body {
+  display: grid;
+  gap: 28px;
+  align-content: start;
+  justify-items: start;
+  min-width: 0;
+}
+
+.st-section-body > p {
+  max-width: 40em;
+  color: var(--ink-2);
+}
+
+.st-section-body > .st-lede {
+  color: var(--ink);
+}
+
+/* ─── Lists ────────────────────────────────────────────────────────────────── */
+.st-rules {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: var(--gutter);
+  width: 100%;
+  max-width: 44em;
+  border-top: 1px solid var(--line);
+}
+
+.st-rules--one {
+  grid-template-columns: 1fr;
+}
+
+.st-rules li {
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+@media (max-width: 600px) {
+  .st-rules {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Title and text side by side between rules, capitals level, as in the
+   homepage's services list. */
+.st-rows {
+  width: 100%;
+  border-top: 1px solid var(--line);
+}
+
+.st-rows li {
+  --name-size: clamp(1.25rem, 1.7vw, 1.5rem);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+  gap: 12px 24px;
+  padding: 28px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.st-row-title {
+  font-size: var(--name-size);
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+}
+
+.st-row-text {
+  display: grid;
+  gap: 12px;
+  /* Cap tops level with the title's: see .st-service-desc in home.css. */
+  margin-top: calc(var(--name-size) * 0.225 - 0.425rem);
+  color: var(--ink-2);
+}
+
+@media (max-width: 700px) {
+  .st-rows li {
+    grid-template-columns: 1fr;
+  }
+  .st-row-text {
+    margin-top: 0;
+  }
+}
+
+/* Numbered rows: a small figure, a title and a line. */
+.st-steps {
+  width: 100%;
+  border-top: 1px solid var(--line);
+  counter-reset: step;
+}
+
+.st-steps li {
+  --name-size: clamp(1.25rem, 1.7vw, 1.5rem);
+  display: grid;
+  grid-template-columns: 3.5rem minmax(0, 1fr) minmax(0, 1.4fr);
+  gap: 12px 24px;
+  padding: 28px 0;
+  border-bottom: 1px solid var(--line);
+  counter-increment: step;
+}
+
+.st-steps li::before {
+  content: counter(step, decimal-leading-zero);
+  margin-top: calc(var(--name-size) * 0.225 - 0.425rem);
+  font-size: 0.875rem;
+  color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 700px) {
+  .st-steps li {
+    grid-template-columns: 2.5rem minmax(0, 1fr);
+  }
+  .st-steps .st-row-text {
+    grid-column: 2;
+    margin-top: 0;
+  }
+}
+
+/* ─── Buttons ──────────────────────────────────────────────────────────────── */
+.st-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px 28px;
+}
+
+/* The quieter partner of .st-btn: the same pill, outlined. */
+.st-btn--ghost {
+  background: transparent;
+  color: var(--ink);
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+
+.st-btn--ghost:hover {
+  background: transparent;
+  box-shadow: inset 0 0 0 1px var(--ink);
+}
+
+/* ─── Plans: two offers side by side, the first one leading ────────────────── */
+.st-plans {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  gap: 40px var(--gutter);
+  width: 100%;
+}
+
+.st-plan {
+  display: grid;
+  gap: 20px;
+  align-content: start;
+  justify-items: start;
+  padding-top: 24px;
+  border-top: 1px solid var(--ink);
+}
+
+.st-plan + .st-plan {
+  border-top-color: var(--line);
+}
+
+.st-plan-name {
+  font-size: clamp(1.5rem, 2.2vw, 2rem);
+  line-height: 1.1;
+  letter-spacing: -0.035em;
+}
+
+.st-plan-badge {
+  font-size: 0.8125rem;
+  color: var(--ink-3);
+}
+
+.st-plan-price {
+  font-size: 1.0625rem;
+}
+
+.st-plan > p:not([class]) {
+  color: var(--ink-2);
+  max-width: 30em;
+}
+
+.st-plan .st-rules {
+  margin-block: 4px 8px;
+}
+
+@media (max-width: 900px) {
+  .st-plans {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ─── Project cases ────────────────────────────────────────────────────────── */
+.st-figures {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 var(--gutter);
+  width: 100%;
+  max-width: 44em;
+  border-top: 1px solid var(--line);
+}
+
+.st-figures li {
+  display: grid;
+  gap: 6px;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.st-figures strong {
+  font-weight: 400;
+  font-size: clamp(2rem, 3.4vw, 3rem);
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+.st-figures strong span {
+  margin-left: 0.3em;
+  font-size: 0.4em;
+  letter-spacing: 0;
+  color: var(--ink-3);
+}
+
+.st-figures li > span {
+  font-size: 0.875rem;
+  color: var(--ink-2);
+}
+
+/* A full-width shot of the site, framed by a hairline. */
+.st-shot {
+  width: 100%;
+  margin-top: 12px;
+  overflow: hidden;
+  background: var(--plate);
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+
+.st-shot img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.st-swatches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 24px;
+}
+
+.st-swatches li {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.8125rem;
+  color: var(--ink-2);
+}
+
+.st-swatches span {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--swatch);
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+
+/* A portrait photo in a 4:5 frame, kept to a comfortable width. */
+.st-shot--portrait {
+  max-width: 560px;
+  aspect-ratio: 4 / 5;
+  box-shadow: none;
+}
+
+.st-shot--portrait img {
+  height: 100%;
+  object-fit: cover;
+}
+
+.st-quote {
+  display: grid;
+  gap: 20px;
+  max-width: 34em;
+}
+
+.st-quote p {
+  font-size: clamp(1.375rem, 2.2vw, 2rem);
+  line-height: 1.25;
+  letter-spacing: -0.03em;
+  text-wrap: pretty;
+}
+
+.st-quote footer {
+  font-size: 0.875rem;
+  color: var(--ink-3);
+}
+
+/* ─── Articles ─────────────────────────────────────────────────────────────── */
+/* The illustrations are drawn in the old dark green; on these pages they show
+   in greys, like the rest of the site. */
+.st-page-media .st-art {
+  filter: grayscale(1);
+}
+
+.st-prose {
+  display: grid;
+  gap: clamp(40px, 6vh, 64px);
+  max-width: 40em;
+}
+
+.st-prose section {
+  display: grid;
+  gap: 16px;
+}
+
+.st-prose h2 {
+  font-size: clamp(1.375rem, 2vw, 1.75rem);
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+}
+
+.st-prose p {
+  color: var(--ink-2);
+  font-size: 1.0625rem;
+  line-height: 1.65;
+}
+
+.st-prose .st-lede {
+  color: var(--ink);
+}
+
+.st-prose-end {
+  padding-top: clamp(32px, 5vh, 48px);
+  border-top: 1px solid var(--line);
+}
+
+.st-prose-end p {
+  color: var(--ink);
+  font-size: clamp(1.125rem, 1.4vw, 1.3125rem);
+  line-height: 1.45;
+  letter-spacing: -0.015em;
+}
+
+/* A screen image with a line under it saying what it shows. */
+.st-still {
+  display: grid;
+  gap: 12px;
+  width: 100%;
+}
+
+.st-still img {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: var(--plate);
+}
+
+.st-still figcaption {
+  max-width: 40em;
+  font-size: 0.875rem;
+  color: var(--ink-3);
+}
+
+/* Two portrait shots side by side, cropped alike. */
+.st-stills {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--gutter);
+  width: 100%;
+}
+
+.st-stills figure {
+  overflow: hidden;
+  aspect-ratio: 4 / 5;
+  background: var(--plate);
+}
+
+.st-stills img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (max-width: 600px) {
+  .st-stills {
+    grid-template-columns: 1fr;
+  }
+}

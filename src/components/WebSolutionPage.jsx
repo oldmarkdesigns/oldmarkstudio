@@ -1,267 +1,84 @@
-import { useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
-import translations from '../translations'
-import { SectionLabel, Icon, Reveal, MailContactButton, PillButton } from './ui'
-import Skills from './Skills'
-import SubscriptionValue from './SubscriptionValue'
+import { EMAIL, scrollToId, sentence } from '../home/siteUtils'
+import { Arrow } from '../home/site'
+import studioDesk from '../assets/work/studio-desk.webp'
+import { SubPage, PageHead, Section, RuleList, Rows } from '../home/page'
 
-const PRICING_SECTION_ID = 'pricing'
-const NAV_OFFSET = 96 // fixed nav height (h-16 = 64px) + comfortable breathing room, same at every breakpoint
+const PRICING = 'pricing'
 
-// ─── Subscription teaser — a smaller, simplified take on the landing page's
-// "Varför prenumeration" card, next to the header. Same core message and
-// visual style (gradient card, same copy), stripped down to a heading, one
-// short line, and the CTA — no bullet list or illustration. The button
-// scrolls down to the pricing section further down this same page, offset so
-// the fixed nav never covers the "PRIS" heading. ───────────────────────────────
-function SubscriptionTeaserCard({ t }) {
-  function scrollToPricing() {
-    const el = document.getElementById(PRICING_SECTION_ID)
-    if (!el) return
-    const top = el.getBoundingClientRect().top + window.scrollY - NAV_OFFSET
-    window.scrollTo({ top, behavior: 'smooth' })
-  }
-
+// ─── An offer: name, terms, what it holds, and the way to ask for it ─────────
+function Plan({ offer, cta, ghost = false }) {
   return (
-    <div
-      className="rounded-2xl"
-      style={{
-        background: 'linear-gradient(135deg, #fbf2f6 0%, #fdf8f2 50%, #fdf3e9 100%)',
-        border: '1px solid rgba(26,24,20,0.08)',
-        padding: '2rem',
-      }}
-    >
-      <SectionLabel>{t.valueLabel}</SectionLabel>
-      <h2 className="font-serif" style={{ fontSize: 22, color: '#1a1814', marginBottom: '0.6rem', fontWeight: 400, lineHeight: 1.2 }}>
-        {t.valueTitle}
-      </h2>
-      <p style={{ fontSize: 14, color: 'rgba(26,24,20,0.65)', lineHeight: 1.6, marginBottom: '1.75rem' }}>
-        {t.valueSubtitle}
-      </p>
-      <PillButton label={t.pricingTeaserCta} variant="primary" onClick={scrollToPricing} />
-    </div>
-  )
-}
-
-// ─── Primary offer card — the subscription, visually emphasized. Price is
-// "by agreement" rather than a number, since it's negotiated per client. ───────
-function OfferCard({ offer, lang }) {
-  return (
-    <div
-      className="rounded-2xl h-full flex flex-col"
-      style={{ padding: '2.5rem', background: '#181817', boxShadow: '0 24px 60px rgba(0,0,0,0.35)' }}
-    >
-      <div className="grid grid-cols-1 sm:grid-cols-[1fr_auto] gap-10 h-full">
-        <div className="flex flex-col">
-          <h3 className="font-serif" style={{ fontSize: 26, fontWeight: 400, color: '#ffffff', marginBottom: '0.75rem' }}>
-            {offer.name}
-          </h3>
-          <div style={{ marginBottom: '1.1rem' }}>
-            <span className="uppercase" style={{ fontSize: 11.5, letterSpacing: '0.08em', color: 'rgba(255,255,255,0.5)' }}>
-              {offer.badge}
-            </span>
-            <div className="font-serif" style={{ fontSize: 'clamp(22px, 2.6vw, 30px)', fontWeight: 400, color: '#ffffff', lineHeight: 1.15, marginTop: 4 }}>
-              {offer.priceStatement}
-            </div>
-          </div>
-          <p style={{ fontSize: 14.5, lineHeight: 1.65, color: 'rgba(255,255,255,0.75)', marginBottom: '1.75rem', maxWidth: 340 }}>
-            {offer.desc}
-          </p>
-          <div className="mt-auto">
-            <MailContactButton lang={lang} variant="light" />
-          </div>
-        </div>
-
-        <ul style={{ display: 'flex', flexDirection: 'column', gap: 12, alignSelf: 'center' }}>
-          {offer.features.map((f, i) => (
-            <li key={i} className="flex items-start gap-2.5" style={{ fontSize: 14, color: 'rgba(255,255,255,0.85)' }}>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ffffff" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" style={{ marginTop: 2, flexShrink: 0 }}>
-                <path d="M20 6L9 17l-5-5" />
-              </svg>
-              {f}
-            </li>
-          ))}
-        </ul>
-      </div>
-    </div>
-  )
-}
-
-// ─── Secondary offer card — one-off project. Deliberately quieter than the
-// subscription card: no dark fill, no shadow, smaller type. ────────────────────
-function OneOffCard({ offer, lang }) {
-  return (
-    <div
-      className="rounded-2xl h-full flex flex-col"
-      style={{ padding: '2.25rem', background: '#ffffff', border: '1px solid rgba(26,24,20,0.12)' }}
-    >
-      <h3 className="font-serif" style={{ fontSize: 19, fontWeight: 400, color: '#1a1814', marginBottom: '0.6rem' }}>
-        {offer.name}
-      </h3>
-      <span className="uppercase" style={{ fontSize: 11, letterSpacing: '0.08em', color: 'rgba(26,24,20,0.4)', marginBottom: '1rem' }}>
-        {offer.badge}
-      </span>
-      <p style={{ fontSize: 13.5, lineHeight: 1.65, color: 'rgba(26,24,20,0.65)', marginBottom: '1.5rem' }}>
-        {offer.desc}
-      </p>
-      <ul style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: '1.75rem' }}>
-        {offer.features.map((f, i) => (
-          <li key={i} className="flex items-start gap-2.5" style={{ fontSize: 13, color: 'rgba(26,24,20,0.7)' }}>
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#181817" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" style={{ marginTop: 3, flexShrink: 0, opacity: 0.6 }}>
-              <path d="M20 6L9 17l-5-5" />
-            </svg>
-            {f}
-          </li>
-        ))}
-      </ul>
-      <div className="mt-auto">
-        <MailContactButton lang={lang} />
-      </div>
+    <div className="st-plan">
+      <h3 className="st-plan-name">{offer.name}</h3>
+      <p className="st-plan-badge">{offer.badge}</p>
+      {offer.priceStatement && <p className="st-plan-price">{offer.priceStatement}</p>}
+      <p>{offer.desc}</p>
+      <RuleList items={offer.features} cols={1} />
+      <a
+        className={`st-btn${ghost ? ' st-btn--ghost' : ''}`}
+        href={`mailto:${EMAIL}?subject=${encodeURIComponent(offer.name)}`}
+      >
+        {cta}
+        <Arrow />
+      </a>
     </div>
   )
 }
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
-export default function WebSolutionPage({ lang = 'sv' }) {
-  const navigate = useNavigate()
-  const t = translations[lang].webSolution
-
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'instant' })
-  }, [])
-
-  function goBack() {
-    const saved = sessionStorage.getItem('homeScrollY')
-    navigate('/')
-    requestAnimationFrame(() => requestAnimationFrame(() =>
-      window.scrollTo({ top: saved ? parseInt(saved, 10) : 0, behavior: 'instant' })
-    ))
-  }
+export default function WebSolutionPage({ t, lang = 'sv', setLang }) {
+  const w = t.webSolution
+  const h = t.home
 
   return (
-    <div className="bg-background min-h-screen font-sans">
-
-      {/* Back */}
-      <div className="px-6 sm:px-10 lg:px-24 pt-8 max-w-[1600px] mx-auto">
-        <button
-          onClick={goBack}
-          className="inline-flex items-center gap-2 text-primary/68 hover:text-primary/70 transition-colors duration-150"
-          style={{ fontSize: 12, letterSpacing: '0.08em' }}
-        >
-          <svg width="14" height="10" viewBox="0 0 14 10" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M1 5h12M1 5l4-4M1 5l4 4" />
-          </svg>
-          {t.back}
-        </button>
-      </div>
-
-      {/* Header */}
-      <header className="px-6 sm:px-10 lg:px-24 pt-12 pb-16 max-w-[1600px] mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_400px] gap-12 lg:gap-16 items-start">
-          <div>
-            <Reveal>
-              <SectionLabel>{t.tag}</SectionLabel>
-            </Reveal>
-            <Reveal delay={60}>
-              <h1 className="font-serif text-primary"
-                style={{ fontSize: 'clamp(36px, 6vw, 80px)', lineHeight: 1.0, letterSpacing: '-0.02em', fontWeight: 400, marginBottom: '0.75rem' }}>
-                {t.title}
-              </h1>
-              <p className="font-serif text-primary/70"
-                style={{ fontSize: 'clamp(18px, 2vw, 26px)', fontStyle: 'italic', fontWeight: 400, maxWidth: 620 }}>
-                {t.subtitle}
-              </p>
-            </Reveal>
-            <Reveal delay={120}>
-              <p className="text-primary/65" style={{ fontSize: 15, lineHeight: 1.75, maxWidth: 620, marginTop: '1.75rem' }}>
-                {t.intro}
-              </p>
-            </Reveal>
-          </div>
-
-          <Reveal delay={100}>
-            <SubscriptionTeaserCard t={t} />
-          </Reveal>
+    <SubPage t={t} lang={lang} setLang={setLang} contact={{ title: w.ctaTitle, body: w.ctaBody }}>
+      <PageHead
+        back={sentence(w.back)}
+        label={w.tag}
+        title={w.title}
+        lede={w.subtitle}
+        media={{ src: studioDesk, alt: h.studioImageAlt }}
+      >
+        <p className="st-muted">{w.intro}</p>
+        <div className="st-actions st-page-meta">
+          <a
+            className="st-link"
+            href={`#${PRICING}`}
+            onClick={(e) => {
+              e.preventDefault()
+              scrollToId(`#${PRICING}`)
+            }}
+          >
+            {w.pricingTeaserCta}
+            <Arrow />
+          </a>
         </div>
-      </header>
+      </PageHead>
 
-      {/* What's included */}
-      <section className="px-6 sm:px-10 lg:px-24 mb-24 max-w-[1600px] mx-auto">
-        <Reveal>
-          <SectionLabel>{t.includedLabel}</SectionLabel>
-          <h2 className="font-serif text-primary"
-            style={{ fontSize: 'clamp(26px, 3vw, 42px)', lineHeight: 1.08, letterSpacing: '-0.02em', fontWeight: 400, marginBottom: '3rem' }}>
-            {t.includedTitle}
-          </h2>
-        </Reveal>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {t.included.map((item, i) => (
-            <Reveal key={item.title} delay={i * 40}>
-              <div className="rounded-2xl p-6" style={{ background: 'rgba(26,24,20,0.03)', border: '1px solid rgba(26,24,20,0.08)', height: '100%' }}>
-                <span
-                  className="flex items-center justify-center rounded-full text-accent"
-                  style={{ width: 40, height: 40, background: 'rgba(157,174,159,0.14)', marginBottom: '1.25rem' }}
-                >
-                  <Icon name={item.icon} size={18} />
-                </span>
-                <h3 className="font-serif text-primary" style={{ fontSize: 17, fontWeight: 400, marginBottom: '0.5rem' }}>
-                  {item.title}
-                </h3>
-                <p className="text-primary/65" style={{ fontSize: 13.5, lineHeight: 1.6 }}>
-                  {item.desc}
-                </p>
-              </div>
-            </Reveal>
-          ))}
+      <Section label={sentence(w.includedLabel)} title={w.includedTitle}>
+        <Rows items={w.included.map((x) => ({ title: x.title, body: x.desc }))} />
+      </Section>
+
+      {/* The offer in short; the homepage carries the reasons for it. */}
+      <Section label={h.offerLabel} title={h.offerTitle}>
+        <p className="st-lede">{h.offerBody}</p>
+        <RuleList items={w.offer.features} />
+        <p className="st-plan-price">{h.offerPrice}</p>
+        <p>{h.oneOff}</p>
+        <div className="st-actions">
+          <a className="st-btn" href={`mailto:${EMAIL}?subject=${encodeURIComponent(h.offerCtaSubject)}`}>
+            {h.offerCta}
+            <Arrow />
+          </a>
         </div>
-      </section>
+      </Section>
 
-      {/* Subscription value — same full card as the landing page, unchanged */}
-      <SubscriptionValue t={t} />
-
-      {/* Toolbox — moved here from the homepage process section */}
-      <section className="px-6 sm:px-10 lg:px-24 mb-24 max-w-[1600px] mx-auto">
-        <Skills lang={lang} inProcess />
-      </section>
-
-      {/* Pricing — one offer, no tiers */}
-      <section id={PRICING_SECTION_ID} className="px-6 sm:px-10 lg:px-24 mb-24 max-w-[1600px] mx-auto">
-        <Reveal>
-          <SectionLabel>{t.pricingLabel}</SectionLabel>
-          <h2 className="font-serif text-primary"
-            style={{ fontSize: 'clamp(26px, 3vw, 42px)', lineHeight: 1.08, letterSpacing: '-0.02em', fontWeight: 400, marginBottom: '0.75rem' }}>
-            {t.pricingTitle}
-          </h2>
-          <p className="text-primary/65 mb-12" style={{ fontSize: 15, lineHeight: 1.7 }}>
-            {t.pricingSubtitle}
-          </p>
-        </Reveal>
-        <Reveal delay={60}>
-          <div className="grid grid-cols-1 lg:grid-cols-[1.6fr_1fr] gap-6 items-stretch" style={{ maxWidth: 1080 }}>
-            <OfferCard offer={t.offer} lang={lang} />
-            <OneOffCard offer={t.oneOff} lang={lang} />
-          </div>
-        </Reveal>
-      </section>
-
-      {/* CTA */}
-      <Reveal>
-        <section
-          className="px-6 sm:px-10 lg:px-24 py-20 max-w-[1600px] mx-auto"
-          style={{ borderTop: '1px solid rgba(26,24,20,0.08)' }}
-        >
-          <h2 className="font-serif text-primary"
-            style={{ fontSize: 'clamp(26px, 3.5vw, 48px)', lineHeight: 1.08, letterSpacing: '-0.02em', fontWeight: 400, marginBottom: '1rem' }}>
-            {t.ctaTitle}
-          </h2>
-          <p className="text-primary/70 mb-8" style={{ fontSize: 15, lineHeight: 1.7, maxWidth: 440 }}>
-            {t.ctaBody}
-          </p>
-          <MailContactButton lang={lang} />
-        </section>
-      </Reveal>
-
-      <div style={{ height: '4rem' }} />
-    </div>
+      <Section id={PRICING} label={sentence(w.pricingLabel)} title={w.pricingTitle} intro={w.pricingSubtitle}>
+        <div className="st-plans">
+          <Plan offer={w.offer} cta={h.offerCta} />
+          <Plan offer={w.oneOff} cta={h.offerCta} ghost />
+        </div>
+      </Section>
+    </SubPage>
   )
 }

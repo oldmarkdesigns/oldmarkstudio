@@ -1,156 +1,63 @@
-import { useEffect } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { getService } from '../data/services'
-import { SectionLabel, Reveal, MailContactButton } from './ui'
+import uxDesk from '../assets/work/ux-review-desk.webp'
+import prototypePhone from '../assets/work/prototype-phone.webp'
+import { SubPage, PageHead, Section, RuleList, Rows, NotFound } from '../home/page'
 
-export default function ServicePage({ lang = 'sv' }) {
+// Services with a photo beside their title.
+const MEDIA = {
+  prototyping: {
+    src: prototypePhone,
+    alt: { sv: 'En hand som håller en telefon med Oldmark Studios webbplats.', en: 'A hand holding a phone showing the Oldmark Studio website.' },
+  },
+  'ux-granskning': {
+    src: uxDesk,
+    alt: { sv: 'Glasögon, en kopp kaffe och en laptop på ett skrivbord.', en: 'Glasses, a cup of coffee and a laptop on a desk.' },
+  },
+}
+
+export default function ServicePage({ t, lang = 'sv', setLang }) {
   const { slug } = useParams()
-  const navigate = useNavigate()
   const service = getService(slug)
-
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'instant' })
-  }, [slug])
+  const isSv = lang === 'sv'
+  const back = isSv ? 'Tillbaka' : 'Back'
 
   if (!service) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <p className="text-primary/68" style={{ fontSize: 14 }}>Tjänst hittades inte.</p>
-      </div>
+      <SubPage t={t} lang={lang} setLang={setLang}>
+        <NotFound back={back} text={isSv ? 'Tjänst hittades inte.' : 'Service not found.'} />
+      </SubPage>
     )
   }
 
-  const t = service[lang]
-  const isSv = lang === 'sv'
-
-  function goBack() {
-    const saved = sessionStorage.getItem('homeScrollY')
-    navigate('/')
-    requestAnimationFrame(() => requestAnimationFrame(() =>
-      window.scrollTo({ top: saved ? parseInt(saved, 10) : 0, behavior: 'instant' })
-    ))
-  }
+  const s = service[lang]
 
   return (
-    <div className="bg-background min-h-screen font-sans">
+    <SubPage
+      t={t}
+      lang={lang}
+      setLang={setLang}
+      contact={{
+        title: isSv ? 'Redo att börja?' : 'Ready to start?',
+        body: isSv ? 'Boka ett kostnadsfritt samtal — vi går igenom ert projekt.' : "Book a free call — we'll walk through your project.",
+      }}
+    >
+      <PageHead
+        back={back}
+        label={service.tag}
+        title={s.title}
+        lede={s.tagline}
+        media={MEDIA[slug] && { src: MEDIA[slug].src, alt: MEDIA[slug].alt[lang] }}
+      />
 
-      {/* Back */}
-      <div className="px-6 sm:px-10 lg:px-24 pt-8 max-w-[1600px] mx-auto">
-        <button
-          onClick={goBack}
-          className="inline-flex items-center gap-2 text-primary/68 hover:text-primary/70 transition-colors duration-150"
-          style={{ fontSize: 12, letterSpacing: '0.08em' }}
-        >
-          <svg width="14" height="10" viewBox="0 0 14 10" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M1 5h12M1 5l4-4M1 5l4 4" />
-          </svg>
-          {isSv ? 'TILLBAKA' : 'BACK'}
-        </button>
-      </div>
+      <Section label={isSv ? 'Tjänsten' : 'The service'}>
+        <p className="st-lede">{s.intro}</p>
+        <Rows items={s.sections.map((x) => ({ title: x.heading, body: x.body }))} />
+      </Section>
 
-      {/* Header */}
-      <header className="px-6 sm:px-10 lg:px-24 pt-12 pb-16 max-w-[1600px] mx-auto">
-        <Reveal>
-          <SectionLabel>{service.tag}</SectionLabel>
-        </Reveal>
-        <Reveal delay={60}>
-          <h1 className="font-serif text-primary"
-            style={{ fontSize: 'clamp(36px, 6vw, 80px)', lineHeight: 1.0, letterSpacing: '-0.02em', fontWeight: 400, marginBottom: '0.75rem' }}>
-            {t.title}
-          </h1>
-          <p className="font-serif text-primary/68"
-            style={{ fontSize: 'clamp(18px, 2vw, 26px)', fontStyle: 'italic', fontWeight: 400 }}>
-            {t.tagline}
-          </p>
-        </Reveal>
-      </header>
-
-      {/* Divider */}
-      <div className="px-6 sm:px-10 lg:px-24 max-w-[1600px] mx-auto">
-        <div style={{ height: 1, background: 'rgba(26,24,20,0.08)', marginBottom: '4rem' }} />
-      </div>
-
-      {/* Main content */}
-      <main className="px-6 sm:px-10 lg:px-24 max-w-[1600px] mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-16">
-
-          {/* Left col — main text */}
-          <div className="lg:col-span-2" style={{ display: 'flex', flexDirection: 'column', gap: '3rem' }}>
-
-            {/* Intro */}
-            <Reveal>
-              <p className="font-serif text-primary/70"
-                style={{
-                  fontSize: 'clamp(17px, 1.6vw, 22px)',
-                  lineHeight: 1.7,
-                  fontWeight: 400,
-                  borderLeft: '2px solid rgba(157,174,159,0.35)',
-                  paddingLeft: '1.5rem',
-                }}>
-                {t.intro}
-              </p>
-            </Reveal>
-
-            {/* Sections */}
-            {t.sections.map((s, i) => (
-              <Reveal key={i} delay={i * 50}>
-                <div>
-                  <h2 className="font-serif text-primary"
-                    style={{ fontSize: 'clamp(20px, 2vw, 28px)', lineHeight: 1.15, letterSpacing: '-0.01em', fontWeight: 400, marginBottom: '1rem' }}>
-                    {s.heading}
-                  </h2>
-                  {s.body.split('\n\n').map((para, j) => (
-                    <p key={j} className="text-primary/60"
-                      style={{ fontSize: 15, lineHeight: 1.8, marginBottom: j < s.body.split('\n\n').length - 1 ? '1rem' : 0 }}>
-                      {para}
-                    </p>
-                  ))}
-                </div>
-              </Reveal>
-            ))}
-          </div>
-
-          {/* Right col — sidebar */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-
-            {/* Deliverables */}
-            <Reveal delay={80}>
-              <div className="rounded-2xl p-6"
-                style={{ background: 'rgba(26,24,20,0.03)', border: '1px solid rgba(26,24,20,0.08)' }}>
-                <p className="text-accent uppercase mb-4"
-                  style={{ fontSize: 10, letterSpacing: '0.18em', fontWeight: 500 }}>
-                  {isSv ? 'LEVERANSER' : 'DELIVERABLES'}
-                </p>
-                <ul style={{ display: 'flex', flexDirection: 'column', gap: 8, listStyle: 'none', padding: 0, margin: 0 }}>
-                  {t.deliverables.map((d, i) => (
-                    <li key={i} className="flex items-start gap-2 text-primary/65"
-                      style={{ fontSize: 13, lineHeight: 1.55 }}>
-                      <span style={{ width: 5, height: 5, borderRadius: '50%', background: 'var(--color-accent)', flexShrink: 0, marginTop: 5, opacity: 0.7 }} />
-                      {d}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </Reveal>
-
-            {/* CTA */}
-            <Reveal delay={140}>
-              <div className="rounded-2xl p-6"
-                style={{ background: 'rgba(157,174,159,0.06)', border: '1px solid rgba(157,174,159,0.2)' }}>
-                <p className="text-primary/80 font-medium mb-1" style={{ fontSize: 14 }}>
-                  {isSv ? 'Redo att börja?' : 'Ready to start?'}
-                </p>
-                <p className="text-primary/68 mb-5" style={{ fontSize: 13, lineHeight: 1.6 }}>
-                  {isSv ? 'Boka ett kostnadsfritt samtal — vi går igenom ert projekt.' : 'Book a free call — we\'ll walk through your project.'}
-                </p>
-                <MailContactButton lang={lang} />
-              </div>
-            </Reveal>
-          </div>
-        </div>
-      </main>
-
-      <div style={{ height: '8rem' }} />
-    </div>
+      <Section label={isSv ? 'Leveranser' : 'Deliverables'}>
+        <RuleList items={s.deliverables} />
+      </Section>
+    </SubPage>
   )
 }
