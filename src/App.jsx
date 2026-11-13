@@ -20,6 +20,8 @@ import HemmaPage from './components/HemmaPage'
 import ServicePage from './components/ServicePage'
 import WebSolutionPage from './components/WebSolutionPage'
 import AppDevPage from './components/AppDevPage'
+import RouteMeta from './RouteMeta'
+import { SubPage, NotFound } from './home/page'
 
 const AGENCY_NAME = 'Oldmark Studio'
 
@@ -42,13 +44,16 @@ function HomePage({ lang, setLang }) {
   )
 }
 
-export default function App() {
+// The routes on their own, so the browser (BrowserRouter, below) and the
+// build-time prerender (StaticRouter, entry-server.jsx) render the same tree.
+export function AppRoutes() {
   const [lang, setLang] = useState('sv')
   // Every page past the homepage is built on the same frame (src/home/page.jsx).
   const page = { t: translations[lang], lang, setLang }
 
   return (
-    <BrowserRouter>
+    <>
+      <RouteMeta />
       <Routes>
         <Route path="/" element={<Home t={translations[lang]} lang={lang} setLang={setLang} />} />
         <Route path="/v1" element={<HomePage lang={lang} setLang={setLang} />} />
@@ -61,7 +66,26 @@ export default function App() {
         <Route path="/projekt/iris-glaciers" element={<IrisGlaciersPage {...page} />} />
         <Route path="/projekt/deco-home" element={<DecoHomePage {...page} />} />
         <Route path="/projekt/hemma" element={<HemmaPage {...page} />} />
+        <Route
+          path="*"
+          element={
+            <SubPage {...page}>
+              <NotFound
+                back={lang === 'sv' ? 'Till startsidan' : 'To the homepage'}
+                text={lang === 'sv' ? 'Sidan finns inte.' : 'Page not found.'}
+              />
+            </SubPage>
+          }
+        />
       </Routes>
+    </>
+  )
+}
+
+export default function App() {
+  return (
+    <BrowserRouter>
+      <AppRoutes />
     </BrowserRouter>
   )
 }
