@@ -8,7 +8,7 @@ import translations from './translations'
 // into each page's HTML at build time; RouteMeta keeps it current as the
 // visitor moves between pages.
 
-export const SITE_URL = 'https://oldmark.se'
+export const SITE_URL = 'https://oldmarkstudio.vercel.app'
 export const SITE_NAME = 'Oldmark Studio'
 export const DEFAULT_IMAGE = '/og-image.jpg'
 const EMAIL = 'samuel@oldmark.se'
@@ -22,7 +22,7 @@ const title = (name) => `${name} | ${SITE_NAME}`
 // services. They go into the keywords tag and the structured data, and the
 // most important ones are worked into titles and descriptions too.
 const KW = {
-  brand: ['Oldmark Studio', 'Oldmark', 'Samuel Oldmark', 'oldmark.se'],
+  brand: ['Oldmark Studio', 'Oldmark', 'Samuel Oldmark', 'oldmarkstudio'],
   general: [
     'webbyrå Stockholm', 'webbyrå', 'digital byrå Stockholm', 'designstudio Stockholm',
     'webbdesign Stockholm', 'webbdesigner Stockholm', 'webbdesign', 'webbdesigner',
