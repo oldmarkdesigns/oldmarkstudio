@@ -5,9 +5,9 @@ import studioDesk from '../assets/work/studio-desk.webp'
 import appPhone from '../assets/work/app-phone-portrait.webp'
 import DotGlobe from './DotGlobe'
 import PixelPortrait from './PixelPortrait'
-import no20Logo from '../assets/logos/no20.png'
-import sea4youLogo from '../assets/logos/sea4you.png'
-import hemmaLogo from '../assets/logos/hemma.svg'
+import no20Cover from '../assets/work/cases/no20-tablet.webp'
+import sea4youCover from '../assets/work/cases/sea4you-macbook.webp'
+import hemmaCover from '../assets/work/hemma/phone-leather.webp'
 import {
   EMAIL,
   serviceHref,
@@ -22,11 +22,12 @@ import {
 import { Arrow, Mail, Nav, Contact, Footer } from './site'
 import { Rows } from './page'
 
-// Each project's cover is its logo on the brand's own ground.
-const LOGOS = {
-  no20: { src: no20Logo, ground: '#f0e9df', width: '46%' },
-  sea4you: { src: sea4youLogo, ground: '#0b1a30', width: '58%' },
-  hemma: { src: hemmaLogo, ground: '#1e1b16', width: '17%' },
+// Each project's cover is the hero image from its case page, cropped to the
+// card. `focus` keeps the device in frame.
+const COVERS = {
+  no20: { src: no20Cover, focus: '50% 50%' },
+  sea4you: { src: sea4youCover, focus: '50% 56%' },
+  hemma: { src: hemmaCover, focus: '50% 52%' },
 }
 
 // ─── Hero: the sentence and the offer on the left, the dot globe on the right ─
@@ -84,7 +85,7 @@ function Studio({ t }) {
 }
 
 // ─── Work: a rail of equal cards ─────────────────────────────────────────────
-// Each card is the project's logo on its own colour. Three to a row on wide
+// Each card is the project's hero image. Three to a row on wide
 // screens, fewer on narrow ones. Any number of projects fits: when there are
 // more than show at once, the rail scrolls and the arrows appear; when they all
 // fit, the arrows stay hidden.
@@ -158,11 +159,14 @@ function Work({ t, lang }) {
           {t.cases.map((c) => (
             <li key={c.slug}>
               <CaseLink c={c}>
-                <span
-                  className="st-cover"
-                  style={{ '--ground': LOGOS[c.slug].ground, '--logo-w': LOGOS[c.slug].width }}
-                >
-                  <img src={LOGOS[c.slug].src} alt="" loading="lazy" decoding="async" />
+                <span className="st-cover">
+                  <img
+                    src={COVERS[c.slug].src}
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                    style={{ objectPosition: COVERS[c.slug].focus }}
+                  />
                 </span>
                 <span className="st-card-text">
                   <span className="st-card-name">{c.name}</span>

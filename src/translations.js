@@ -254,7 +254,7 @@ const translations = {
       studioLabel: 'Studion',
       studioTitle: 'Från första skiss till färdig produkt.',
       studioBody: 'I studion designar och bygger jag hemsidor, appar och varumärken för små och växande företag. Allt sker på samma ställe: idé och design, utveckling, lansering och det löpande arbetet efteråt.',
-      studioItems: ['Webb och appdesign', 'Utveckling och implementation', 'Branding och varumärkesidentitet', 'Hosting och underhåll'],
+      studioItems: ['Webb och appdesign', 'Utveckling och implementation', 'Branding och varumärkesidentitet', 'Hosting, underhåll och SEO'],
       // The homepage names two services differently from the service pages,
       // and words one description more briefly.
       // The services, in the order the nav, the homepage list and the footer show them.
@@ -559,7 +559,7 @@ const translations = {
       studioLabel: 'The studio',
       studioTitle: 'From first sketch to finished product.',
       studioBody: 'In the studio I design and build websites, apps and brands for small and growing companies. It all happens in one place: idea and design, development, launch and the ongoing work after.',
-      studioItems: ['Web and app design', 'Development and implementation', 'Branding and brand identity', 'Hosting and upkeep'],
+      studioItems: ['Web and app design', 'Development and implementation', 'Branding and brand identity', 'Hosting, upkeep and SEO'],
       // The homepage names two services differently from the service pages,
       // and words one description more briefly.
       // The services, in the order the nav, the homepage list and the footer show them.
