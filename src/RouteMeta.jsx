@@ -32,8 +32,9 @@ export default function RouteMeta() {
       }
       el.setAttribute('content', t.content)
     }
-    if (!m.tags.some(t => t.property === 'article:published_time')) {
-      head.querySelector('meta[property="article:published_time"]')?.remove()
+    // Drop optional tags the previous page had but this one doesn't.
+    for (const [key, value] of [['property', 'article:published_time'], ['name', 'keywords']]) {
+      if (!m.tags.some(t => t[key] === value)) head.querySelector(`meta[${key}="${value}"]`)?.remove()
     }
 
     head.querySelectorAll('script[data-seo]').forEach(s => s.remove())

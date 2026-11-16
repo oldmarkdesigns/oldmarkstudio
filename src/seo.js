@@ -18,6 +18,53 @@ const cases = Object.fromEntries(sv.home.cases.map(c => [c.slug, c]))
 
 const title = (name) => `${name} | ${SITE_NAME}`
 
+// Search terms people type into Google in Swedish when looking for these
+// services. They go into the keywords tag and the structured data, and the
+// most important ones are worked into titles and descriptions too.
+const KW = {
+  brand: ['Oldmark Studio', 'Oldmark', 'Samuel Oldmark', 'oldmark.se'],
+  general: [
+    'webbyrå Stockholm', 'webbyrå', 'digital byrå Stockholm', 'designstudio Stockholm',
+    'webbdesign Stockholm', 'webbdesigner Stockholm', 'webbdesign', 'webbdesigner',
+    'frilans webbdesigner', 'produktdesigner Stockholm', 'UX-designer Stockholm',
+    'designbyrå Stockholm', 'webbutvecklare Stockholm', 'apputvecklare Stockholm',
+    'hemsida för företag', 'hemsida för småföretag',
+  ],
+  web: [
+    'webbutveckling', 'webbutveckling Stockholm', 'hemsida', 'skapa hemsida', 'bygga hemsida',
+    'göra hemsida', 'ny hemsida', 'hemsida företag', 'hemsida småföretag', 'webbplats',
+    'webbplats företag', 'beställa hemsida', 'köpa hemsida', 'hemsida pris', 'hemsida kostnad',
+    'hemsida månadskostnad', 'hemsida abonnemang', 'webbplats abonnemang', 'hemsida fast pris',
+    'responsiv hemsida', 'mobilanpassad hemsida', 'snabb hemsida', 'SEO', 'sökmotoroptimering',
+    'hosting', 'webbhotell', 'underhåll av hemsida', 'redesign hemsida', 'göra om hemsida',
+    'landningssida',
+  ],
+  app: [
+    'apputveckling', 'apputveckling Stockholm', 'apputvecklare', 'utveckla app', 'skapa app',
+    'bygga app', 'göra en app', 'iPhone-app', 'iOS-app', 'iOS-utveckling', 'app för företag',
+    'webbapp', 'mobilapp', 'apputveckling pris', 'App Store', 'ASO', 'appdesign',
+  ],
+  ux: [
+    'UX', 'UX-design', 'UI-design', 'UX/UI', 'användarupplevelse', 'användbarhet', 'UX-granskning',
+    'UX-analys', 'UX-audit', 'användartester', 'tillgänglighet', 'tillgänglighetsgranskning',
+    'WCAG', 'WCAG 2.2', 'EAA', 'tillgänglighetsdirektivet', 'lagen om tillgänglighet',
+    'digital tillgänglighet', 'tillgänglig webbplats',
+  ],
+  prototype: [
+    'prototyp', 'prototyper', 'klickbar prototyp', 'interaktiv prototyp', 'MVP', 'produktdesign',
+    'designsprint', 'idé till prototyp', 'investerardemo', 'validera idé',
+  ],
+  brandId: [
+    'branding', 'branding Stockholm', 'varumärke', 'varumärkesidentitet', 'visuell identitet',
+    'grafisk profil', 'grafisk design', 'logotyp', 'logga', 'skapa logga', 'designa logotyp',
+    'färgpalett', 'typografi', 'varumärkesbyrå', 'rebranding',
+  ],
+}
+const uniq = (...lists) => [...new Set(lists.flat())]
+
+const STOCKHOLM = { '@type': 'City', name: 'Stockholm' }
+const SWEDEN = { '@type': 'Country', name: 'Sverige' }
+
 const ORG_ID = `${SITE_URL}/#studio`
 const PERSON_ID = `${SITE_URL}/#samuel`
 
@@ -26,21 +73,30 @@ const organization = {
   '@type': 'ProfessionalService',
   '@id': ORG_ID,
   name: SITE_NAME,
+  alternateName: ['Oldmark', 'Oldmark Studio Stockholm', 'Oldmark webbyrå'],
+  slogan: sv.home.statement,
   url: `${SITE_URL}/`,
   email: EMAIL,
+  logo: `${SITE_URL}/favicon.svg`,
   image: `${SITE_URL}${DEFAULT_IMAGE}`,
   description: sv.home.studioBody,
   address: { '@type': 'PostalAddress', addressLocality: 'Stockholm', addressCountry: 'SE' },
-  areaServed: { '@type': 'Country', name: 'Sverige' },
+  areaServed: [STOCKHOLM, SWEDEN],
+  keywords: uniq(KW.general, KW.web.slice(0, 12), KW.app.slice(0, 6)).join(', '),
   founder: {
     '@type': 'Person',
     '@id': PERSON_ID,
     name: 'Samuel Oldmark',
-    jobTitle: 'Produktdesigner',
+    jobTitle: 'Produktdesigner och webbutvecklare',
+    knowsLanguage: ['sv', 'en'],
     email: EMAIL,
     worksFor: { '@id': ORG_ID },
   },
-  knowsAbout: ['Webbdesign', 'Webbutveckling', 'Apputveckling', 'UX-design', 'Tillgänglighet', 'Branding', 'Prototyper'],
+  knowsAbout: [
+    'Webbdesign', 'Webbutveckling', 'Hemsidor för företag', 'Apputveckling', 'iPhone-appar', 'Webbappar',
+    'UX-design', 'UI-design', 'Användbarhet', 'Tillgänglighet', 'WCAG', 'Sökmotoroptimering',
+    'Branding', 'Varumärkesidentitet', 'Grafisk profil', 'Logotyper', 'Prototyper', 'Produktdesign',
+  ],
   hasOfferCatalog: {
     '@type': 'OfferCatalog',
     name: 'Tjänster',
@@ -56,6 +112,7 @@ const website = {
   '@type': 'WebSite',
   '@id': `${SITE_URL}/#website`,
   name: SITE_NAME,
+  alternateName: 'Oldmark',
   url: `${SITE_URL}/`,
   inLanguage: 'sv-SE',
   publisher: { '@id': ORG_ID },
@@ -70,15 +127,18 @@ const breadcrumbs = (path, name) => ({
   ],
 })
 
-const serviceLd = (path, name, description) => [
+const serviceLd = (path, name, description, serviceType, alternateName) => [
   {
     '@context': 'https://schema.org',
     '@type': 'Service',
     name,
+    alternateName,
+    serviceType,
     description,
     url: `${SITE_URL}${path}`,
     provider: { '@id': ORG_ID },
-    areaServed: { '@type': 'Country', name: 'Sverige' },
+    areaServed: [STOCKHOLM, SWEDEN],
+    availableLanguage: ['sv', 'en'],
   },
   breadcrumbs(path, name),
 ]
@@ -104,38 +164,68 @@ function isoDate(d) {
   return `${year}-${String(m).padStart(2, '0')}-${String(day).padStart(2, '0')}`
 }
 
-// Each route: path, title, description, and optionally image, type, jsonLd,
+// Search wording for the service pages, keyed by slug.
+const SERVICE_SEO = {
+  prototyping: {
+    title: 'Prototyper – klickbar prototyp och MVP i Stockholm',
+    description: 'Testa din idé innan du bygger den. Klickbara prototyper för användartester, investerardemos och MVP – klara på 3–7 dagar. Designstudio i Stockholm.',
+    keywords: KW.prototype,
+    serviceType: 'Prototyper och produktdesign',
+    alternateName: ['Klickbar prototyp', 'MVP-design'],
+  },
+  'ux-granskning': {
+    title: 'UX-granskning och tillgänglighet (WCAG 2.2) i Stockholm',
+    description: 'UX-granskning och tillgänglighetsgranskning mot WCAG 2.2 AA inför EAA. Konkreta, prioriterade åtgärder för din webbplats eller app.',
+    keywords: KW.ux,
+    serviceType: 'UX-granskning och tillgänglighetsgranskning',
+    alternateName: ['UX-audit', 'Tillgänglighetsgranskning', 'WCAG-granskning'],
+  },
+  branding: {
+    title: 'Branding, logotyp och grafisk profil i Stockholm',
+    description: 'Branding och varumärkesidentitet för företag: logotyp, grafisk profil, färger och typografi som håller ihop på webben och allt annat ni visar upp.',
+    keywords: KW.brandId,
+    serviceType: 'Branding och varumärkesidentitet',
+    alternateName: ['Grafisk profil', 'Logotypdesign', 'Visuell identitet'],
+  },
+}
+
+// Each route: path, keywords, title, description, and optionally image, type, jsonLd,
 // noindex (kept out of search) and sitemap: false (left out of the sitemap).
 export const routes = [
   {
     path: '/',
-    title: `${SITE_NAME} – Webbdesign, webbutveckling och appar i Stockholm`,
-    description: 'Oldmark Studio designar och bygger webbplatser, appar och varumärken för små och växande företag i Stockholm. Webbutveckling som engångsprojekt eller månadsabonnemang.',
+    title: `${SITE_NAME} – Webbyrå i Stockholm för hemsidor, appar och varumärken`,
+    description: 'Webbyrå i Stockholm. Oldmark Studio designar och bygger hemsidor, appar och varumärken för företag – som engångsprojekt eller månadsabonnemang.',
+    keywords: uniq(KW.brand, KW.general, KW.web.slice(0, 16), KW.app.slice(0, 6), ['UX-design', 'branding', 'logotyp', 'prototyper']),
     jsonLd: [organization, website],
     priority: '1.0',
   },
   {
     path: '/webbutveckling',
-    title: title('Webbutveckling i Stockholm – fast pris eller månadsabonnemang'),
-    description: `${sv.webSolution.subtitle} Design, utveckling, hosting och underhåll från en studio i Stockholm.`,
-    jsonLd: serviceLd('/webbutveckling', 'Webbutveckling', sv.webSolution.subtitle),
+    title: title('Webbutveckling & hemsida för företag i Stockholm'),
+    description: 'Ny hemsida för ditt företag – design, utveckling, hosting och underhåll från en webbyrå i Stockholm. Engångsprojekt eller fast månadskostnad.',
+    keywords: uniq(KW.web, KW.general, KW.brand),
+    jsonLd: serviceLd('/webbutveckling', 'Webbutveckling', sv.webSolution.subtitle, 'Webbutveckling och webbdesign', ['Hemsida för företag', 'Webbdesign', 'Hemsida som abonnemang']),
     priority: '0.9',
   },
   {
     path: '/apputveckling',
-    title: title('Apputveckling – iPhone-appar och webbappar'),
-    description: 'Native iPhone-appar och webbappar som fungerar i alla telefoner, designade och byggda av Oldmark Studio i Stockholm.',
-    jsonLd: serviceLd('/apputveckling', 'Apputveckling', 'Native iPhone-appar och webbappar.'),
+    title: title('Apputveckling i Stockholm – iPhone-appar och webbappar'),
+    description: 'Apputveckling i Stockholm. Vi designar och bygger iPhone-appar och webbappar som fungerar i alla telefoner – från idé till App Store.',
+    keywords: uniq(KW.app, KW.general, KW.brand),
+    jsonLd: serviceLd('/apputveckling', 'Apputveckling', 'Native iPhone-appar och webbappar.', 'Apputveckling', ['App-utveckling', 'iPhone-appar', 'Webbappar']),
     priority: '0.9',
   },
   ...services.map(s => {
     const path = `/tjanst/${s.slug}`
-    const description = `${s.sv.tagline} ${s.sv.intro}`
+    const seo = SERVICE_SEO[s.slug] || {}
+    const description = seo.description || `${s.sv.tagline} ${s.sv.intro}`
     return {
       path,
-      title: title(s.sv.title),
+      title: title(seo.title || s.sv.title),
       description,
-      jsonLd: serviceLd(path, s.sv.title, s.sv.tagline),
+      keywords: uniq(seo.keywords || [], KW.general.slice(0, 8), KW.brand),
+      jsonLd: serviceLd(path, s.sv.title, s.sv.tagline, seo.serviceType, seo.alternateName),
       priority: '0.8',
     }
   }),
@@ -149,7 +239,8 @@ export const routes = [
     return {
       path,
       title: title(`${c.name} – ${c.tag}`),
-      description: c.line,
+      description: `${c.line} Ett projekt av Oldmark Studio, webbyrå i Stockholm.`,
+      keywords: uniq([c.name, ...c.tag.split(' · ')], KW.general.slice(0, 6), KW.brand),
       image,
       jsonLd: projectLd(path, c.name, c.line),
       priority: '0.7',
@@ -162,6 +253,7 @@ export const routes = [
       path,
       title: title(a.sv.title),
       description: a.sv.excerpt,
+      keywords: uniq(KW.general.slice(0, 4), KW.brand),
       type: 'article',
       published: date,
       jsonLd: [
@@ -206,7 +298,8 @@ export function metaTags(meta) {
   const description = clip(meta.description)
   const tags = [
     { name: 'description', content: description },
-    { name: 'robots', content: meta.noindex ? 'noindex, follow' : 'index, follow, max-image-preview:large' },
+    ...(meta.keywords?.length ? [{ name: 'keywords', content: meta.keywords.join(', ') }] : []),
+    { name: 'robots', content: meta.noindex ? 'noindex, follow' : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' },
     { property: 'og:type', content: meta.type || 'website' },
     { property: 'og:site_name', content: SITE_NAME },
     { property: 'og:locale', content: 'sv_SE' },
@@ -216,6 +309,7 @@ export function metaTags(meta) {
     { property: 'og:image', content: image },
     { property: 'og:image:width', content: '1200' },
     { property: 'og:image:height', content: '630' },
+    { property: 'og:image:alt', content: meta.title },
     { name: 'twitter:card', content: 'summary_large_image' },
     { name: 'twitter:title', content: meta.title },
     { name: 'twitter:description', content: description },
