@@ -8,7 +8,7 @@ import translations from './translations'
 // into each page's HTML at build time; RouteMeta keeps it current as the
 // visitor moves between pages.
 
-export const SITE_URL = 'https://oldmarkstudio.vercel.app'
+export const SITE_URL = 'https://www.oldmarkstudio.se'
 export const SITE_NAME = 'Oldmark Studio'
 export const DEFAULT_IMAGE = '/og-image.jpg'
 const EMAIL = 'samuel@oldmark.se'
@@ -22,13 +22,14 @@ const title = (name) => `${name} | ${SITE_NAME}`
 // services. They go into the keywords tag and the structured data, and the
 // most important ones are worked into titles and descriptions too.
 const KW = {
-  brand: ['Oldmark Studio', 'Oldmark', 'Samuel Oldmark', 'oldmarkstudio'],
+  brand: ['Oldmark Studio', 'Oldmark', 'Samuel Oldmark', 'oldmarkstudio.se'],
   general: [
-    'webbyrå Stockholm', 'webbyrå', 'digital byrå Stockholm', 'designstudio Stockholm',
-    'webbdesign Stockholm', 'webbdesigner Stockholm', 'webbdesign', 'webbdesigner',
-    'frilans webbdesigner', 'produktdesigner Stockholm', 'UX-designer Stockholm',
-    'designbyrå Stockholm', 'webbutvecklare Stockholm', 'apputvecklare Stockholm',
-    'hemsida för företag', 'hemsida för småföretag',
+    'webbdesigner Stockholm', 'designstudio Stockholm', 'webbdesign Stockholm',
+    'hemsida för företag', 'webbdesigner', 'webbdesign', 'frilans webbdesigner',
+    'webbutvecklare Stockholm', 'apputvecklare Stockholm', 'produktdesigner Stockholm',
+    'UX-designer Stockholm', 'hemsida för småföretag',
+    // Broader terms people also search with; kept out of titles and descriptions.
+    'webbyrå Stockholm', 'webbyrå', 'designbyrå Stockholm',
   ],
   web: [
     'webbutveckling', 'webbutveckling Stockholm', 'hemsida', 'skapa hemsida', 'bygga hemsida',
@@ -73,7 +74,7 @@ const organization = {
   '@type': 'ProfessionalService',
   '@id': ORG_ID,
   name: SITE_NAME,
-  alternateName: ['Oldmark', 'Oldmark Studio Stockholm', 'Oldmark webbyrå'],
+  alternateName: ['Oldmark', 'Oldmark Studio Stockholm'],
   slogan: sv.home.statement,
   url: `${SITE_URL}/`,
   email: EMAIL,
@@ -194,8 +195,8 @@ const SERVICE_SEO = {
 export const routes = [
   {
     path: '/',
-    title: `${SITE_NAME} – Webbyrå i Stockholm för hemsidor, appar och varumärken`,
-    description: 'Webbyrå i Stockholm. Oldmark Studio designar och bygger hemsidor, appar och varumärken för företag – som engångsprojekt eller månadsabonnemang.',
+    title: `${SITE_NAME} – Webbdesigner i Stockholm för hemsidor, appar och varumärken`,
+    description: 'Designstudio i Stockholm. Oldmark Studio designar och bygger hemsidor, appar och varumärken för företag – som engångsprojekt eller månadsabonnemang.',
     keywords: uniq(KW.brand, KW.general, KW.web.slice(0, 16), KW.app.slice(0, 6), ['UX-design', 'branding', 'logotyp', 'prototyper']),
     jsonLd: [organization, website],
     priority: '1.0',
@@ -203,7 +204,7 @@ export const routes = [
   {
     path: '/webbutveckling',
     title: title('Webbutveckling & hemsida för företag i Stockholm'),
-    description: 'Ny hemsida för ditt företag – design, utveckling, hosting och underhåll från en webbyrå i Stockholm. Engångsprojekt eller fast månadskostnad.',
+    description: 'Ny hemsida för ditt företag – design, utveckling, hosting och underhåll från en designstudio i Stockholm. Engångsprojekt eller fast månadskostnad.',
     keywords: uniq(KW.web, KW.general, KW.brand),
     jsonLd: serviceLd('/webbutveckling', 'Webbutveckling', sv.webSolution.subtitle, 'Webbutveckling och webbdesign', ['Hemsida för företag', 'Webbdesign', 'Hemsida som abonnemang']),
     priority: '0.9',
@@ -239,7 +240,7 @@ export const routes = [
     return {
       path,
       title: title(`${c.name} – ${c.tag}`),
-      description: `${c.line} Ett projekt av Oldmark Studio, webbyrå i Stockholm.`,
+      description: `${c.line} Ett projekt av Oldmark Studio, designstudio i Stockholm.`,
       keywords: uniq([c.name, ...c.tag.split(' · ')], KW.general.slice(0, 6), KW.brand),
       image,
       jsonLd: projectLd(path, c.name, c.line),
