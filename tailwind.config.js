@@ -9,7 +9,7 @@ export default {
         accent: '#c9b99a',
       },
       fontFamily: {
-        sans: ['Inter', 'sans-serif'],
+        sans: ['Geist Variable', 'Helvetica Neue', 'Arial', 'sans-serif'],
       },
     },
   },

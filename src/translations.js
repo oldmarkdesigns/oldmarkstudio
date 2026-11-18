@@ -171,6 +171,7 @@ const translations = {
         contact: 'Kontakt',
         language: 'Språk',
         top: 'Till toppen',
+        privacy: 'Integritetspolicy',
       },
     },
     footer: {
@@ -351,6 +352,7 @@ const translations = {
         contact: 'Contact',
         language: 'Language',
         top: 'Back to top',
+        privacy: 'Privacy policy',
       },
     },
     footer: {

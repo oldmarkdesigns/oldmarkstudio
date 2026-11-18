@@ -430,7 +430,12 @@ export function Footer({ t, services, footer, lang, setLang }) {
           </div>
         </div>
         <div className="st-footer-base">
-          <span>{footer.copy}</span>
+          <span>
+            {footer.copy} ·{' '}
+            <Link to="/integritetspolicy" onClick={away}>
+              {f.privacy}
+            </Link>
+          </span>
           <span className="st-footer-lang" role="group" aria-label={f.language}>
             <button type="button" aria-pressed={sv} onClick={() => setLang('sv')}>
               Svenska

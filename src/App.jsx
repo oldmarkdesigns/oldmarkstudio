@@ -8,6 +8,7 @@ import HemmaPage from './components/HemmaPage'
 import ServicePage from './components/ServicePage'
 import WebSolutionPage from './components/WebSolutionPage'
 import AppDevPage from './components/AppDevPage'
+import PrivacyPage from './components/PrivacyPage'
 import RouteMeta from './RouteMeta'
 import { SubPage, NotFound } from './home/page'
 
@@ -29,6 +30,7 @@ export function AppRoutes() {
         <Route path="/projekt/no20" element={<ProjectNo20 {...page} />} />
         <Route path="/projekt/sea4you" element={<Sea4YouPage {...page} />} />
         <Route path="/projekt/hemma" element={<HemmaPage {...page} />} />
+        <Route path="/integritetspolicy" element={<PrivacyPage {...page} />} />
         <Route
           path="*"
           element={

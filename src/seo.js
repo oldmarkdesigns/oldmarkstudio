@@ -204,6 +204,12 @@ export const routes = [
   }),
 ]
 
+routes.push({
+  path: '/integritetspolicy',
+  title: title('Integritetspolicy'),
+  description: 'Hur Oldmark Studio hanterar personuppgifter: inga kakor, anonym besöksstatistik och vad som sparas när du hör av dig.',
+})
+
 const byPath = Object.fromEntries(routes.map(r => [r.path, r]))
 
 export function getMeta(pathname) {

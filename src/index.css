@@ -6,8 +6,7 @@
   --color-cream: #ffffff;
   --color-ink: #1a1814;
   --color-accent: #9dae9f;
-  --font-sans: 'Inter', sans-serif;
-  --font-serif: 'Fraunces', Georgia, 'Times New Roman', serif;
+  --font-sans: 'Geist Variable', 'Helvetica Neue', Arial, sans-serif;
 }
 
 *, *::before, *::after {
@@ -25,21 +24,14 @@ html {
 body {
   background-color: #ffffff;
   color: #1a1814;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Geist Variable', 'Helvetica Neue', Arial, sans-serif;
   font-size: 14px;
   line-height: 1.5;
   font-weight: 400;
 }
 
 h1, h2, h3, h4 {
-  font-family: 'Fraunces', Georgia, serif;
   font-weight: 400;
-  font-optical-sizing: auto;
-}
-
-.font-serif {
-  font-family: 'Fraunces', Georgia, serif;
-  font-optical-sizing: auto;
 }
 
 ::selection {
