@@ -20,6 +20,10 @@ const title = (name) => `${name} | ${SITE_NAME}`
 const STOCKHOLM = { '@type': 'City', name: 'Stockholm' }
 const SWEDEN = { '@type': 'Country', name: 'Sverige' }
 
+// Profiles elsewhere that belong to the studio and to Samuel, so search
+// engines can tie them to this site.
+const LINKEDIN = 'https://www.linkedin.com/in/samuel-oldmark-31055a1a8/'
+
 const ORG_ID = `${SITE_URL}/#studio`
 const PERSON_ID = `${SITE_URL}/#samuel`
 
@@ -37,6 +41,7 @@ const organization = {
   description: sv.home.studioBody,
   address: { '@type': 'PostalAddress', addressLocality: 'Stockholm', addressCountry: 'SE' },
   areaServed: [STOCKHOLM, SWEDEN],
+  sameAs: [LINKEDIN],
   founder: {
     '@type': 'Person',
     '@id': PERSON_ID,
@@ -45,6 +50,8 @@ const organization = {
     knowsLanguage: ['sv', 'en'],
     email: EMAIL,
     worksFor: { '@id': ORG_ID },
+    url: `${SITE_URL}/`,
+    sameAs: [LINKEDIN],
   },
   knowsAbout: [
     'Webbdesign', 'Webbutveckling', 'Hemsidor för företag', 'Apputveckling', 'iPhone-appar', 'Webbappar',
