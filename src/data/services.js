@@ -5,9 +5,9 @@ export const services = [
     sv: {
       title: 'Prototyper',
       tagline: 'Testa idéer innan du bygger dem.',
-      intro: 'En kodad produkt som ingen vill använda är inte en produkt — det är ett dyrt misstag. En klickbar prototyp testat med fem användare avslöjar mer om vad som inte fungerar än hundratals timmar av intern diskussion.',
+      intro: 'En kodad produkt som ingen vill använda är inte en produkt — det är ett dyrt misstag. En klickbar prototyp som testats med fem användare avslöjar mer om vad som inte fungerar än hundratals timmar av intern diskussion.',
       sections: [
-        { heading: 'Vad vi bygger', body: 'Vi bygger klickbara prototyper, enklare eller mer avancerade beroende på behovet. En enkel prototyp går snabbt och passar för användartester och investerardemos. En mer avancerad ger realistiska interaktioner och animation — idealisk för att visa en produktupplevelse utan att koda den fullt ut.' },
+        { heading: 'Vad jag bygger', body: 'Jag bygger klickbara prototyper, enklare eller mer avancerade beroende på behovet. En enkel prototyp går snabbt och passar för användartester och investerardemos. En mer avancerad ger realistiska interaktioner och animation — idealisk för att visa en produktupplevelse utan att koda den fullt ut.' },
         { heading: 'Varför inte koda direkt', body: 'En kodad prototyp tar 5–10 gånger längre att bygga. Den tid ni sparar på att testa en prototyp istället är enormt värdefull — ni validerar (eller avfärdar) idéer medan de fortfarande är billiga att ändra.' },
         { heading: 'Vem passar det för', body: 'Grundare som ska pitcha till investerare. Produktteam som ska validera ett nytt flöde. Bolag som ska sälja in en idé internt innan de begär budget.' },
       ],
@@ -19,7 +19,7 @@ export const services = [
       tagline: 'Test ideas before you build them.',
       intro: 'A coded product nobody wants to use isn\'t a product — it\'s an expensive mistake. A clickable prototype tested with five users reveals more about what doesn\'t work than hundreds of hours of internal discussion.',
       sections: [
-        { heading: 'What we build', body: 'We build clickable prototypes, simpler or more advanced depending on the need. A simple prototype is quick and suits user tests and investor demos. A more advanced one gives realistic interactions and animation — ideal for showing a product experience without fully coding it.' },
+        { heading: 'What I build', body: 'I build clickable prototypes, simpler or more advanced depending on the need. A simple prototype is quick and suits user tests and investor demos. A more advanced one gives realistic interactions and animation — ideal for showing a product experience without fully coding it.' },
         { heading: 'Why not code directly', body: 'A coded prototype takes 5–10 times longer to build. The time saved by testing a prototype instead is enormously valuable — you validate (or dismiss) ideas while they\'re still cheap to change.' },
         { heading: 'Who it\'s for', body: 'Founders pitching to investors. Product teams validating a new flow. Companies selling an idea internally before requesting budget.' },
       ],
@@ -35,8 +35,8 @@ export const services = [
       tagline: 'Se vad du slutat se.',
       intro: 'När du arbetar med en produkt varje dag slutar du se de problem som är uppenbara för nya användare. En extern granskning avslöjar dem — systematiskt, snabbt och med konkreta åtgärder.',
       sections: [
-        { heading: 'Vad vi granskar', body: 'Usability: vi utvärderar produkten mot Nielsens 10 usability-heuristiker — det mest beprövade ramverket för UX-bedömningar. Varje avvikelse dokumenteras med allvarlighetsgrad och konkret rekommendation.\n\nTillgänglighet: vi granskar mot WCAG 2.2 (nivå AA). Det inkluderar färgkontraster, tangentbordsnavigering, skärmläsarkompatibilitet och semantisk HTML. Från 2025 är EAA (European Accessibility Act) lag för digitala tjänster inom EU.' },
-        { heading: 'Leveransformat', body: 'Vi levererar en prioriterad rapport med tre kategorier: kritiska problem (löses omedelbart), viktiga förbättringar (nästa sprint), och rekommenderade optimeringar (backlog).\n\nVarje punkt är konkret och handlingsbar — inte en lista med generella råd.' },
+        { heading: 'Vad jag granskar', body: 'Usability: jag utvärderar produkten mot Nielsens 10 usability-heuristiker — det mest beprövade ramverket för UX-bedömningar. Varje avvikelse dokumenteras med allvarlighetsgrad och konkret rekommendation.\n\nTillgänglighet: jag granskar mot WCAG 2.2 (nivå AA). Det inkluderar färgkontraster, tangentbordsnavigering, skärmläsarkompatibilitet och semantisk HTML. Sedan juni 2025 gäller EAA (European Accessibility Act) för många digitala tjänster inom EU, till exempel e-handel och banktjänster.' },
+        { heading: 'Leveransformat', body: 'Du får en prioriterad rapport med tre kategorier: kritiska problem (löses omedelbart), viktiga förbättringar (nästa sprint), och rekommenderade optimeringar (backlog).\n\nVarje punkt är konkret och handlingsbar — inte en lista med generella råd.' },
         { heading: 'Vem passar det för', body: 'Bolag inför en redesign som vill veta vad som är trasigt. Produktteam med resurser för en förbättringssprint. Bolag som behöver säkerställa WCAG-efterlevnad inför EAA.' },
       ],
       deliverables: ['Heuristisk utvärdering', 'WCAG 2.2 AA-granskning', 'Prioriterad åtgärdslista', 'Annoterade skärmdumpar', 'Presentationslämplig rapport'],
@@ -47,8 +47,8 @@ export const services = [
       tagline: 'See what you\'ve stopped seeing.',
       intro: 'When you work with a product every day, you stop seeing the problems that are obvious to new users. An external audit reveals them — systematically, quickly and with concrete action points.',
       sections: [
-        { heading: 'What we review', body: 'Usability: we evaluate the product against Nielsen\'s 10 usability heuristics — the most proven framework for UX assessment. Each deviation is documented with severity and a concrete recommendation.\n\nAccessibility: we review against WCAG 2.2 (level AA). This includes colour contrast, keyboard navigation, screen reader compatibility and semantic HTML. From 2025, the EAA (European Accessibility Act) is law for digital services within the EU.' },
-        { heading: 'Delivery format', body: 'We deliver a prioritised report with three categories: critical issues (fix immediately), important improvements (next sprint), and recommended optimisations (backlog).\n\nEvery point is concrete and actionable — not a list of general advice.' },
+        { heading: 'What I review', body: 'Usability: I evaluate the product against Nielsen\'s 10 usability heuristics — the most proven framework for UX assessment. Each deviation is documented with severity and a concrete recommendation.\n\nAccessibility: I review against WCAG 2.2 (level AA). This includes colour contrast, keyboard navigation, screen reader compatibility and semantic HTML. Since June 2025, the EAA (European Accessibility Act) applies to many digital services in the EU, such as e-commerce and banking.' },
+        { heading: 'Delivery format', body: 'You get a prioritised report with three categories: critical issues (fix immediately), important improvements (next sprint), and recommended optimisations (backlog).\n\nEvery point is concrete and actionable — not a list of general advice.' },
         { heading: 'Who it\'s for', body: 'Companies ahead of a redesign who want to know what\'s broken. Product teams with resources for an improvement sprint. Companies needing to ensure WCAG compliance ahead of EAA.' },
       ],
       deliverables: ['Heuristic evaluation', 'WCAG 2.2 AA review', 'Prioritised action list', 'Annotated screenshots', 'Presentation-ready report'],

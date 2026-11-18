@@ -35,13 +35,13 @@ for (const { path } of routes) {
 // Unknown URLs get a proper 404 status from the host, with the site's frame.
 await writeFile(join(dist, '404.html'), page('/404', render('/404')))
 
-const today = new Date().toISOString().slice(0, 10)
+// lastmod only where a route has a real date: a build date on every URL
+// teaches search engines to ignore it.
 const urls = routes
   .filter(r => r.sitemap !== false && !r.noindex)
   .map(r => `  <url>
-    <loc>${SITE_URL}${r.path === '/' ? '/' : r.path}</loc>
-    <lastmod>${r.published || today}</lastmod>
-    <priority>${r.priority || '0.5'}</priority>
+    <loc>${SITE_URL}${r.path === '/' ? '/' : r.path}</loc>${r.published ? `
+    <lastmod>${r.published}</lastmod>` : ''}
   </url>`)
 await writeFile(
   join(dist, 'sitemap.xml'),

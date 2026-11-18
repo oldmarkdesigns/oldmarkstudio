@@ -32,8 +32,8 @@ export default function HemmaPage({ t, lang = 'sv', setLang }) {
     ctaLabel: isSv ? 'Nästa steg' : 'Next step',
     ctaTitle: isSv ? 'Har du ett liknande projekt?' : 'Have a similar project?',
     ctaBody: isSv
-      ? 'Vi jobbar med varumärken och produkter som förtjänar mer än ett generiskt digitalt uttryck. Hör av dig.'
-      : 'We work with brands and products that deserve more than a generic digital expression. Get in touch.',
+      ? 'Jag jobbar med varumärken och produkter som förtjänar mer än ett generiskt digitalt uttryck. Hör av dig.'
+      : 'I work with brands and products that deserve more than a generic digital expression. Get in touch.',
   }
 
   return (

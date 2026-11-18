@@ -39,7 +39,7 @@ export default function ServicePage({ t, lang = 'sv', setLang }) {
       setLang={setLang}
       contact={{
         title: isSv ? 'Redo att börja?' : 'Ready to start?',
-        body: isSv ? 'Boka ett kostnadsfritt samtal — vi går igenom ert projekt.' : "Book a free call — we'll walk through your project.",
+        body: isSv ? 'Boka ett kostnadsfritt samtal så går vi igenom ditt projekt tillsammans.' : "Book a free call — we'll walk through your project.",
       }}
     >
       <PageHead
@@ -58,6 +58,12 @@ export default function ServicePage({ t, lang = 'sv', setLang }) {
       <Section label={isSv ? 'Leveranser' : 'Deliverables'}>
         <RuleList items={s.deliverables} />
       </Section>
+
+      {s.timeline && (
+        <Section label={isSv ? 'Tidsåtgång' : 'Timeline'}>
+          <p className="st-lede">{s.timeline}</p>
+        </Section>
+      )}
     </SubPage>
   )
 }

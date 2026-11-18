@@ -339,6 +339,21 @@
   margin-block: 4px 8px;
 }
 
+/* Hourly work: a line under the two plans, not a third plan. */
+.st-plan-hourly {
+  display: grid;
+  gap: 12px;
+  justify-items: start;
+  margin-top: 48px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+}
+
+.st-plan-hourly > p {
+  color: var(--ink-2);
+  max-width: 36em;
+}
+
 @media (max-width: 900px) {
   .st-plans {
     grid-template-columns: 1fr;

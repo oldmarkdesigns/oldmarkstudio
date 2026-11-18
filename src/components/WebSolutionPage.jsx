@@ -78,6 +78,18 @@ export default function WebSolutionPage({ t, lang = 'sv', setLang }) {
           <Plan offer={w.offer} cta={h.offerCta} />
           <Plan offer={w.oneOff} cta={h.offerCta} ghost />
         </div>
+        <div className="st-plan-hourly">
+          <h3 className="st-row-title">{w.hourly.title}</h3>
+          <p>{w.hourly.body}</p>
+          <a className="st-link" href={`mailto:${EMAIL}?subject=${encodeURIComponent(w.hourly.subject)}`}>
+            {w.hourly.cta}
+            <Arrow />
+          </a>
+        </div>
+      </Section>
+
+      <Section label={w.faqLabel} title={w.faqTitle}>
+        <Rows items={w.faq.map((x) => ({ title: x.q, body: x.a }))} />
       </Section>
     </SubPage>
   )

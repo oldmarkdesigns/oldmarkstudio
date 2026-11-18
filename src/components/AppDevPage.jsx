@@ -37,7 +37,7 @@ export default function AppDevPage({ t, lang = 'sv', setLang }) {
           'Studions egen iPhone-app för den som äger hus eller bostadsrätt. Den är byggd helt med Apples egna ramverk, utan tredjepartspaket, och har över 450 enhetstester. Appen är under utveckling och inte släppt än.',
         caseLink: 'Läs om Hemma',
         contactTitle: 'Har du en app-idé?',
-        contactBody: 'Skicka ett mejl så tar vi det därifrån.',
+        contactBody: 'Skicka ett mejl så hör jag av mig.',
       }
     : {
         back: 'Back',
@@ -63,7 +63,7 @@ export default function AppDevPage({ t, lang = 'sv', setLang }) {
           'The studio’s own iPhone app for people who own a house or an apartment. It is built entirely with Apple’s own frameworks, with no third-party packages, and has more than 450 unit tests. The app is in development and not released yet.',
         caseLink: 'Read about Hemma',
         contactTitle: 'Have an idea for an app?',
-        contactBody: 'Send an email and we’ll take it from there.',
+        contactBody: 'Send an email and I’ll get back to you.',
       }
 
   const why = isSv
