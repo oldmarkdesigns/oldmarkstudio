@@ -237,10 +237,6 @@ export const routes = [
       priority: '0.7',
     }
   }),
-  // Older pages no longer linked from the site: still reachable, kept out of the sitemap.
-  { path: '/projekt/iris-glaciers', title: title('Iris Glaciers'), description: 'Ett projekt av Oldmark Studio.', sitemap: false },
-  { path: '/projekt/deco-home', title: title('Deco Home'), description: 'Ett projekt av Oldmark Studio.', sitemap: false },
-  { path: '/v1', title: SITE_NAME, description: 'Tidigare version av startsidan.', noindex: true, sitemap: false },
 ]
 
 const byPath = Object.fromEntries(routes.map(r => [r.path, r]))

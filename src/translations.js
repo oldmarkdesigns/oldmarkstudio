@@ -1,62 +1,5 @@
 const translations = {
   sv: {
-    nav: {
-      links: ['Tjänster', 'Arbete', 'Process'],
-      linkIds: ['#services', '#work', '#process'],
-    },
-    hero: {
-      line1: 'Design. Bygg.',
-      line2: 'Optimera.',
-      accentWord: 'Optimera.',
-      subheading:
-        'En stockholmsbaserad studio för grundare och produktteam som behöver digitalt arbete gjort rätt — och snabbt.',
-      ctaPrimary: 'Se vårt arbete',
-      descriptor:
-        'Appdesign · Webbutveckling · CRO · UX-granskningar · Designsystem',
-      badge: 'OLDMARK STUDIO · STOCKHOLM · ',
-    },
-    services: {
-      label: 'TJÄNSTER',
-      headline: 'Allt du behöver för att',
-      accentWord: 'växa.',
-      count: '[ 5 TJÄNSTER ]',
-      subheading:
-        'Ett fokuserat utbud av tjänster inom design, utveckling och optimering — med ett par nischade erbjudanden du inte hittar på en generalist-byrå.',
-      readMore: 'Läs mer',
-      subscriptionChip: 'Månadsprenumeration tillgänglig',
-      items: [
-        {
-          tag: 'Design',
-          icon: 'window',
-          name: 'Appdesign',
-          desc: 'UX och UI från grunden för webb och mobil, redo för handoff.',
-        },
-        {
-          tag: 'Utveckling',
-          icon: 'code',
-          name: 'Webbutveckling',
-          desc: 'Din kompletta webbplats. En fast månadskostnad. Vi designar, bygger och driftar den åt er — så ni kan fokusera på verksamheten.',
-        },
-        {
-          tag: 'Design',
-          icon: 'grid',
-          name: 'Designsystem',
-          desc: 'Tokens, komponentbibliotek och dokumentation som skalar med produkten.',
-        },
-        {
-          tag: 'Design',
-          icon: 'cursor',
-          name: 'Prototyping',
-          desc: 'Klickbara prototyper för användartester och investerardemos.',
-        },
-        {
-          tag: 'Optimering',
-          icon: 'search',
-          name: 'UX-granskning & tillgänglighet',
-          desc: 'Granskning mot usability-heuristiker och WCAG 2.2, med konkreta åtgärder.',
-        },
-      ],
-    },
     webSolution: {
       back: 'TILLBAKA',
       tag: 'Webbutveckling · Abonnemang',
@@ -149,56 +92,6 @@ const translations = {
       paragraph1: 'Jag heter Samuel Oldmark och är produktdesigner baserad i Stockholm. Jag designar och utvecklar webbplatser, appar och digitala produkter, och tar fram branding och varumärkesidentitet som håller ihop dem, från logotyp till färdig produkt.',
       paragraph2: 'Tidigare har jag arbetat på en designbyrå i Stockholm och tillsammans med flera startups. Sedan 2024 driver jag studion.',
     },
-    who: {
-      label: 'ARBETE',
-      headline: 'Utforska våra',
-      accentWord: 'projekt',
-      casesLabel: 'UTVALDA PROJEKT',
-      cases: [
-        {
-          slug: 'no20',
-          tag: 'Webbdesign · Varumärke',
-          name: 'NO20',
-          location: 'Stockholms skärgård',
-          desc: 'Lyxigt flytande boende mitt i skärgården — vi designade varumärket och webbplatsen från grunden.',
-        },
-        {
-          slug: 'sea4you',
-          tag: 'Webbutveckling · Redesign',
-          name: 'Sea4You',
-          location: 'Saltsjöbaden',
-          desc: 'Redesign och uppstädning av webbplatsen för Sveriges Targa-återförsäljare, byggd för enkelt underhåll.',
-        },
-      ],
-    },
-    contact: {
-      label: 'KONTAKT',
-      headline: 'Låt oss arbeta',
-      accentWord: 'tillsammans.',
-      subheading:
-        'Har du ett projekt i åtanke, eller vill du bara prata igenom vad du behöver? Skicka ett meddelande.',
-      muted: 'Baserade i Stockholm · Tillgängliga för projekt och retainers',
-      cardTag: 'OLDMARKSTUDIO · STOCKHOLM',
-      statNumber: '100',
-      statSuffix: '%',
-      statLabel: 'Personlig kontakt genom hela projektet — ingen projektledare, inga mellanhänder.',
-      secondStat: '2 v',
-      secondStatLabel: 'Typisk tid från första samtal till levererad prototyp.',
-      testimonials: [
-        {
-          quote: 'Vi fick en webbplats som faktiskt speglar vad vi står för — snabbt och utan krångel.',
-          author: 'Grundare, D2C-varumärke',
-        },
-        {
-          quote: 'Tydlig kommunikation genom hela projektet. Inga överraskningar, bara resultat.',
-          author: 'Marknadschef, SaaS-bolag',
-        },
-        {
-          quote: 'Precis den typen av samarbete vi hoppades på — lyhört och proffsigt.',
-          author: 'VD, tjänsteföretag',
-        },
-      ],
-    },
     home: {
       nav: {
         work: 'Arbete',
@@ -268,63 +161,6 @@ const translations = {
   },
 
   en: {
-    nav: {
-      links: ['Services', 'Work', 'Process'],
-      linkIds: ['#services', '#work', '#process'],
-    },
-    hero: {
-      line1: 'Design. Build.',
-      line2: 'Optimize.',
-      accentWord: 'Optimize.',
-      subheading:
-        'A Stockholm-based studio for founders and product teams who need digital work done well — and fast.',
-      ctaPrimary: 'See our work',
-      descriptor:
-        'App design · Web development · CRO · UX audits · Design systems',
-      badge: 'OLDMARK STUDIO · STOCKHOLM · ',
-    },
-    services: {
-      label: 'SERVICES',
-      headline: 'Everything you need to',
-      accentWord: 'grow.',
-      count: '[ 5 SERVICES ]',
-      subheading:
-        'A focused set of services across design, development, and optimization — with a few niche offerings you won\'t find at a generic agency.',
-      readMore: 'Read more',
-      subscriptionChip: 'Monthly subscription available',
-      items: [
-        {
-          tag: 'Design',
-          icon: 'window',
-          name: 'App design',
-          desc: 'End-to-end UX and UI design for web and mobile, ready for handoff.',
-        },
-        {
-          tag: 'Development',
-          icon: 'code',
-          name: 'Web development',
-          desc: 'Your complete website. One fixed monthly cost. We design, build and run it for you — so you can focus on the business.',
-        },
-        {
-          tag: 'Design',
-          icon: 'grid',
-          name: 'Design systems',
-          desc: 'Tokens, component libraries, and docs that scale with your product.',
-        },
-        {
-          tag: 'Design',
-          icon: 'cursor',
-          name: 'Prototyping',
-          desc: 'Clickable prototypes for user testing and investor demos.',
-        },
-        {
-          tag: 'Optimization',
-          icon: 'search',
-          name: 'UX audit & accessibility review',
-          desc: 'Audit against usability heuristics and WCAG 2.2, with clear fixes.',
-        },
-      ],
-    },
     webSolution: {
       back: 'BACK',
       tag: 'Web Development · Subscription',
@@ -416,56 +252,6 @@ const translations = {
       accentWord: 'not an agency.',
       paragraph1: "I'm Samuel Oldmark, a product designer based in Stockholm. I design and build websites, apps and digital products, and create the branding and brand identity that ties them together, from logo to finished product.",
       paragraph2: "Before this, I worked at a design agency in Stockholm and with several startups. I have run the studio since 2024.",
-    },
-    who: {
-      label: 'WORK',
-      headline: 'Explore our',
-      accentWord: 'projects',
-      casesLabel: 'SELECTED WORK',
-      cases: [
-        {
-          slug: 'no20',
-          tag: 'Web design · Brand identity',
-          name: 'NO20',
-          location: 'Stockholm Archipelago',
-          desc: 'A luxury floating home in the heart of the archipelago — we built the brand and website from scratch.',
-        },
-        {
-          slug: 'sea4you',
-          tag: 'Web development · Redesign',
-          name: 'Sea4You',
-          location: 'Saltsjöbaden',
-          desc: 'A redesign and cleanup of the website for Sweden’s Targa boat dealer, built for easy maintenance.',
-        },
-      ],
-    },
-    contact: {
-      label: 'CONTACT',
-      headline: 'Let\'s work',
-      accentWord: 'together.',
-      subheading:
-        'Have a project in mind, or just want to talk through what you need? Send a message.',
-      muted: 'Based in Stockholm · Available for projects and retainers',
-      cardTag: 'OLDMARKSTUDIO · STOCKHOLM',
-      statNumber: '100',
-      statSuffix: '%',
-      statLabel: 'Personal contact throughout the project — no project manager, no middlemen.',
-      secondStat: '2 wk',
-      secondStatLabel: 'Typical time from first call to delivered prototype.',
-      testimonials: [
-        {
-          quote: 'We got a website that actually reflects who we are — fast, no hassle.',
-          author: 'Founder, D2C brand',
-        },
-        {
-          quote: 'Clear communication throughout. No surprises, just results.',
-          author: 'Marketing lead, SaaS company',
-        },
-        {
-          quote: 'Exactly the kind of collaboration we hoped for — responsive and professional.',
-          author: 'CEO, service business',
-        },
-      ],
     },
     home: {
       nav: {

@@ -17,6 +17,21 @@
       "source": "/artikel/:path*",
       "destination": "/",
       "permanent": true
+    },
+    {
+      "source": "/v1",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/projekt/iris-glaciers",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/projekt/deco-home",
+      "destination": "/",
+      "permanent": true
     }
   ]
 }
