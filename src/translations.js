@@ -171,43 +171,6 @@ const translations = {
         },
       ],
     },
-    articles: {
-      label: 'INSIKTER & PERSPEKTIV',
-      headline: 'Tankar om design,',
-      accentWord: 'kod',
-      headlineEnd: 'och tillväxt.',
-      viewAll: 'Alla inlägg',
-      items: [
-        {
-          tag: 'CRO',
-          date: '12 MAJ 2026 · 6 MIN',
-          title: 'Därför börjar bra design med data',
-          excerpt:
-            'Hur vi använder beteendedata för att fatta designbeslut som faktiskt flyttar nyckeltalen.',
-        },
-        {
-          tag: 'DESIGNSYSTEM',
-          date: '28 APR 2026 · 8 MIN',
-          title: 'Designsystem som faktiskt skalar',
-          excerpt:
-            'Tokenarkitektur, namngivning och dokumentation — lärdomar från system byggda för team i tillväxt.',
-        },
-        {
-          tag: 'ASEO',
-          date: '9 APR 2026 · 5 MIN',
-          title: 'ASEO 2026: så vinner du i App Store',
-          excerpt:
-            'Nyckelord, skärmdumpar och ikoner — vad som driver nedladdningar i årets App Store-algoritm.',
-        },
-        {
-          tag: 'AI',
-          date: '21 MAR 2026 · 7 MIN',
-          title: 'Från idé till prototyp på en vecka',
-          excerpt:
-            'Hur vi använder AI-verktyg för att gå från koncept till klickbar prototyp innan veckan är slut.',
-        },
-      ],
-    },
     contact: {
       label: 'KONTAKT',
       headline: 'Låt oss arbeta',
@@ -473,43 +436,6 @@ const translations = {
           name: 'Sea4You',
           location: 'Saltsjöbaden',
           desc: 'A redesign and cleanup of the website for Sweden’s Targa boat dealer, built for easy maintenance.',
-        },
-      ],
-    },
-    articles: {
-      label: 'INSIGHTS & PERSPECTIVES',
-      headline: 'Thoughts on design,',
-      accentWord: 'code',
-      headlineEnd: 'and growth.',
-      viewAll: 'All posts',
-      items: [
-        {
-          tag: 'CRO',
-          date: '12 MAY 2026 · 6 MIN',
-          title: 'Why good design starts with data',
-          excerpt:
-            'How we use behavioural data to make design decisions that actually move the numbers.',
-        },
-        {
-          tag: 'DESIGN SYSTEMS',
-          date: '28 APR 2026 · 8 MIN',
-          title: 'Design systems that actually scale',
-          excerpt:
-            'Token architecture, naming, and documentation — lessons from systems built for growing teams.',
-        },
-        {
-          tag: 'ASEO',
-          date: '9 APR 2026 · 5 MIN',
-          title: 'ASEO in 2026: how to win in the App Store',
-          excerpt:
-            'Keywords, screenshots, and icons — what drives installs in this year\'s App Store algorithm.',
-        },
-        {
-          tag: 'AI',
-          date: '21 MAR 2026 · 7 MIN',
-          title: 'From idea to prototype in a week',
-          excerpt:
-            'How we use AI tooling to go from concept to clickable prototype before the week is out.',
         },
       ],
     },

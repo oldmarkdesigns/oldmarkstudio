@@ -6,7 +6,7 @@ import 'lenis/dist/lenis.css'
 // Shared constants and scrolling for every page; the components that use them
 // are in site.jsx.
 
-export const EMAIL = 'samuel@oldmark.se'
+export const EMAIL = 'oldmarkdesigns@gmail.com'
 
 // Webbutveckling and Apputveckling have pages of their own; the other
 // services share the service page.

@@ -1,5 +1,5 @@
-/* Pages past the homepage: services, the subscription, the project cases and
-   the articles. Built from the homepage's tokens and parts (home.css), so they
+/* Pages past the homepage: services, the subscription and the project cases.
+   Built from the homepage's tokens and parts (home.css), so they
    share its paper, type, rules and gaps. Scoped to .st like the homepage. */
 
 /* ─── Head ─────────────────────────────────────────────────────────────────── */
@@ -446,52 +446,6 @@
 .st-quote footer {
   font-size: 0.875rem;
   color: var(--ink-3);
-}
-
-/* ─── Articles ─────────────────────────────────────────────────────────────── */
-/* The illustrations are drawn in the old dark green; on these pages they show
-   in greys, like the rest of the site. */
-.st-page-media .st-art {
-  filter: grayscale(1);
-}
-
-.st-prose {
-  display: grid;
-  gap: clamp(40px, 6vh, 64px);
-  max-width: 40em;
-}
-
-.st-prose section {
-  display: grid;
-  gap: 16px;
-}
-
-.st-prose h2 {
-  font-size: clamp(1.375rem, 2vw, 1.75rem);
-  line-height: 1.15;
-  letter-spacing: -0.03em;
-}
-
-.st-prose p {
-  color: var(--ink-2);
-  font-size: 1.0625rem;
-  line-height: 1.65;
-}
-
-.st-prose .st-lede {
-  color: var(--ink);
-}
-
-.st-prose-end {
-  padding-top: clamp(32px, 5vh, 48px);
-  border-top: 1px solid var(--line);
-}
-
-.st-prose-end p {
-  color: var(--ink);
-  font-size: clamp(1.125rem, 1.4vw, 1.3125rem);
-  line-height: 1.45;
-  letter-spacing: -0.015em;
 }
 
 /* A screen image with a line under it saying what it shows. */

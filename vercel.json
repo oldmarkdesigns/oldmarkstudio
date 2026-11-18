@@ -4,8 +4,18 @@
   "redirects": [
     {
       "source": "/:path*",
-      "has": [{ "type": "host", "value": "oldmarkstudio.vercel.app" }],
+      "has": [
+        {
+          "type": "host",
+          "value": "oldmarkstudio.vercel.app"
+        }
+      ],
       "destination": "https://www.oldmarkstudio.se/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/artikel/:path*",
+      "destination": "/",
       "permanent": true
     }
   ]

@@ -1,4 +1,3 @@
-import { articles } from './data/articles'
 import { services } from './data/services'
 import translations from './translations'
 
@@ -11,7 +10,7 @@ import translations from './translations'
 export const SITE_URL = 'https://www.oldmarkstudio.se'
 export const SITE_NAME = 'Oldmark Studio'
 export const DEFAULT_IMAGE = '/og-image.jpg'
-const EMAIL = 'samuel@oldmark.se'
+const EMAIL = 'oldmarkdesigns@gmail.com'
 
 const sv = translations.sv
 const cases = Object.fromEntries(sv.home.cases.map(c => [c.slug, c]))
@@ -156,15 +155,6 @@ const projectLd = (path, name, description) => [
   breadcrumbs(path, name),
 ]
 
-// "12 maj 2026" → "2026-05-12"
-const MONTHS = { jan: 1, feb: 2, mar: 3, apr: 4, maj: 5, jun: 6, jul: 7, aug: 8, sep: 9, okt: 10, nov: 11, dec: 12 }
-function isoDate(d) {
-  const [day, mon, year] = d.split(' ')
-  const m = MONTHS[mon.slice(0, 3).toLowerCase()]
-  if (!m) return undefined
-  return `${year}-${String(m).padStart(2, '0')}-${String(day).padStart(2, '0')}`
-}
-
 // Search wording for the service pages, keyed by slug.
 const SERVICE_SEO = {
   prototyping: {
@@ -245,35 +235,6 @@ export const routes = [
       image,
       jsonLd: projectLd(path, c.name, c.line),
       priority: '0.7',
-    }
-  }),
-  ...articles.map(a => {
-    const path = `/artikel/${a.slug}`
-    const date = isoDate(a.date)
-    return {
-      path,
-      title: title(a.sv.title),
-      description: a.sv.excerpt,
-      keywords: uniq(KW.general.slice(0, 4), KW.brand),
-      type: 'article',
-      published: date,
-      jsonLd: [
-        {
-          '@context': 'https://schema.org',
-          '@type': 'Article',
-          headline: a.sv.title,
-          description: a.sv.excerpt,
-          datePublished: date,
-          inLanguage: 'sv-SE',
-          url: `${SITE_URL}${path}`,
-          mainEntityOfPage: `${SITE_URL}${path}`,
-          image: `${SITE_URL}${DEFAULT_IMAGE}`,
-          author: { '@type': 'Person', '@id': PERSON_ID, name: 'Samuel Oldmark' },
-          publisher: { '@id': ORG_ID },
-        },
-        breadcrumbs(path, a.sv.title),
-      ],
-      priority: '0.6',
     }
   }),
   // Older pages no longer linked from the site: still reachable, kept out of the sitemap.

@@ -186,7 +186,7 @@ export function PillButton({ label, onClick, href, variant = 'primary', classNam
   )
 }
 
-export const CONTACT_EMAIL = 'samuel@oldmark.se'
+export const CONTACT_EMAIL = 'oldmarkdesigns@gmail.com'
 
 // ─── Small copy-to-clipboard icon button with a "Kopiera"/"Copy" hover tooltip.
 // Reused by MailContactButton and the footer's plain-text email. ──────────────

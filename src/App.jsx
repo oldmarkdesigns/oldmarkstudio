@@ -11,7 +11,6 @@ import WhoWeWorkWith from './components/WhoWeWorkWith'
 import About from './components/About'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
-import ArticlePage from './components/ArticlePage'
 import ProjectNo20 from './components/ProjectNo20'
 import Sea4YouPage from './components/Sea4YouPage'
 import IrisGlaciersPage from './components/IrisGlaciersPage'
@@ -57,7 +56,6 @@ export function AppRoutes() {
       <Routes>
         <Route path="/" element={<Home t={translations[lang]} lang={lang} setLang={setLang} />} />
         <Route path="/v1" element={<HomePage lang={lang} setLang={setLang} />} />
-        <Route path="/artikel/:slug" element={<ArticlePage {...page} />} />
         <Route path="/tjanst/:slug" element={<ServicePage {...page} />} />
         <Route path="/webbutveckling" element={<WebSolutionPage {...page} />} />
         <Route path="/apputveckling" element={<AppDevPage {...page} />} />
