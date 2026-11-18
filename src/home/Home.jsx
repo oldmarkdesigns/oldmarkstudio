@@ -187,8 +187,8 @@ function Work({ t, lang }) {
 }
 
 // ─── Offer: why a subscription, in three numbered reasons ────────────────────
-// The plan itself (what is included, the price) is on the Webbutveckling page,
-// one click away.
+// The prices in short beside the reasons; the full plan (what is included) is
+// on the Webbutveckling page, one click away.
 function Offer({ t, web }) {
   return (
     <section className="st-offer" id="offer">
@@ -197,6 +197,14 @@ function Offer({ t, web }) {
           <p className="st-label">{sentence(web.valueLabel)}</p>
           <h2 className="st-title">{web.valueTitle}</h2>
           <p className="st-muted">{web.valueSubtitle}</p>
+          <dl className="st-offer-prices">
+            {web.valuePrices.map((x) => (
+              <div key={x.label}>
+                <dt>{x.label}</dt>
+                <dd>{x.price}</dd>
+              </div>
+            ))}
+          </dl>
         </div>
         <div className="st-offer-body">
           <Rows numbered items={web.valuePoints.map((x) => ({ title: x.title, body: x.desc }))} />

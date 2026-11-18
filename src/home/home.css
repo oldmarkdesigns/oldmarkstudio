@@ -918,6 +918,32 @@ html:has(.st) {
   max-width: 10em;
 }
 
+/* The prices in short: a label and a price per line, between rules. */
+.st-offer-prices {
+  width: 100%;
+  max-width: 26rem;
+  margin: 8px 0 0;
+  border-top: 1px solid var(--line);
+}
+
+.st-offer-prices > div {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 4px 16px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.st-offer-prices dt {
+  color: var(--ink-2);
+}
+
+.st-offer-prices dd {
+  margin: 0;
+  color: var(--ink);
+}
+
 .st-offer-body {
   display: grid;
   gap: 28px;

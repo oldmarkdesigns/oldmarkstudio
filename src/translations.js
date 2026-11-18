@@ -25,6 +25,11 @@ const translations = {
         { icon: 'loop', title: 'Jag finns kvar efter lansering', desc: 'Support, ändringar och uppdateringar ingår så länge ni är kund hos mig — inte bara de första veckorna.' },
         { icon: 'bolt', title: 'Enkelt att byta till mig', desc: 'Har ni redan en webbplats hos en annan leverantör? Jag hjälper er genom hela övergången.' },
       ],
+      valuePrices: [
+        { label: 'Abonnemang', price: 'från 990 kr/mån' },
+        { label: 'Engångsprojekt', price: 'från 9 900 kr' },
+        { label: 'Per timme', price: 'pris på förfrågan' },
+      ],
       valueCta: 'Läs mer och kom igång',
       pricingTeaserCta: 'Se upplägg',
       pricingLabel: 'PRIS',
@@ -201,6 +206,11 @@ const translations = {
         { icon: 'flag', title: 'No big project to finance', desc: 'Get a complete website without draining your budget upfront — pay a fixed amount every month instead.' },
         { icon: 'loop', title: "I'm still here after launch", desc: "Support, changes, and updates stay included for as long as you're a client — not just the first few weeks." },
         { icon: 'bolt', title: 'Easy to switch to me', desc: "Already have a website with another provider? I'll handle the entire transition for you." },
+      ],
+      valuePrices: [
+        { label: 'Subscription', price: 'from SEK 990/month' },
+        { label: 'One-off project', price: 'from SEK 9,900' },
+        { label: 'By the hour', price: 'price on request' },
       ],
       valueCta: 'Learn more and get started',
       pricingTeaserCta: 'See the plan',
