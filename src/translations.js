@@ -6,7 +6,7 @@ const translations = {
       title: 'Webbutveckling',
       subtitle: 'Din kompletta webbplats. Som engångsprojekt till fast pris, eller som månadsabonnemang.',
       intro:
-        'Ingen budget för ett stort designprojekt, men behöver ändå en webbplats som faktiskt presterar? Med mitt abonnemang får du design, utveckling, hosting och löpande underhåll — allt i ett fast månadspris från 990 kr. Inga överraskningsfakturor, inga lösa trådar.',
+        'Ingen budget för ett stort designprojekt, men behöver ändå en webbplats som faktiskt presterar? Med mitt abonnemang får du design, utveckling, hosting och löpande underhåll — allt i ett fast månadspris från 990\u00a0kr. Inga överraskningsfakturor, inga lösa trådar.',
       includedLabel: 'VAD SOM INGÅR',
       includedTitle: 'Allt i ett paket',
       included: [
@@ -26,9 +26,7 @@ const translations = {
         { icon: 'bolt', title: 'Enkelt att byta till mig', desc: 'Har ni redan en webbplats hos en annan leverantör? Jag hjälper er genom hela övergången.' },
       ],
       valuePrices: [
-        { label: 'Abonnemang', price: 'från 990 kr/mån' },
-        { label: 'Engångsprojekt', price: 'från 9 900 kr' },
-        { label: 'Per timme', price: 'pris på förfrågan' },
+        { label: 'Abonnemang', price: 'från 990\u00a0kr/mån' },
       ],
       valueCta: 'Läs mer och kom igång',
       pricingTeaserCta: 'Se upplägg',
@@ -38,7 +36,7 @@ const translations = {
       offer: {
         name: 'Webbutveckling',
         badge: 'Månadsabonnemang',
-        priceStatement: 'Från 990 kr/mån',
+        priceStatement: 'Från 990\u00a0kr/mån',
         desc: 'En komplett webbplats — design, utveckling, hosting och löpande underhåll i ett fast månadspris.',
         features: [
           'Skräddarsydd design & utveckling',
@@ -52,7 +50,7 @@ const translations = {
       oneOff: {
         name: 'Engångsprojekt',
         badge: 'Engångskostnad',
-        priceStatement: 'Från 9 900 kr',
+        priceStatement: 'Från 9\u00a0900\u00a0kr',
         desc: 'Föredrar du att äga projektet direkt? En ny webbplats till ett fast engångspris — utan bindningstid eller månadskostnad.',
         features: [
           'Fast pris, betalas en gång',
@@ -70,7 +68,7 @@ const translations = {
       faqLabel: 'Vanliga frågor',
       faqTitle: 'Om pris och upplägg',
       faq: [
-        { q: 'Vad kostar en hemsida?', a: 'Som månadsabonnemang kostar en hemsida från 990 kr i månaden, med design, utveckling, hosting och underhåll inräknat. Vill du hellre betala en gång kostar en ny webbplats från 9 900 kr. Det slutliga priset beror på hur stor webbplatsen är och vad den ska kunna.' },
+        { q: 'Vad kostar en hemsida?', a: 'Som månadsabonnemang kostar en hemsida från 990\u00a0kr i månaden, med design, utveckling, hosting och underhåll inräknat. Vill du hellre betala en gång kostar en ny webbplats från 9\u00a0900\u00a0kr. Det slutliga priset beror på hur stor webbplatsen är och vad den ska kunna.' },
         { q: 'Vad ingår i abonnemanget?', a: 'Design, utveckling, lansering, hosting, sökmotoroptimering från start, löpande uppdateringar och support. Du betalar en fast summa varje månad och får inga överraskningsfakturor.' },
         { q: 'Finns det någon bindningstid?', a: 'Nej, abonnemanget har ingen bindningstid.' },
         { q: 'Kan jag anlita dig per timme?', a: 'Ja. För mindre uppdrag och ändringar på en befintlig webbplats jobbar jag per timme. Hör av dig så får du ett pris.' },
@@ -126,7 +124,7 @@ const translations = {
         allServices: 'Alla tjänster',
       },
       statement: 'Hemsidor och digitala produkter, designade och byggda i Stockholm.',
-      offerLine: 'Webbutveckling som månadsabonnemang från 990 kr/mån — design, utveckling, hosting och underhåll i en fast kostnad.',
+      offerLine: 'Webbutveckling som månadsabonnemang från 990\u00a0kr/mån — design, utveckling, hosting och underhåll i en fast kostnad.',
       offerLink: 'Så fungerar det',
       studioLabel: 'Studion',
       studioTitle: 'Från första skiss till färdig produkt.',
@@ -153,10 +151,10 @@ const translations = {
       offerLabel: 'Erbjudande',
       offerTitle: 'En hemsida. En månadskostnad.',
       offerBody: 'Jag designar, bygger och driftar er hemsida — och finns kvar efter lansering. Ni betalar en fast summa varje månad i stället för ett stort projekt på en gång.',
-      offerPrice: 'Från 990 kr/mån',
+      offerPrice: 'Från 990\u00a0kr/mån',
       offerCta: 'Få ett prisförslag',
       offerCtaSubject: 'Prisförslag: hemsida som abonnemang',
-      oneOff: 'Föredrar ni att äga projektet direkt? En ny webbplats som engångsprojekt kostar från 9 900 kr.',
+      oneOff: 'Föredrar ni att äga projektet direkt? En ny webbplats som engångsprojekt kostar från 9\u00a0900\u00a0kr.',
       servicesLabel: 'Tjänster',
       servicesImageAlt: 'Oldmark Studios webbplats i en iPhone.',
       aboutLabel: 'Om',
@@ -188,7 +186,7 @@ const translations = {
       title: 'Web Development',
       subtitle: 'Your complete website. As a one-off project at a fixed price, or as a monthly subscription.',
       intro:
-        'No budget for a big design project, but still need a website that actually performs? My subscription gives you design, development, hosting, and ongoing maintenance — all for one fixed monthly price from SEK 990. No surprise invoices, no loose ends.',
+        'No budget for a big design project, but still need a website that actually performs? My subscription gives you design, development, hosting, and ongoing maintenance — all for one fixed monthly price from SEK\u00a0990. No surprise invoices, no loose ends.',
       includedLabel: "WHAT'S INCLUDED",
       includedTitle: 'Everything in one package',
       included: [
@@ -208,9 +206,7 @@ const translations = {
         { icon: 'bolt', title: 'Easy to switch to me', desc: "Already have a website with another provider? I'll handle the entire transition for you." },
       ],
       valuePrices: [
-        { label: 'Subscription', price: 'from SEK 990/month' },
-        { label: 'One-off project', price: 'from SEK 9,900' },
-        { label: 'By the hour', price: 'price on request' },
+        { label: 'Subscription', price: 'from SEK\u00a0990/month' },
       ],
       valueCta: 'Learn more and get started',
       pricingTeaserCta: 'See the plan',
@@ -220,7 +216,7 @@ const translations = {
       offer: {
         name: 'Web development',
         badge: 'Monthly subscription',
-        priceStatement: 'From SEK 990/month',
+        priceStatement: 'From SEK\u00a0990/month',
         desc: 'A complete website — design, development, hosting, and ongoing maintenance for one fixed monthly price.',
         features: [
           'Custom design & development',
@@ -234,7 +230,7 @@ const translations = {
       oneOff: {
         name: 'One-off project',
         badge: 'One-time cost',
-        priceStatement: 'From SEK 9,900',
+        priceStatement: 'From SEK\u00a09,900',
         desc: 'Prefer to own the project outright? A new website for a fixed one-time price — no lock-in period, no monthly cost.',
         features: [
           'Fixed price, paid once',
@@ -252,7 +248,7 @@ const translations = {
       faqLabel: 'Common questions',
       faqTitle: 'About pricing and setup',
       faq: [
-        { q: 'What does a website cost?', a: 'As a monthly subscription, a website starts at SEK 990 a month, with design, development, hosting and upkeep included. If you would rather pay once, a new website starts at SEK 9,900. The final price depends on the size of the site and what it needs to do.' },
+        { q: 'What does a website cost?', a: 'As a monthly subscription, a website starts at SEK\u00a0990 a month, with design, development, hosting and upkeep included. If you would rather pay once, a new website starts at SEK\u00a09,900. The final price depends on the size of the site and what it needs to do.' },
         { q: 'What does the subscription include?', a: 'Design, development, launch, hosting, search optimisation from the start, ongoing updates and support. You pay a fixed amount each month, with no surprise invoices.' },
         { q: 'Is there a lock-in period?', a: 'No, the subscription has no lock-in period.' },
         { q: 'Can I hire you by the hour?', a: 'Yes. For smaller tasks and changes to an existing website I work by the hour. Get in touch for a price.' },
@@ -308,7 +304,7 @@ const translations = {
         allServices: 'All services',
       },
       statement: 'Websites and digital products, designed and built in Stockholm.',
-      offerLine: 'Web development as a monthly subscription from SEK 990/month — design, build, hosting and upkeep for one fixed fee.',
+      offerLine: 'Web development as a monthly subscription from SEK\u00a0990/month — design, build, hosting and upkeep for one fixed fee.',
       offerLink: 'How it works',
       studioLabel: 'The studio',
       studioTitle: 'From first sketch to finished product.',
@@ -335,10 +331,10 @@ const translations = {
       offerLabel: 'Offer',
       offerTitle: 'One website. One monthly fee.',
       offerBody: 'I design, build and run your website — and stay on after launch. You pay a fixed amount every month instead of one large project up front.',
-      offerPrice: 'From SEK 990/month',
+      offerPrice: 'From SEK\u00a0990/month',
       offerCta: 'Get a quote',
       offerCtaSubject: 'Quote: website as a subscription',
-      oneOff: 'Prefer to own the project outright? A new website as a one-off project starts at SEK 9,900.',
+      oneOff: 'Prefer to own the project outright? A new website as a one-off project starts at SEK\u00a09,900.',
       servicesLabel: 'Services',
       servicesImageAlt: 'The Oldmark Studio website on an iPhone.',
       aboutLabel: 'About',
