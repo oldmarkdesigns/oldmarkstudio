@@ -77,7 +77,7 @@ const organization = {
   slogan: sv.home.statement,
   url: `${SITE_URL}/`,
   email: EMAIL,
-  logo: `${SITE_URL}/favicon.svg`,
+  logo: `${SITE_URL}/favicon-512x512.png`,
   image: `${SITE_URL}${DEFAULT_IMAGE}`,
   description: sv.home.studioBody,
   address: { '@type': 'PostalAddress', addressLocality: 'Stockholm', addressCountry: 'SE' },
