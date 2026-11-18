@@ -4,6 +4,7 @@ export const services = [
     tag: 'Design',
     sv: {
       title: 'Prototyper',
+      serviceTitle: 'Från idé till klickbar prototyp',
       tagline: 'Testa idéer innan du bygger dem.',
       intro: 'En kodad produkt som ingen vill använda är inte en produkt — det är ett dyrt misstag. En klickbar prototyp som testats med fem användare avslöjar mer om vad som inte fungerar än hundratals timmar av intern diskussion.',
       sections: [
@@ -16,6 +17,7 @@ export const services = [
     },
     en: {
       title: 'Prototyping',
+      serviceTitle: 'From idea to clickable prototype',
       tagline: 'Test ideas before you build them.',
       intro: 'A coded product nobody wants to use isn\'t a product — it\'s an expensive mistake. A clickable prototype tested with five users reveals more about what doesn\'t work than hundreds of hours of internal discussion.',
       sections: [
@@ -32,6 +34,7 @@ export const services = [
     tag: 'Optimering',
     sv: {
       title: 'UX-granskning & tillgänglighet',
+      serviceTitle: 'En extern blick på din produkt',
       tagline: 'Se vad du slutat se.',
       intro: 'När du arbetar med en produkt varje dag slutar du se de problem som är uppenbara för nya användare. En extern granskning avslöjar dem — systematiskt, snabbt och med konkreta åtgärder.',
       sections: [
@@ -44,6 +47,7 @@ export const services = [
     },
     en: {
       title: 'UX audit & accessibility review',
+      serviceTitle: 'A fresh look at your product',
       tagline: 'See what you\'ve stopped seeing.',
       intro: 'When you work with a product every day, you stop seeing the problems that are obvious to new users. An external audit reveals them — systematically, quickly and with concrete action points.',
       sections: [
@@ -60,6 +64,7 @@ export const services = [
     tag: 'Design',
     sv: {
       title: 'Branding och varumärkesidentitet',
+      serviceTitle: 'Ett uttryck som håller ihop',
       tagline: 'Ett uttryck som känns igen.',
       intro: 'En tydlig identitet gör att folk känner igen er, på webbplatsen, i appen och i allt annat ni visar upp. Jag tar fram ett uttryck som passar vilka ni är, och som är enkelt att använda i vardagen.',
       sections: [
@@ -71,6 +76,7 @@ export const services = [
     },
     en: {
       title: 'Branding and brand identity',
+      serviceTitle: 'A look that holds together',
       tagline: 'A look people recognise.',
       intro: 'A clear identity helps people recognise you, on your website, in your app and in everything else you show. I create a look that fits who you are, and that is easy to use day to day.',
       sections: [

@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import appPhone from '../assets/work/app-phone-portrait.webp'
+import hemmaPhone from '../assets/work/hemma/phone-sun.webp'
 import hemmaOverview from '../assets/work/hemma/overview.webp'
 import { Arrow } from '../home/site'
 import { SubPage, PageHead, Section, RuleList, Rows } from '../home/page'
@@ -20,10 +20,11 @@ export default function AppDevPage({ t, lang = 'sv', setLang }) {
         lede: 'Native iPhone-appar, byggda för telefonen.',
         intro:
           'Jag designar och bygger appar för iOS med Apples eget språk och egna ramverk, utan ett webbramverk emellan. Det ger en app som beter sig som resten av telefonen, med systemets komponenter, gester och tillgänglighet från första skärmen. Ska appen i stället köras i webbläsaren bygger jag den som en webbapp.',
-        imageAlt: 'Oldmark Studios webbplats i en iPhone.',
+        imageAlt: 'Hemma, studions egen app, i en iPhone.',
         whyLabel: 'Varför native',
         whyTitle: 'En app som känns som en iPhone',
         offerLabel: 'Vad som ingår',
+        offerTitle: 'Det här får du',
         webLabel: 'Webbappar',
         webTitle: 'Även i webbläsaren',
         webBody:
@@ -46,10 +47,11 @@ export default function AppDevPage({ t, lang = 'sv', setLang }) {
         lede: 'Native iPhone apps, built for the phone.',
         intro:
           'I design and build apps for iOS with Apple’s own language and frameworks, with no web framework in between. The result is an app that behaves like the rest of the phone, with the system’s components, gestures and accessibility from the first screen. If the app should run in the browser instead, I build it as a web app.',
-        imageAlt: 'The Oldmark Studio website on an iPhone.',
+        imageAlt: 'Hemma, the studio’s own app, on an iPhone.',
         whyLabel: 'Why native',
         whyTitle: 'An app that feels like an iPhone',
         offerLabel: 'What’s included',
+        offerTitle: 'What you get',
         webLabel: 'Web apps',
         webTitle: 'In the browser, too',
         webBody:
@@ -105,7 +107,7 @@ export default function AppDevPage({ t, lang = 'sv', setLang }) {
         label={copy.tag}
         title={copy.title}
         lede={copy.lede}
-        media={{ src: appPhone, alt: copy.imageAlt }}
+        media={{ src: hemmaPhone, alt: copy.imageAlt }}
       >
         <p className="st-muted">{copy.intro}</p>
       </PageHead>
@@ -114,7 +116,7 @@ export default function AppDevPage({ t, lang = 'sv', setLang }) {
         <Rows items={why} />
       </Section>
 
-      <Section label={copy.offerLabel}>
+      <Section label={copy.offerLabel} title={copy.offerTitle}>
         <RuleList items={included} />
       </Section>
 

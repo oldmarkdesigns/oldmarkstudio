@@ -50,17 +50,17 @@ export default function ServicePage({ t, lang = 'sv', setLang }) {
         media={MEDIA[slug] && { src: MEDIA[slug].src, alt: MEDIA[slug].alt[lang] }}
       />
 
-      <Section label={isSv ? 'Tjänsten' : 'The service'}>
+      <Section label={isSv ? 'Tjänsten' : 'The service'} title={s.serviceTitle}>
         <p className="st-lede">{s.intro}</p>
         <Rows items={s.sections.map((x) => ({ title: x.heading, body: x.body }))} />
       </Section>
 
-      <Section label={isSv ? 'Leveranser' : 'Deliverables'}>
+      <Section label={isSv ? 'Leveranser' : 'Deliverables'} title={isSv ? 'Det här får du' : 'What you get'}>
         <RuleList items={s.deliverables} />
       </Section>
 
       {s.timeline && (
-        <Section label={isSv ? 'Tidsåtgång' : 'Timeline'}>
+        <Section label={isSv ? 'Tidsåtgång' : 'Timeline'} title={isSv ? 'Så lång tid tar det' : 'How long it takes'}>
           <p className="st-lede">{s.timeline}</p>
         </Section>
       )}

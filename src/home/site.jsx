@@ -270,7 +270,7 @@ export function Nav({ t, services, lang, setLang }) {
             >
               {sv ? 'EN' : 'SV'}
             </button>
-            <a className="st-nav-cta" href="#contact" onClick={jump}>
+            <a className="st-nav-cta" href={`mailto:${EMAIL}`} onClick={closeAll}>
               {t.cta}
             </a>
             <button
@@ -307,7 +307,7 @@ export function Nav({ t, services, lang, setLang }) {
                 {label}
               </a>
             ))}
-            <a className="st-mobile-cta" href="#contact" onClick={jump}>
+            <a className="st-mobile-cta" href={`mailto:${EMAIL}`} onClick={closeAll}>
               {t.cta}
             </a>
           </nav>
