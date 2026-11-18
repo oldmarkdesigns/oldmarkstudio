@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
+import appPhone from '../assets/work/app-phone-portrait.webp'
 import hemmaPhone from '../assets/work/hemma/phone-sun.webp'
-import hemmaOverview from '../assets/work/hemma/overview.webp'
 import { Arrow } from '../home/site'
 import { SubPage, PageHead, Section, RuleList, Rows } from '../home/page'
 
@@ -20,7 +20,8 @@ export default function AppDevPage({ t, lang = 'sv', setLang }) {
         lede: 'Native iPhone-appar, byggda för telefonen.',
         intro:
           'Jag designar och bygger appar för iOS med Apples eget språk och egna ramverk, utan ett webbramverk emellan. Det ger en app som beter sig som resten av telefonen, med systemets komponenter, gester och tillgänglighet från första skärmen. Ska appen i stället köras i webbläsaren bygger jag den som en webbapp.',
-        imageAlt: 'Hemma, studions egen app, i en iPhone.',
+        imageAlt: 'Oldmark Studios webbplats i en iPhone.',
+        caseImageAlt: 'Hemmas översikt i en iPhone.',
         whyLabel: 'Varför native',
         whyTitle: 'En app som känns som en iPhone',
         offerLabel: 'Vad som ingår',
@@ -47,7 +48,8 @@ export default function AppDevPage({ t, lang = 'sv', setLang }) {
         lede: 'Native iPhone apps, built for the phone.',
         intro:
           'I design and build apps for iOS with Apple’s own language and frameworks, with no web framework in between. The result is an app that behaves like the rest of the phone, with the system’s components, gestures and accessibility from the first screen. If the app should run in the browser instead, I build it as a web app.',
-        imageAlt: 'Hemma, the studio’s own app, on an iPhone.',
+        imageAlt: 'The Oldmark Studio website on an iPhone.',
+        caseImageAlt: 'The Hemma overview on an iPhone.',
         whyLabel: 'Why native',
         whyTitle: 'An app that feels like an iPhone',
         offerLabel: 'What’s included',
@@ -107,7 +109,7 @@ export default function AppDevPage({ t, lang = 'sv', setLang }) {
         label={copy.tag}
         title={copy.title}
         lede={copy.lede}
-        media={{ src: hemmaPhone, alt: copy.imageAlt }}
+        media={{ src: appPhone, alt: copy.imageAlt }}
       >
         <p className="st-muted">{copy.intro}</p>
       </PageHead>
@@ -131,8 +133,8 @@ export default function AppDevPage({ t, lang = 'sv', setLang }) {
 
       <Section label={copy.caseLabel} title={copy.caseTitle}>
         <p className="st-lede">{copy.caseBody}</p>
-        <figure className="st-still">
-          <img src={hemmaOverview} alt="" loading="lazy" decoding="async" />
+        <figure className="st-still st-still--portrait">
+          <img src={hemmaPhone} alt={copy.caseImageAlt} loading="lazy" decoding="async" />
         </figure>
         <Link className="st-link" to="/projekt/hemma">
           {copy.caseLink}

@@ -477,6 +477,11 @@
   background: var(--plate);
 }
 
+/* A single portrait shot: kept narrow so it doesn't run the page long. */
+.st-still--portrait {
+  max-width: 28rem;
+}
+
 .st-still figcaption {
   max-width: 40em;
   font-size: 0.875rem;
