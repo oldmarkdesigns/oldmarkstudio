@@ -8,6 +8,9 @@ import HemmaPage from './components/HemmaPage'
 import WebSolutionPage from './components/WebSolutionPage'
 import AppDevPage from './components/AppDevPage'
 import SketchPage from './components/SketchPage'
+import ServicePage from './components/ServicePage'
+import PricingPage from './components/PricingPage'
+import { services } from './data/services'
 import GuidePage, { GuidesIndex } from './components/GuidePage'
 import PrivacyPage from './components/PrivacyPage'
 import RouteMeta from './RouteMeta'
@@ -28,6 +31,10 @@ export function AppRoutes() {
         <Route path="/webbutveckling" element={<WebSolutionPage {...page} />} />
         <Route path="/apputveckling" element={<AppDevPage {...page} />} />
         <Route path="/gratis-skiss" element={<SketchPage {...page} />} />
+        <Route path="/priser" element={<PricingPage {...page} />} />
+        {services.map((s) => (
+          <Route key={s.slug} path={`/${s.slug}`} element={<ServicePage {...page} slug={s.slug} />} />
+        ))}
         <Route path="/guider" element={<GuidesIndex {...page} />} />
         <Route path="/guider/:slug" element={<GuidePage {...page} />} />
         <Route path="/projekt/no20" element={<ProjectNo20 {...page} />} />

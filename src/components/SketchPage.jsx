@@ -1,9 +1,11 @@
 import { useEffect, useRef, useState } from 'react'
-import { EMAIL, scrollToId } from '../home/siteUtils'
+import { EMAIL, FORM_ID, scrollToId } from '../home/siteUtils'
 import { Arrow } from '../home/site'
+import laptop from '../assets/work/cases/no20-laptop.webp'
 import { SubPage, PageHead, Section, RuleList, Rows, FounderNote, GuideLinks } from '../home/page'
 
-const FORM = 'skiss'
+const FORM = FORM_ID
+// The lede marks its key facts with *asterisks*; they print in full ink.
 
 const EMPTY = {
   company: '',
@@ -15,6 +17,7 @@ const EMPTY = {
   name: '',
   phone: '',
   when: '',
+  leaning: '',
 }
 
 // Which fields each step asks for, and which of them must be filled in.
@@ -38,6 +41,7 @@ function mailBody(v, m) {
     line(m.website, v.website || m.none),
     line(m.what, v.what),
     line(m.goals, v.goals.join(', ')),
+    line(m.leaning, v.leaning),
     line(m.when, v.when),
     v.about ? `\n${m.about}:\n${v.about}` : null,
     '',
@@ -220,6 +224,19 @@ function SketchForm({ s }) {
               ))}
             </div>
           </fieldset>
+          {f.leanings && (
+            <fieldset className="sk-field">
+              <legend className="sk-label">{f.leaning}</legend>
+              <div className="sk-choices">
+                {f.leanings.map((x) => (
+                  <label key={x} className="sk-choice">
+                    <input type="radio" name="leaning" value={x} checked={v.leaning === x} onChange={set('leaning')} />
+                    <span>{x}</span>
+                  </label>
+                ))}
+              </div>
+            </fieldset>
+          )}
           <label className="sk-field">
             <span className="sk-label">{f.about}</span>
             <textarea rows={4} value={v.about} onChange={set('about')} />
@@ -271,6 +288,16 @@ function SketchForm({ s }) {
 }
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
+// The form in its section, with the id the nav button and links scroll to.
+// Used here and on the web development page.
+export function SketchSection({ s }) {
+  return (
+    <Section id={FORM} label={s.formLabel} title={s.formTitle} intro={s.formIntro}>
+      <SketchForm s={s} />
+    </Section>
+  )
+}
+
 export default function SketchPage({ t, lang = 'sv', setLang }) {
   const s = t.sketch
 
@@ -281,7 +308,38 @@ export default function SketchPage({ t, lang = 'sv', setLang }) {
       setLang={setLang}
       contact={{ title: s.contactTitle, body: s.contactBody, noSketch: true }}
     >
-      <PageHead back={s.back} label={s.label} title={s.title} lede={s.lede}>
+      <PageHead
+        back={s.back}
+        label={s.label}
+        title={s.title}
+        lede={
+          <span className="sk-lede">
+            {s.lede.split('*').map((part, i) => (i % 2 ? <strong key={i}>{part}</strong> : part))}
+          </span>
+        }
+        aside={
+          <aside className="sk-how" aria-labelledby="sk-steps-title">
+            <figure className="sk-how-photo">
+              <img src={laptop} alt="" loading="eager" />
+            </figure>
+            <p id="sk-steps-title" className="st-label">{s.stepsLabel}</p>
+            <ol className="sk-how-steps">
+              {s.steps.map((step, i) => (
+                <li key={step.title}>
+                  <span className="sk-how-num">{String(i + 1).padStart(2, '0')}</span>
+                  <div className="sk-how-text">
+                    <h2 className="sk-how-title">
+                      {step.title}
+                      {step.when && <span className="sk-how-when">{step.when}</span>}
+                    </h2>
+                    <p>{step.body}</p>
+                  </div>
+                </li>
+              ))}
+            </ol>
+          </aside>
+        }
+      >
         <p className="st-muted">{s.note}</p>
         <div className="st-actions st-page-meta">
           <a
@@ -298,18 +356,12 @@ export default function SketchPage({ t, lang = 'sv', setLang }) {
         </div>
       </PageHead>
 
-      <Section label={s.stepsLabel} title={s.stepsTitle}>
-        <Rows numbered items={s.steps} />
-      </Section>
+      <SketchSection s={s} />
 
       <Section label={s.getLabel} title={s.getTitle}>
         <RuleList items={s.get} />
         <p>{s.appNote}</p>
         <FounderNote f={t.founder} quote={t.founder.sketch} />
-      </Section>
-
-      <Section id={FORM} label={s.formLabel} title={s.formTitle} intro={s.formIntro}>
-        <SketchForm s={s} />
       </Section>
 
       <Section label={s.faqLabel} title={s.faqTitle}>

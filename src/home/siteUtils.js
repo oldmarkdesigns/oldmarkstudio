@@ -13,8 +13,10 @@ export const EMAIL = 'oldmarkdesigns@gmail.com'
 export const SKETCH_PATH = '/gratis-skiss'
 
 // Each service has a page of its own.
-const OWN_PAGES = { webbutveckling: '/webbutveckling', apputveckling: '/apputveckling', 'gratis-skiss': SKETCH_PATH }
-export const serviceHref = (slug) => OWN_PAGES[slug]
+// The sketch form, on the skiss page and the web development page.
+export const FORM_ID = 'skiss'
+
+export const serviceHref = (slug) => `/${slug}`
 
 // The services, in the order the nav, the homepage list and the footer all
 // show them.

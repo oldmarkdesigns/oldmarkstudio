@@ -3,7 +3,8 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 import appPhone from '../assets/work/app-phone.webp'
 import studioDesk from '../assets/work/studio-desk.webp'
 import DotGlobe from './DotGlobe'
-import { EMAIL, SKETCH_PATH, serviceHref, rememberScroll, scrollToId, scrollToTop, useGo } from './siteUtils'
+import { useTheme, setTheme, inkRgb } from './theme'
+import { EMAIL, SKETCH_PATH, FORM_ID, serviceHref, rememberScroll, scrollToId, scrollToTop, useGo } from './siteUtils'
 import './home.css'
 
 // The parts every page shares: the bar, the contact band, the footer and the
@@ -71,7 +72,33 @@ export function Mail({ copy, copied, className = '' }) {
 // that drops from the bar as one surface (two image cards and the services), on
 // hover with a short delay or on click; the page dims behind it. Below 900 px a
 // two-stroke burger opens a full-height panel that unrolls from the bar.
+// ─── Theme button ────────────────────────────────────────────────────────────
+// One round button, the height of the call to action, showing the mode a press
+// switches to: the moon in light mode, the sun in dark mode.
+const SUN = (
+  <svg className="st-theme-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true">
+    <circle cx="12" cy="12" r="4.5" />
+    <path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" />
+  </svg>
+)
+const MOON = (
+  <svg className="st-theme-moon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" aria-hidden="true">
+    <path d="M20.5 14.6A8.5 8.5 0 0 1 9.4 3.5a8.5 8.5 0 1 0 11.1 11.1z" />
+  </svg>
+)
+
+export function ThemeSwitch({ sv }) {
+  const dark = useTheme() === 'dark'
+  const label = dark ? (sv ? 'Byt till ljust läge' : 'Switch to light mode') : sv ? 'Byt till mörkt läge' : 'Switch to dark mode'
+  return (
+    <button type="button" className="st-theme" aria-label={label} title={label} onClick={() => setTheme(dark ? 'light' : 'dark')}>
+      {dark ? SUN : MOON}
+    </button>
+  )
+}
+
 export function Nav({ t, sketch, services, lang, setLang }) {
+  const theme = useTheme()
   const [scrolled, setScrolled] = useState(false)
   const [menu, setMenu] = useState(false)
   const [mobile, setMobile] = useState(false)
@@ -170,26 +197,32 @@ export function Nav({ t, sketch, services, lang, setLang }) {
     if (pathname === '/') rememberScroll()
   }
 
-  const serviceRows = services.map((item) => (
+  // Desktop: the list beside the cards holds only the services without a card.
+  // The phone menu has no cards, so it lists them all.
+  const carded = new Set(cards.map((c) => c.to))
+  const serviceRow = (item) => (
     <li key={item.slug}>
       <Link className="st-menu-row" to={serviceHref(item.slug)} onClick={toService}>
         <span className="st-menu-row-name">{item.name}</span>
         <span className="st-menu-row-meta">{item.tag}</span>
       </Link>
     </li>
-  ))
+  )
+  const serviceRows = services.map(serviceRow)
+  const panelRows = services.filter((item) => !carded.has(serviceHref(item.slug))).map(serviceRow)
 
   // The free sketch, offered in a thin line above the bar on every page but its
-  // own. It folds away once the page scrolls or a menu opens; the space below
+  // own. It folds away once the page scrolls or the mobile menu opens; the space below
   // keeps the page from sliding under it at the top.
   const banner = sketch && pathname !== SKETCH_PATH
 
-  // The main button leads to the free sketch; on that page, to its form.
+  // The main button leads to the sketch form: on this page when it has one
+  // (the skiss and web development pages), otherwise on the skiss page.
   const toSketch = (e) => {
     toService()
-    if (pathname !== SKETCH_PATH) return
+    if (!document.getElementById(FORM_ID)) return
     e.preventDefault()
-    scrollToId('#skiss')
+    scrollToId(`#${FORM_ID}`)
   }
 
   return (
@@ -199,7 +232,7 @@ export function Nav({ t, sketch, services, lang, setLang }) {
         {banner && (
           <div className="st-banner">
             <div className="st-banner-inner">
-              <Link className="st-banner-link" to={SKETCH_PATH} onClick={toService} tabIndex={scrolled ? -1 : undefined}>
+              <Link className="st-banner-link" to={`${SKETCH_PATH}#skiss`} onClick={toService} tabIndex={scrolled ? -1 : undefined}>
                 <span>{sketch.banner}</span>
                 <span className="st-banner-go">
                   {sketch.bannerLink}
@@ -216,6 +249,7 @@ export function Nav({ t, sketch, services, lang, setLang }) {
               fit={0.47}
               dots={LOGO_DOTS}
               interactive={false}
+              color={inkRgb(theme)}
               className="st-logo-orb"
             />
           </a>
@@ -277,10 +311,22 @@ export function Nav({ t, sketch, services, lang, setLang }) {
                       )
                     })}
                   </ul>
-                  <ul className="st-menu-list">{serviceRows}</ul>
+                  <div className="st-panel-side">
+                    <ul className="st-menu-list">{panelRows}</ul>
+                    <Link className="st-link st-panel-sketch" to={`${SKETCH_PATH}#${FORM_ID}`} onClick={toSketch}>
+                      {sketch?.menuCta}
+                      <Arrow />
+                    </Link>
+                  </div>
                 </div>
               </div>
             </div>
+            <Link to="/priser" onClick={toService}>
+              {t.pricing}
+            </Link>
+            <Link to="/guider" onClick={toService}>
+              {t.guides}
+            </Link>
             {links.map(([id, label]) => (
               <a key={id} href={id} onClick={jump}>
                 {label}
@@ -297,8 +343,9 @@ export function Nav({ t, sketch, services, lang, setLang }) {
             >
               {sv ? 'EN' : 'SV'}
             </button>
-            <Link className="st-nav-cta" to={SKETCH_PATH} onClick={toSketch}>
-              {sketch?.cta || t.cta}
+            <ThemeSwitch sv={sv} />
+            <Link className="st-nav-cta" to={`${SKETCH_PATH}#${FORM_ID}`} onClick={toSketch}>
+              {sketch?.navCta || t.cta}
             </Link>
             <button
               type="button"
@@ -329,13 +376,19 @@ export function Nav({ t, sketch, services, lang, setLang }) {
               </summary>
               <ul className="st-menu-list">{serviceRows}</ul>
             </details>
+            <Link to="/priser" onClick={toService}>
+              {t.pricing}
+            </Link>
+            <Link to="/guider" onClick={toService}>
+              {t.guides}
+            </Link>
             {links.map(([id, label]) => (
               <a key={id} href={id} onClick={jump}>
                 {label}
               </a>
             ))}
-            <Link className="st-mobile-cta" to={SKETCH_PATH} onClick={toSketch}>
-              {sketch?.cta || t.cta}
+            <Link className="st-mobile-cta" to={`${SKETCH_PATH}#${FORM_ID}`} onClick={toSketch}>
+              {sketch?.navCta || t.cta}
             </Link>
           </nav>
         </div>
@@ -348,10 +401,17 @@ export function Nav({ t, sketch, services, lang, setLang }) {
 // ─── Contact: the dark band before the footer ────────────────────────────────
 // Sub-pages pass their own title and line; the homepage uses its own.
 // `sketch` adds the free sketch as the first way in, above the address.
-export function Contact({ t, label, title, body, sketch }) {
+export function Contact({ t, label, title, body, sketch, cta, compact = false }) {
   const { pathname } = useLocation()
+  // To the sketch form: on this page when it has one, else the skiss page.
+  const toForm = (e) => {
+    if (document.getElementById(FORM_ID)) {
+      e.preventDefault()
+      scrollToId(`#${FORM_ID}`)
+    } else if (pathname === '/') rememberScroll()
+  }
   return (
-    <section className="st-contact" id="contact">
+    <section className={`st-contact${compact ? ' st-contact--compact' : ''}`} id="contact">
       <div className="st-wrap">
         <p className="st-label">{label || t.contactLabel}</p>
         <h2 className="st-contact-title">{title || t.contactTitle}</h2>
@@ -359,10 +419,10 @@ export function Contact({ t, label, title, body, sketch }) {
         {sketch && (
           <Link
             className="st-btn st-btn--light st-contact-btn"
-            to={SKETCH_PATH}
-            onClick={pathname === '/' ? rememberScroll : undefined}
+            to={`${SKETCH_PATH}#${FORM_ID}`}
+            onClick={toForm}
           >
-            {sketch.cta}
+            {cta || sketch.cta}
             <Arrow />
           </Link>
         )}
@@ -377,6 +437,7 @@ export function Footer({ t, services, footer, lang, setLang }) {
   const f = t.foot
   const sv = lang === 'sv'
   const go = useGo()
+  const theme = useTheme()
   const { pathname } = useLocation()
   const jump = (e) => {
     e.preventDefault()
@@ -407,7 +468,7 @@ export function Footer({ t, services, footer, lang, setLang }) {
                 count={200}
                 fit={0.47}
                 dots={FOOT_DOTS}
-                color="255, 255, 255"
+                color={theme === 'dark' ? '17, 17, 16' : '255, 255, 255'}
                 alpha={FOOT_ALPHA}
                 interactive={false}
                 className="st-logo-orb"
@@ -425,6 +486,11 @@ export function Footer({ t, services, footer, lang, setLang }) {
                   </a>
                 </li>
               ))}
+              <li>
+                <Link to="/priser" onClick={away}>
+                  {f.pricing}
+                </Link>
+              </li>
               <li>
                 <Link to="/guider" onClick={away}>
                   {f.guides}

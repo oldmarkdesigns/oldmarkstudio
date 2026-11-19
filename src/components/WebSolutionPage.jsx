@@ -1,25 +1,26 @@
-import { Link } from 'react-router-dom'
-import { EMAIL, SKETCH_PATH, scrollToId, sentence } from '../home/siteUtils'
+import { FORM_ID, scrollToId, sentence } from '../home/siteUtils'
 import { Arrow } from '../home/site'
 import studioDesk from '../assets/work/studio-desk.webp'
-import { SubPage, PageHead, Section, RuleList, Rows, Promises, Compare, FounderNote, GuideLinks } from '../home/page'
+import { SketchSection } from './SketchPage'
+import { PricingCards } from './PricingPage'
+import { SubPage, PageHead, Section, Rows, Promises, Compare, FounderNote, GuideLinks } from '../home/page'
 
 const PRICING = 'pricing'
 
-// ─── An offer: name, terms, what it holds, and the way to ask for it ─────────
-function Plan({ offer, cta, ghost = false }) {
+// The buttons that ask for a sketch scroll to the form further down the page.
+function ToForm({ className, children }) {
   return (
-    <div className="st-plan">
-      <h3 className="st-plan-name">{offer.name}</h3>
-      <p className="st-plan-badge">{offer.badge}</p>
-      {offer.priceStatement && <p className="st-plan-price">{offer.priceStatement}</p>}
-      <p>{offer.desc}</p>
-      <RuleList items={offer.features} cols={1} />
-      <Link className={`st-btn${ghost ? ' st-btn--ghost' : ''}`} to={SKETCH_PATH}>
-        {cta}
-        <Arrow />
-      </Link>
-    </div>
+    <a
+      className={className}
+      href={`#${FORM_ID}`}
+      onClick={(e) => {
+        e.preventDefault()
+        scrollToId(`#${FORM_ID}`)
+      }}
+    >
+      {children}
+      <Arrow />
+    </a>
   )
 }
 
@@ -58,34 +59,22 @@ export default function WebSolutionPage({ t, lang = 'sv', setLang }) {
         <Rows items={w.included.map((x) => ({ title: x.title, body: x.desc }))} />
       </Section>
 
-      {/* The offer in short; the homepage carries the reasons for it. */}
-      <Section label={h.offerLabel} title={h.offerTitle}>
-        <p className="st-lede">{h.offerBody}</p>
-        <RuleList items={w.offer.features} />
-        <p className="st-plan-price">{h.offerPrice}</p>
-        <p>{h.oneOff}</p>
-        <div className="st-actions">
-          <Link className="st-btn" to={SKETCH_PATH}>
-            {t.sketch.cta}
-            <Arrow />
-          </Link>
+      <section className="st-section" id={PRICING}>
+        <div className="st-wrap">
+          <PricingCards
+            lang={lang}
+            more
+            head={
+              <>
+                <p className="st-label">{sentence(w.pricingLabel)}</p>
+                <h2 className="st-section-title">{w.pricingTitle}</h2>
+              </>
+            }
+          />
         </div>
-      </Section>
+      </section>
 
-      <Section id={PRICING} label={sentence(w.pricingLabel)} title={w.pricingTitle} intro={w.pricingSubtitle}>
-        <div className="st-plans">
-          <Plan offer={w.offer} cta={t.sketch.cta} />
-          <Plan offer={w.oneOff} cta={t.sketch.cta} ghost />
-        </div>
-        <div className="st-plan-hourly">
-          <h3 className="st-row-title">{w.hourly.title}</h3>
-          <p>{w.hourly.body}</p>
-          <a className="st-link" href={`mailto:${EMAIL}?subject=${encodeURIComponent(w.hourly.subject)}`}>
-            {w.hourly.cta}
-            <Arrow />
-          </a>
-        </div>
-      </Section>
+      <SketchSection s={t.sketch} />
 
       <Compare w={w} />
 

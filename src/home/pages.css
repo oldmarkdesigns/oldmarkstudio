@@ -7,44 +7,60 @@
   display: grid;
   justify-items: start;
   gap: 20px;
-  padding-top: calc(var(--nav-h) + clamp(24px, 4vh, 48px));
+  padding-top: calc(var(--nav-h) + clamp(8px, 1.5vh, 16px));
 }
 
-.st-back {
+/* Where the page sits: a quiet line above the label, close to the bar. */
+.st-crumbs ol {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 0;
+  font-size: 0.8125rem;
+  color: var(--ink-3);
+}
+
+.st-crumbs li {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  min-height: 44px;
-  margin-bottom: clamp(8px, 3vh, 32px);
-  font-size: 0.875rem;
+  min-width: 0;
+}
+
+.st-crumbs li + li::before {
+  content: '/';
+  margin: 0 10px;
+  color: var(--line-strong);
+}
+
+.st-crumbs a {
   color: var(--ink-2);
   transition: color 0.3s;
 }
 
-.st-back:hover {
+.st-crumbs a:hover {
   color: var(--ink);
 }
 
-.st-back svg {
-  transition: transform 0.5s var(--ease);
-}
-
-.st-back:hover svg {
-  transform: translateX(-4px);
+.st-crumbs [aria-current] {
+  overflow: hidden;
+  max-width: 32ch;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: var(--ink-3);
 }
 
 .st-page-title {
-  max-width: 16ch;
-  font-size: clamp(2.75rem, 6.2vw, 6rem);
-  line-height: 0.98;
-  letter-spacing: -0.05em;
+  max-width: 18ch;
+  font-size: clamp(2.25rem, 4.6vw, 4.5rem);
+  line-height: 1;
+  letter-spacing: -0.045em;
   text-wrap: balance;
 }
 
 .st-page-lede {
-  max-width: 30em;
-  font-size: clamp(1.25rem, 1.8vw, 1.625rem);
-  line-height: 1.35;
+  max-width: 32em;
+  font-size: clamp(1.0625rem, 1.35vw, 1.25rem);
+  line-height: 1.45;
   letter-spacing: -0.02em;
   color: var(--ink-2);
   text-wrap: pretty;
@@ -680,7 +696,7 @@
 
 .sk-error {
   font-size: 0.875rem;
-  color: #b3261e;
+  color: var(--error);
 }
 
 .sk-field input[type='text'],
@@ -713,7 +729,7 @@
 }
 
 .sk-field :is(input, select, textarea):hover {
-  border-color: rgba(29, 29, 27, 0.32);
+  border-color: var(--line-strong);
 }
 
 .sk-field :is(input, select, textarea):focus-visible {
@@ -723,7 +739,7 @@
 }
 
 .sk-field [aria-invalid='true'] {
-  border-color: #b3261e;
+  border-color: var(--error);
 }
 
 /* Choices as pills: the input hidden but focusable, the pill showing its state. */
@@ -763,7 +779,7 @@
 
 .sk-choice input:checked + span {
   background: var(--ink);
-  color: #ffffff;
+  color: var(--on-ink);
   box-shadow: none;
 }
 
@@ -773,7 +789,7 @@
 }
 
 fieldset[aria-invalid='true'] .sk-choice span {
-  box-shadow: inset 0 0 0 1px #b3261e;
+  box-shadow: inset 0 0 0 1px var(--error);
 }
 
 .sk-nav {
@@ -900,4 +916,491 @@ fieldset[aria-invalid='true'] .sk-choice span {
   margin-top: 8px;
   padding-top: 0;
   border-top: 0;
+}
+
+/* ─── Skiss: the photo, then the four steps as ruled rows ────────────────── */
+/* The site's own language: the image shown as material, numbered rows between
+   thin rules, quiet grey for what is secondary. */
+.sk-how {
+  display: grid;
+  gap: 20px;
+}
+
+.sk-how-photo {
+  overflow: hidden;
+  aspect-ratio: 16 / 10;
+  background: var(--plate);
+}
+
+.sk-how-photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 40% 62%;
+}
+
+.sk-how-steps {
+  border-top: 1px solid var(--line);
+}
+
+.sk-how-steps li {
+  display: grid;
+  grid-template-columns: 2.25rem minmax(0, 1fr);
+  gap: 4px 12px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.sk-how-num {
+  padding-top: 0.15em;
+  font-size: 0.8125rem;
+  color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+}
+
+.sk-how-title {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 1.0625rem;
+  font-weight: inherit;
+  line-height: 1.3;
+  letter-spacing: -0.015em;
+}
+
+.sk-how-when {
+  flex: none;
+  font-size: 0.8125rem;
+  letter-spacing: 0;
+  color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+}
+
+.sk-how-text p {
+  margin-top: 4px;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+
+/* The skiss lede: lighter, with the two promises (time and days) in ink. */
+.sk-lede {
+  font-weight: 300;
+}
+
+.sk-lede strong {
+  font-weight: 400;
+  color: var(--ink);
+}
+
+/* Dark mode: the select's arrow in light ink. */
+:root[data-theme='dark'] .sk-field select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23ececE8' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+}
+
+/* ─── Pricing: Liten, Lagom, Engång ───────────────────────────────────────── */
+/* Three compact cards on a quiet tray, the contract toggle above them. */
+.pr {
+  display: grid;
+  gap: 28px;
+}
+
+.pr-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px 32px;
+}
+
+.pr-head-text:empty {
+  display: none;
+}
+
+.pr-toggle {
+  position: relative;
+  isolation: isolate;
+  display: inline-flex;
+  padding: 4px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+}
+
+.pr-toggle-btn {
+  position: relative;
+  min-height: 40px;
+  padding: 0 18px;
+  border-radius: 999px;
+  font-size: 0.875rem;
+  color: var(--ink-2);
+  transition: color 0.4s var(--ease);
+}
+
+.pr-toggle-btn:hover {
+  color: var(--ink);
+}
+
+.pr-toggle-btn[aria-checked='true'] {
+  color: var(--on-ink);
+}
+
+/* Before the pill is measured, the chosen button has its own background. */
+.pr-toggle:not(.is-ready) .pr-toggle-btn[aria-checked='true'] {
+  background: var(--ink);
+}
+
+.pr-toggle-pill {
+  position: absolute;
+  top: 4px;
+  bottom: 4px;
+  left: 0;
+  z-index: -1;
+  width: var(--pill-w, 0);
+  border-radius: 999px;
+  background: var(--ink);
+  opacity: 0;
+  transform: translateX(var(--pill-x, 0));
+  transition:
+    transform 0.5s var(--ease),
+    width 0.5s var(--ease);
+}
+
+.pr-toggle.is-ready .pr-toggle-pill {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pr-toggle-pill {
+    transition: none;
+  }
+}
+
+.pr-toggle-btn:focus-visible {
+  outline: 2px solid var(--ink-3);
+  outline-offset: 3px;
+}
+
+.pr-cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  padding: 12px;
+  border-radius: 20px;
+  background: var(--plate);
+}
+
+.pr-card {
+  display: flex;
+  flex-direction: column;
+  padding: clamp(22px, 2.2vw, 30px);
+  border-radius: 14px;
+  background: var(--bg);
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+
+.pr-card--pop {
+  box-shadow: inset 0 0 0 1.5px var(--ink);
+}
+
+.pr-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.pr-name {
+  font-size: 1.375rem;
+  letter-spacing: -0.025em;
+}
+
+.pr-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--on-ink);
+  font-size: 0.75rem;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.pr-for {
+  min-height: 3em;
+  margin-top: 8px;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+
+.pr-price {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 2px 8px;
+  margin-top: 20px;
+}
+
+.pr-amount {
+  font-size: clamp(2rem, 3vw, 2.625rem);
+  line-height: 1;
+  letter-spacing: -0.04em;
+  font-variant-numeric: tabular-nums;
+}
+
+.pr-unit {
+  font-size: 0.875rem;
+  color: var(--ink-2);
+}
+
+.pr-fee {
+  min-height: 1.5em;
+  margin-top: 8px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--line);
+  font-size: 0.8125rem;
+  color: var(--ink-3);
+}
+
+.pr-lead {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 18px;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.pr-items {
+  display: grid;
+  gap: 8px;
+  margin: 12px 0 24px;
+  font-size: 0.9375rem;
+  line-height: 1.4;
+}
+
+.pr-items li {
+  position: relative;
+  padding-left: 22px;
+}
+
+.pr-items li::before {
+  content: '';
+  position: absolute;
+  top: 0.55em;
+  left: 4px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--ink-3);
+}
+
+.pr-card--pop .pr-items li::before {
+  background: var(--ink);
+}
+
+.pr-cta {
+  justify-content: center;
+  width: 100%;
+  min-height: 48px;
+  margin-top: auto;
+}
+
+.pr-foot {
+  display: grid;
+  gap: 10px;
+  justify-items: start;
+  max-width: 48em;
+  font-size: 0.9375rem;
+  color: var(--ink-2);
+}
+
+.pr-foot strong {
+  font-weight: 500;
+  color: var(--ink);
+}
+
+@media (max-width: 900px) {
+  .pr-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .pr-for,
+  .pr-fee {
+    min-height: 0;
+  }
+}
+
+/* ─── Side by side ─────────────────────────────────────────────────────────── */
+.pr-compare-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px 40px;
+  margin-bottom: 40px;
+}
+
+.pr-table-wrap {
+  overflow-x: auto;
+  margin-inline: calc(var(--gutter) * -1);
+  padding-inline: var(--gutter);
+}
+
+.pr-table {
+  width: 100%;
+  min-width: 720px;
+  border-collapse: collapse;
+  table-layout: fixed;
+  font-size: 0.9375rem;
+}
+
+.pr-table thead th {
+  padding: 20px 16px 20px;
+  text-align: left;
+  vertical-align: bottom;
+  font-weight: inherit;
+}
+
+.pr-table thead td {
+  width: 28%;
+}
+
+.pr-table-name {
+  display: block;
+  margin-top: 8px;
+  font-size: 1.25rem;
+  letter-spacing: -0.02em;
+}
+
+.pr-table-price {
+  display: block;
+  margin-top: 4px;
+  font-size: 1.125rem;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+
+.pr-table-price small {
+  font-size: 0.75rem;
+  color: var(--ink-3);
+}
+
+.pr-table .is-pop {
+  background: var(--plate);
+}
+
+.pr-table thead th.is-pop {
+  border-radius: 14px 14px 0 0;
+}
+
+.pr-table tbody th,
+.pr-table tbody td {
+  padding: 12px 16px;
+  border-top: 1px solid var(--line);
+  text-align: left;
+  vertical-align: top;
+  line-height: 1.4;
+}
+
+.pr-table tbody th {
+  padding-left: 0;
+  font-weight: inherit;
+  color: var(--ink-2);
+}
+
+.pr-table .pr-group :is(th, td) {
+  padding: 28px 0 10px;
+  border-top: 0;
+  font-size: 0.8125rem;
+  color: var(--ink-3);
+}
+
+.pr-table tbody:last-child tr:last-child .is-pop {
+  border-radius: 0 0 14px 14px;
+}
+
+/* On narrow screens the table scrolls sideways; the row labels stay put. */
+@media (max-width: 900px) {
+  .pr-table thead td,
+  .pr-table tbody th {
+    position: sticky;
+    left: 0;
+    z-index: 1;
+    background: var(--bg);
+  }
+
+  .pr-table thead td {
+    width: 150px;
+  }
+
+  .pr-table {
+    min-width: 640px;
+  }
+
+  .pr-table tbody th {
+    padding-right: 12px;
+  }
+}
+
+.pr-yes {
+  display: inline-grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--ink);
+  color: var(--on-ink);
+}
+
+.pr-no {
+  color: var(--ink-3);
+}
+
+.pr-table-vat {
+  margin-top: 16px;
+}
+
+/* ─── Add-ons ──────────────────────────────────────────────────────────────── */
+.pr-addons {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.pr-addons li {
+  display: grid;
+  align-content: start;
+  gap: 10px;
+  padding: 22px;
+  border-radius: 14px;
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+
+.pr-addons p {
+  font-size: 0.9375rem;
+  color: var(--ink-2);
+}
+
+.pr-addon-top {
+  display: grid;
+  gap: 4px;
+}
+
+.pr-addon-price {
+  color: var(--ink) !important;
+  font-variant-numeric: tabular-nums;
+}
+
+.pr-addon-price span {
+  font-size: 0.8125rem;
+  color: var(--ink-3);
+}
+
+@media (max-width: 700px) {
+  .pr-addons {
+    grid-template-columns: 1fr;
+  }
 }

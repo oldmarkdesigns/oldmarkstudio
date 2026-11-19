@@ -4,6 +4,7 @@ import samuel from '../assets/work/samuel.webp'
 import studioDesk from '../assets/work/studio-desk.webp'
 import appPhone from '../assets/work/app-phone-portrait.webp'
 import DotGlobe from './DotGlobe'
+import { useTheme, inkRgb } from './theme'
 import PixelPortrait from './PixelPortrait'
 import no20Cover from '../assets/work/cases/no20-tablet.webp'
 import sea4youCover from '../assets/work/cases/sea4you-macbook.webp'
@@ -32,6 +33,7 @@ const COVERS = {
 
 // ─── Hero: the sentence and the offer on the left, the dot globe on the right ─
 function Hero({ t, founder }) {
+  const theme = useTheme()
   return (
     <section className="st-hero" id="top">
       <div className="st-wrap st-hero-grid">
@@ -55,7 +57,7 @@ function Hero({ t, founder }) {
           </div>
         </div>
         <div className="st-hero-orb">
-          <DotGlobe />
+          <DotGlobe color={inkRgb(theme)} />
         </div>
       </div>
       <Studio t={t} founder={founder} />

@@ -4,6 +4,17 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#ffffff" />
+    <script>
+      // The saved theme, or the system's, before the first paint.
+      (function () {
+        try {
+          var t = localStorage.getItem('theme')
+          if (t !== 'dark' && t !== 'light') t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+          document.documentElement.dataset.theme = t
+          if (t === 'dark') document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0e0e0d')
+        } catch (e) {}
+      })()
+    </script>
     <meta name="author" content="Samuel Oldmark" />
     <meta http-equiv="content-language" content="sv" />
     <link rel="icon" href="/favicon.ico" sizes="48x48" />

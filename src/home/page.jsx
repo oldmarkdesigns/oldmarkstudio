@@ -1,10 +1,13 @@
-import { useEffect } from 'react'
+import { createContext, useContext, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import founderPhoto from '../assets/work/samuel-bw-sm.webp'
 import { guides } from '../data/guides'
-import { siteServices, useSmoothScroll, useReveal, useBackHome } from './siteUtils'
+import { siteServices, useSmoothScroll, useReveal, scrollToId } from './siteUtils'
 import { Arrow, Nav, Contact, Footer } from './site'
 import './pages.css'
+
+// The page's language, for parts that build their own words (the breadcrumbs).
+const LangContext = createContext('sv')
 
 // The frame and the building blocks for every page past the homepage: the same
 // bar, contact band and footer, the same paper, type and spacing. A page opens
@@ -17,7 +20,7 @@ import './pages.css'
 // body }, the label optional);
 // leave it out and the band is not shown.
 export function SubPage({ t, lang, setLang, contact, children }) {
-  const { pathname } = useLocation()
+  const { pathname, hash } = useLocation()
   const h = t.home
   const services = siteServices(t)
 
@@ -25,15 +28,21 @@ export function SubPage({ t, lang, setLang, contact, children }) {
     document.documentElement.lang = lang
   }, [lang])
 
-  // A new page starts at its top.
+  // A new page starts at its top, then glides to its anchor when the link
+  // named one (the banner opens the skiss form this way).
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'instant' })
+    if (!hash) return
+    const id = setTimeout(() => scrollToId(hash), 350)
+    return () => clearTimeout(id)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname])
 
   useSmoothScroll()
   useReveal(pathname)
 
   return (
+    <LangContext.Provider value={lang}>
     <div className="st st-sub">
       <div id="st-top-sentinel" className="st-sentinel" aria-hidden="true" />
       <Nav t={h.nav} sketch={t.sketch} services={services} lang={lang} setLang={setLang} />
@@ -44,29 +53,93 @@ export function SubPage({ t, lang, setLang, contact, children }) {
           label={contact.label}
           title={contact.title}
           body={contact.body}
+          compact={contact.compact}
+          cta={contact.cta}
           sketch={contact.noSketch ? null : t.sketch}
         />
       )}
       <Footer t={h} services={services} footer={t.footer} lang={lang} setLang={setLang} />
     </div>
+    </LangContext.Provider>
   )
 }
 
 // ─── The way back to the homepage, where the visitor left it ─────────────────
-export function BackLink({ children }) {
-  const back = useBackHome()
+// ─── Breadcrumbs ─────────────────────────────────────────────────────────────
+// Where the page sits, from the homepage down, built from the address. The last
+// step is the page itself and is not a link; a guide names itself by its title.
+const CRUMBS = {
+  sv: {
+    home: 'Start',
+    work: 'Arbete',
+    '/webbutveckling': 'Webbutveckling',
+    '/apputveckling': 'Apputveckling',
+    '/gratis-skiss': 'Gratis skiss',
+    '/priser': 'Priser',
+    '/seo-och-innehall': 'SEO och innehåll',
+    '/ai-automation': 'AI-automation',
+    '/drift-och-support': 'Drift och support',
+    '/guider': 'Guider',
+    '/integritetspolicy': 'Integritetspolicy',
+  },
+  en: {
+    home: 'Home',
+    work: 'Work',
+    '/webbutveckling': 'Web development',
+    '/apputveckling': 'App development',
+    '/gratis-skiss': 'Free sketch',
+    '/priser': 'Pricing',
+    '/seo-och-innehall': 'SEO and content',
+    '/ai-automation': 'AI automation',
+    '/drift-och-support': 'Hosting and support',
+    '/guider': 'Guides',
+    '/integritetspolicy': 'Privacy policy',
+  },
+}
+const PROJECTS = { no20: 'No20', sea4you: 'Sea4You', hemma: 'Hemma' }
+
+function trail(pathname, words, title) {
+  const path = pathname.replace(/\/+$/, '')
+  const steps = [{ to: '/', name: words.home }]
+  const [, first, second] = path.split('/')
+  if (first === 'projekt' && second) {
+    steps.push({ to: '/#work', name: words.work })
+    steps.push({ name: PROJECTS[second] || title })
+  } else if (first === 'guider' && second) {
+    steps.push({ to: '/guider', name: words['/guider'] })
+    steps.push({ name: title })
+  } else {
+    steps.push({ name: words[path] || title })
+  }
+  return steps
+}
+
+export function Breadcrumbs({ title }) {
+  const { pathname } = useLocation()
+  const lang = useContext(LangContext)
+  const words = CRUMBS[lang] || CRUMBS.sv
+  const steps = trail(pathname, words, title)
   return (
-    <a className="st-back" href="/" onClick={back}>
-      <Arrow back />
-      {children}
-    </a>
+    <nav className="st-crumbs" aria-label={lang === 'sv' ? 'Brödsmulor' : 'Breadcrumb'}>
+      <ol>
+        {steps.map((step, i) => (
+          <li key={i}>
+            {step.to ? (
+              <Link to={step.to}>{step.name}</Link>
+            ) : (
+              <span aria-current="page">{step.name}</span>
+            )}
+          </li>
+        ))}
+      </ol>
+    </nav>
   )
 }
 
 // ─── Page head ───────────────────────────────────────────────────────────────
 // `media` ({ src, alt, position }) puts an image on the right, level with the
 // title; the words keep the left column.
-export function PageHead({ back, label, title, lede, media, children }) {
+export function PageHead({ back, label, title, lede, media, aside, children }) {
   const text = (
     <>
       {label && <p className="st-label">{label}</p>}
@@ -75,26 +148,30 @@ export function PageHead({ back, label, title, lede, media, children }) {
       {children}
     </>
   )
-  if (!media) {
+  if (!media && !aside) {
     return (
       <header className="st-wrap st-page-head">
-        <BackLink>{back}</BackLink>
+        <Breadcrumbs title={title} />
         {text}
       </header>
     )
   }
   return (
     <header className="st-wrap st-page-head st-page-head--media">
-      <BackLink>{back}</BackLink>
+      <Breadcrumbs title={title} />
       <div className="st-page-head-row">
         <div className="st-page-head-text">{text}</div>
-        <figure className="st-page-head-media">
-          <img
-            src={media.src}
-            alt={media.alt}
-            style={media.position ? { objectPosition: media.position } : undefined}
-          />
-        </figure>
+        {media ? (
+          <figure className="st-page-head-media">
+            <img
+              src={media.src}
+              alt={media.alt}
+              style={media.position ? { objectPosition: media.position } : undefined}
+            />
+          </figure>
+        ) : (
+          aside
+        )}
       </div>
     </header>
   )

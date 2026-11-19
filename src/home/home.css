@@ -11,6 +11,19 @@
   --ink-2: #5f5f5b;
   --ink-3: #8a8a85;
   --line: rgba(29, 29, 27, 0.12);
+  --line-strong: rgba(29, 29, 27, 0.32);
+  /* Text on an ink button, the button's hover, the bar's glass, and the dark
+     bands (banner, contact, footer). */
+  --on-ink: #ffffff;
+  --ink-hover: #3a3a37;
+  --glass: rgba(255, 255, 255, 0.96);
+  --band: #111110;
+  /* Text on the bands, as "r, g, b" so it can take an alpha. */
+  --band-ink: 255, 255, 255;
+  /* Fixed ink for text on surfaces that are white in both themes (the light
+     button, the arrows on photo cards). Never overridden by dark mode. */
+  --ink-fixed: #1d1d1b;
+  --error: #b3261e;
   --gutter: clamp(20px, 3.2vw, 48px);
   --nav-h: 80px;
   /* The one gap used above and below every section divider. */
@@ -202,7 +215,7 @@ html:has(.st) {
   position: absolute;
   inset: 0;
   z-index: -1;
-  background: rgba(255, 255, 255, 0.96);
+  background: var(--glass);
   backdrop-filter: blur(20px) saturate(140%);
   -webkit-backdrop-filter: blur(20px) saturate(140%);
   border-bottom: 1px solid var(--line);
@@ -394,7 +407,7 @@ html:has(.st) {
   height: 40px;
   border-radius: 50%;
   background: #ffffff;
-  color: var(--ink);
+  color: var(--ink-fixed);
   transition: transform 0.3s var(--ease);
 }
 
@@ -404,6 +417,19 @@ html:has(.st) {
 
 /* In the panel the services sit as one group, centred on the height of the
    cards beside them. */
+.st-panel-side {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+/* The free sketch, as a link under the services. */
+.st-panel-sketch {
+  font-size: 0.9375rem;
+}
+
 .st-panel .st-menu-list {
   display: flex;
   flex-direction: column;
@@ -475,7 +501,7 @@ html:has(.st) {
   padding: 0 20px;
   border-radius: 999px;
   background: var(--ink);
-  color: #ffffff;
+  color: var(--on-ink);
   font-size: 0.875rem;
   font-weight: 500;
   white-space: nowrap;
@@ -483,7 +509,7 @@ html:has(.st) {
 }
 
 .st-nav-cta:hover {
-  background: #3a3a37;
+  background: var(--ink-hover);
 }
 
 /* Two strokes that meet and cross. */
@@ -610,7 +636,7 @@ html:has(.st) {
   border: 0;
   border-radius: 999px;
   background: var(--ink);
-  color: #ffffff;
+  color: var(--on-ink);
   font-size: 0.9375rem;
   letter-spacing: 0;
 }
@@ -970,7 +996,7 @@ html:has(.st) {
   padding: 0 26px;
   border-radius: 999px;
   background: var(--ink);
-  color: #ffffff;
+  color: var(--on-ink);
   font-size: 0.9375rem;
   font-weight: 500;
   white-space: nowrap;
@@ -978,7 +1004,7 @@ html:has(.st) {
 }
 
 .st-btn:hover {
-  background: #3a3a37;
+  background: var(--ink-hover);
 }
 
 .st-btn svg {
@@ -1251,13 +1277,13 @@ html:has(.st) {
 
 /* ─── Contact ──────────────────────────────────────────────────────────────── */
 .st-contact {
-  background: #111110;
-  color: #ffffff;
+  background: var(--band);
+  color: rgb(var(--band-ink));
   padding-block: var(--space);
 }
 
 .st-contact .st-label {
-  color: rgba(255, 255, 255, 0.55);
+  color: rgba(var(--band-ink), 0.55);
 }
 
 .st-contact-title {
@@ -1268,9 +1294,17 @@ html:has(.st) {
   max-width: 12ch;
 }
 
+/* A quieter band, for pages that end in a form of their own. */
+.st-contact--compact .st-contact-title {
+  max-width: 18ch;
+  font-size: clamp(2rem, 4.2vw, 3.75rem);
+  line-height: 1.02;
+  letter-spacing: -0.04em;
+}
+
 .st-contact-body {
   margin: 28px 0 44px;
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(var(--band-ink), 0.7);
   font-size: 1.125rem;
 }
 
@@ -1283,18 +1317,18 @@ html:has(.st) {
 .st-mail--lg button {
   font-size: 0.875rem;
   letter-spacing: 0;
-  color: rgba(255, 255, 255, 0.55);
+  color: rgba(var(--band-ink), 0.55);
 }
 
 .st-mail--lg button:hover {
-  color: #ffffff;
+  color: rgb(var(--band-ink));
 }
 
 /* ─── Footer ───────────────────────────────────────────────────────────────── */
 .st-footer {
-  background: #111110;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  color: rgba(255, 255, 255, 0.72);
+  background: var(--band);
+  border-top: 1px solid rgba(var(--band-ink), 0.1);
+  color: rgba(var(--band-ink), 0.72);
   padding-block: clamp(64px, 10vh, 112px) 28px;
   font-size: 0.9375rem;
 }
@@ -1306,7 +1340,7 @@ html:has(.st) {
 
 .st-footer a:hover,
 .st-footer button:hover {
-  color: #ffffff;
+  color: rgb(var(--band-ink));
 }
 
 .st-footer-grid {
@@ -1318,13 +1352,13 @@ html:has(.st) {
 .st-footer-mark {
   align-self: start;
   font-size: 2rem;
-  color: #ffffff;
+  color: rgb(var(--band-ink));
 }
 
 .st-footer-head {
   margin-bottom: 16px;
   font-size: 0.8125rem;
-  color: rgba(255, 255, 255, 0.42);
+  color: rgba(var(--band-ink), 0.42);
 }
 
 .st-footer ul {
@@ -1340,9 +1374,9 @@ html:has(.st) {
   gap: 12px 24px;
   margin-top: clamp(64px, 10vh, 112px);
   padding-top: 20px;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid rgba(var(--band-ink), 0.1);
   font-size: 0.8125rem;
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(var(--band-ink), 0.5);
 }
 
 .st-footer-lang {
@@ -1352,11 +1386,11 @@ html:has(.st) {
 
 .st-footer-lang button {
   min-height: 44px;
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(var(--band-ink), 0.5);
 }
 
 .st-footer-lang button[aria-pressed='true'] {
-  color: #ffffff;
+  color: rgb(var(--band-ink));
 }
 
 @media (max-width: 1000px) {
@@ -1422,7 +1456,7 @@ html:has(.st) {
 
 /* ─── Free sketch banner ───────────────────────────────────────────────────── */
 /* A thin dark line above the bar, in the fixed header. It folds away (rows
-   1fr → 0fr) once the page scrolls or a menu opens; .st-banner-space holds
+   1fr → 0fr) once the page scrolls or the mobile menu opens; .st-banner-space holds
    its height in the page so nothing starts under it at the top. */
 .st {
   --banner-h: 40px;
@@ -1435,8 +1469,8 @@ html:has(.st) {
 .st-banner {
   display: grid;
   grid-template-rows: 1fr;
-  background: #111110;
-  color: #ffffff;
+  background: var(--band);
+  color: rgb(var(--band-ink));
   transition: grid-template-rows 0.3s var(--ease);
 }
 
@@ -1445,8 +1479,9 @@ html:has(.st) {
   overflow: hidden;
 }
 
+/* The services dropdown keeps it; only the full-screen mobile menu folds it. */
 .st-nav.is-scrolled .st-banner,
-.st-nav.is-open .st-banner {
+.st-nav.is-mobile-open .st-banner {
   grid-template-rows: 0fr;
 }
 
@@ -1465,7 +1500,7 @@ html:has(.st) {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  color: rgba(255, 255, 255, 0.65);
+  color: rgba(var(--band-ink), 0.65);
   white-space: nowrap;
   transition: color 0.3s;
 }
@@ -1475,7 +1510,7 @@ html:has(.st) {
 }
 
 .st-banner-link:hover .st-banner-go {
-  color: #ffffff;
+  color: rgb(var(--band-ink));
 }
 
 .st-banner-link:hover .st-banner-go svg {
@@ -1490,12 +1525,12 @@ html:has(.st) {
 
 /* ─── Light button, for the dark contact band ─────────────────────────────── */
 .st-btn--light {
-  background: #ffffff;
-  color: var(--ink);
+  background: rgb(var(--band-ink));
+  color: var(--band);
 }
 
 .st-btn--light:hover {
-  background: #e6e6e2;
+  background: rgba(var(--band-ink), 0.85);
 }
 
 .st-contact-btn {
@@ -1531,10 +1566,10 @@ html:has(.st) {
   z-index: -1;
   background: radial-gradient(
     ellipse 32% 160% at 50% 50%,
-    rgba(255, 255, 255, 0.16) 0%,
-    rgba(255, 255, 255, 0.07) 40%,
-    rgba(255, 255, 255, 0.02) 65%,
-    rgba(255, 255, 255, 0) 85%
+    rgba(var(--band-ink), 0.16) 0%,
+    rgba(var(--band-ink), 0.07) 40%,
+    rgba(var(--band-ink), 0.02) 65%,
+    rgba(var(--band-ink), 0) 85%
   );
   opacity: 0;
   transform: scale(0.85);
@@ -1568,4 +1603,92 @@ html:has(.st) {
     display: none;
     animation: none;
   }
+}
+
+/* ─── Dark mode ────────────────────────────────────────────────────────────── */
+/* The same tokens, turned over: warm near-black paper and soft white ink. The
+   bands that are already dark (banner, contact, footer) lift a step so they
+   still read as their own surface. */
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  background: #0e0e0d;
+}
+
+:root[data-theme='dark'] body {
+  background: #0e0e0d;
+  color: #ececE8;
+}
+
+:root[data-theme='dark'] .st {
+  --bg: #0e0e0d;
+  --plate: #1a1a18;
+  --ink: #ececE8;
+  --ink-2: #a8a8a2;
+  --ink-3: #7a7a74;
+  --line: rgba(236, 236, 232, 0.12);
+  --line-strong: rgba(236, 236, 232, 0.3);
+  --on-ink: #111110;
+  --ink-hover: #c8c8c3;
+  --glass: rgba(14, 14, 13, 0.88);
+  /* The bands that are dark in light mode turn light here. */
+  --band: #ececE8;
+  --band-ink: 17, 17, 16;
+  --error: #ff8a80;
+}
+
+:root[data-theme='dark'] .st-panel {
+  box-shadow: 0 24px 48px -24px rgba(0, 0, 0, 0.7);
+  border-top: 1px solid var(--line);
+}
+
+:root[data-theme='dark'] .st-scrim {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+/* ─── Theme button: a circle the height of the call to action ───────────── */
+.st-theme {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+/* On hover the icon comes alive a little: the sun turns and drifts, the moon
+   tilts. Long, eased transitions so it settles rather than snaps. */
+.st-theme svg {
+  transition: transform 0.9s var(--ease);
+  will-change: transform;
+}
+
+.st-theme:hover .st-theme-sun {
+  transform: translate(0.5px, -1px) rotate(45deg) scale(1.06);
+}
+
+.st-theme:hover .st-theme-moon {
+  transform: rotate(-22deg) translateY(-0.5px);
+}
+
+.st-theme:active svg {
+  transition-duration: 0.3s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .st-theme svg {
+    transition: none;
+  }
+  .st-theme:hover svg {
+    transform: none;
+  }
+}
+
+.st-theme:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
 }

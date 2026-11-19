@@ -1,5 +1,6 @@
 import translations from './translations'
 import { guides } from './data/guides'
+import { services } from './data/services'
 
 // Search and sharing metadata for every route: the title and description
 // search results show, the image link previews show, and the structured data
@@ -120,15 +121,21 @@ const projectLd = (path, name, description) => [
 const WEB_OFFERS = [
   {
     '@type': 'Offer',
-    name: 'Hemsida som månadsabonnemang',
+    name: 'Liten: hemsida som månadsabonnemang',
     priceCurrency: 'SEK',
-    priceSpecification: { '@type': 'UnitPriceSpecification', minPrice: 1495, priceCurrency: 'SEK', unitCode: 'MON' },
+    priceSpecification: { '@type': 'UnitPriceSpecification', price: 1495, priceCurrency: 'SEK', unitCode: 'MON', valueAddedTaxIncluded: false },
+  },
+  {
+    '@type': 'Offer',
+    name: 'Lagom: hemsida som månadsabonnemang',
+    priceCurrency: 'SEK',
+    priceSpecification: { '@type': 'UnitPriceSpecification', price: 2495, priceCurrency: 'SEK', unitCode: 'MON', valueAddedTaxIncluded: false },
   },
   {
     '@type': 'Offer',
     name: 'Ny hemsida som engångsprojekt',
     priceCurrency: 'SEK',
-    priceSpecification: { '@type': 'PriceSpecification', minPrice: 19900, priceCurrency: 'SEK' },
+    priceSpecification: { '@type': 'PriceSpecification', minPrice: 19900, maxPrice: 49900, priceCurrency: 'SEK', valueAddedTaxIncluded: false },
   },
 ]
 
@@ -154,6 +161,12 @@ export const routes = [
     jsonLd: serviceLd('/apputveckling', 'Apputveckling', 'Native iPhone-appar och webbappar.', 'Apputveckling', ['App-utveckling', 'iPhone-appar', 'Webbappar']),
   },
   {
+    path: '/priser',
+    title: title('Priser och paket för hemsidor – från 1 495 kr/mån'),
+    description: 'Vad kostar en hemsida? Liten från 1 495 kr/mån, Lagom 2 495 kr/mån eller engångsprojekt 19 900–49 900 kr. Jämför paketen, se vad som ingår och vilka tillägg som finns.',
+    jsonLd: serviceLd('/priser', 'Priser och paket', 'Paketpriser för hemsidor: två månadspaket och ett engångsalternativ.', 'Webbutveckling', ['Pris hemsida', 'Hemsida pris'], WEB_OFFERS),
+  },
+  {
     path: '/gratis-skiss',
     title: title('Gratis skiss av din nya hemsida inom 3 arbetsdagar'),
     description: 'Se hur din nya hemsida kan se ut innan du bestämmer dig. Ett samtal på 20 minuter och en gratis skiss inom 3 arbetsdagar, utan krav på att gå vidare. Webbdesigner i Stockholm.',
@@ -161,6 +174,12 @@ export const routes = [
       { '@type': 'Offer', name: 'Gratis skiss', price: 0, priceCurrency: 'SEK' },
     ]),
   },
+  ...services.map((x) => ({
+    path: `/${x.slug}`,
+    title: title(x.sv.seoTitle),
+    description: x.sv.seoDescription,
+    jsonLd: serviceLd(`/${x.slug}`, x.sv.title, x.sv.lede, x.sv.title),
+  })),
   ...[
     { slug: 'no20', image: '/og/no20.jpg' },
     { slug: 'sea4you', image: '/og/sea4you.jpg' },
