@@ -5,7 +5,7 @@ import { useSyncExternalStore } from 'react'
 // flashes the wrong colours; this keeps React and the saved choice in step.
 
 const listeners = new Set()
-const BG = { light: '#ffffff', dark: '#0e0e0d' }
+const BG = { light: '#ffffff', dark: '#000000' }
 
 const read = () => (typeof document !== 'undefined' && document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light')
 

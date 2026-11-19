@@ -23,6 +23,9 @@
   /* Fixed ink for text on surfaces that are white in both themes (the light
      button, the arrows on photo cards). Never overridden by dark mode. */
   --ink-fixed: #1d1d1b;
+  /* The work and guide cards: near-black on the light page, a step above the
+     black page in dark mode. */
+  --case-bg: #080808;
   --error: #b3261e;
   --gutter: clamp(20px, 3.2vw, 48px);
   --nav-h: 80px;
@@ -130,19 +133,23 @@ html:has(.st) {
   max-width: 40em;
 }
 
+/* Text links: a short underline under the start of the words, which runs
+   out under the whole link, arrow and all, on hover. */
 .st-link,
 .st-hero-foot p a {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  border-bottom: 1px solid currentColor;
-  padding-bottom: 2px;
-  transition: opacity 0.3s;
+  padding-bottom: 3px;
+  background: linear-gradient(currentColor, currentColor) 0 100% / 25% 1px no-repeat;
+  transition: background-size 0.5s var(--ease);
 }
 
 .st-link:hover,
-.st-hero-foot p a:hover {
-  opacity: 0.6;
+.st-link:focus-visible,
+.st-hero-foot p a:hover,
+.st-hero-foot p a:focus-visible {
+  background-size: 100% 1px;
 }
 
 .st-split {
@@ -794,8 +801,10 @@ html:has(.st) {
 }
 
 /* ─── Work ──────────────────────────────────────────────────────────────────
-   Equal cards on a rail: three across on wide screens, two on tablets, one and
-   a peek on phones. Each cover is the project's logo on its brand colour. */
+   A stack of dark case cards; the photos bring the colour. The stage sticks under
+   the bar while the section scrolls by; Home.jsx slides each card in over the
+   last and steps the ones beneath back. Until then (no script, reduced
+   motion) the cards follow one another with a gap. */
 .st-work {
   margin-top: var(--space);
   padding-top: var(--space);
@@ -807,123 +816,354 @@ html:has(.st) {
   justify-content: space-between;
   align-items: center;
   min-height: 44px;
-  margin-bottom: 48px;
+  margin-bottom: 40px;
 }
 
-.st-rail-nav {
-  display: flex;
-  gap: 8px;
+.st-stack {
+  --stage-h: min(640px, calc(100svh - var(--nav-h) - 96px));
+  --peek-room: 32px;
 }
 
-.st-rail-nav button {
+.st-stack-stage {
   display: grid;
-  place-items: center;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  box-shadow: inset 0 0 0 1px var(--line);
-  transition: box-shadow 0.3s, opacity 0.3s;
+  gap: 16px;
 }
 
-.st-rail-nav button:hover:not(:disabled) {
-  box-shadow: inset 0 0 0 1px var(--ink);
+.st-stack.is-stacked {
+  /* One stage high, plus most of a screen per card that has to come in. */
+  height: calc(var(--stage-h) + var(--peek-room) + (var(--cases) - 1) * 75svh);
 }
 
-.st-rail-nav button:disabled {
-  opacity: 0.3;
-  cursor: default;
-}
-
-.st-rail {
-  --cols: 3;
-  display: flex;
-  gap: clamp(16px, 2vw, 32px);
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  scrollbar-width: none;
-}
-
-.st-rail::-webkit-scrollbar {
-  display: none;
-}
-
-.st-rail li {
-  flex: 0 0 calc((100% - (var(--cols) - 1) * clamp(16px, 2vw, 32px)) / var(--cols));
-  scroll-snap-align: start;
-}
-
-.st-card {
+.st-stack.is-stacked .st-stack-stage {
+  position: sticky;
+  top: calc(var(--nav-h) + 32px);
   display: block;
-  height: 100%;
+  height: calc(var(--stage-h) + var(--peek-room));
 }
 
-.st-cover {
-  display: block;
-  aspect-ratio: 4 / 3;
+.st-stack.is-stacked .st-case {
+  position: absolute;
+  inset: 0 0 var(--peek-room);
+  transform-origin: 50% 100%;
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+.st-stack.is-stacked .st-case:not(:first-child) {
+  transform: translate3d(0, 100vh, 0);
+}
+
+.st-case {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  min-height: var(--stage-h);
   overflow: hidden;
-  background: var(--plate);
+  border-radius: 14px;
+  background: var(--case-bg);
+  color: #fff;
+  box-shadow: 0 -1px 0 rgba(255, 255, 255, 0.04), 0 -18px 40px -24px rgba(0, 0, 0, 0.35);
 }
 
-.st-cover img {
+.st-case-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-width: 0;
+  padding: clamp(24px, 3.4vw, 48px);
+}
+
+.st-case-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  font-size: 0.8125rem;
+  letter-spacing: 0.01em;
+}
+
+.st-case-name {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.0625rem;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+
+.st-case-name img {
   display: block;
+  width: auto;
+}
+
+.st-case-name img.is-invert {
+  filter: invert(1);
+}
+
+.st-case-num {
+  opacity: 0.6;
+  font-variant-numeric: tabular-nums;
+}
+
+.st-case-body {
+  display: grid;
+  justify-items: start;
+  gap: 14px;
+  padding-top: 32px;
+}
+
+.st-case-rule {
+  width: 64px;
+  height: 1px;
+  margin-bottom: 10px;
+  background: currentColor;
+  opacity: 0.3;
+}
+
+.st-case-title {
+  max-width: 15em;
+  font-size: clamp(1.75rem, 3.2vw, 2.875rem);
+  font-weight: 500;
+  line-height: 1.04;
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+}
+
+.st-case-line {
+  max-width: 30em;
+  opacity: 0.78;
+  text-wrap: pretty;
+}
+
+.st-case-meta {
+  font-size: 0.8125rem;
+  opacity: 0.55;
+}
+
+.st-case-go {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+  font-weight: 500;
+}
+
+.st-case-go svg {
+  transition: transform 0.5s var(--ease);
+}
+
+.st-case:hover .st-case-go svg,
+.st-case:focus-visible .st-case-go svg {
+  transform: translateX(4px);
+}
+
+.st-case-media {
+  position: relative;
+  margin: clamp(10px, 1.1vw, 16px);
+  margin-left: 0;
+  overflow: hidden;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.15);
+}
+
+.st-case-media img {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
   transition: transform 1.2s var(--ease);
 }
 
-.st-card:hover .st-cover img,
-.st-card:focus-visible .st-cover img {
-  transform: scale(1.06);
+.st-case:hover .st-case-media img {
+  transform: scale(1.04);
 }
 
-.st-card-text {
-  display: grid;
-  gap: 8px;
-  padding-top: 18px;
+.st-case:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 4px;
 }
 
-.st-card-name {
-  font-size: clamp(1.375rem, 2vw, 1.75rem);
-  letter-spacing: -0.03em;
-  line-height: 1.1;
+/* The label that follows the pointer over the cards. The real cursor hides
+   while it shows. */
+.st-case-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 60;
+  pointer-events: none;
 }
 
-.st-card-line {
-  color: var(--ink-2);
-  max-width: 30em;
-}
-
-.st-card-meta {
-  font-size: 0.8125rem;
-  color: var(--ink-3);
-}
-
-.st-card-go {
+.st-case-cursor > span {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  margin-top: 4px;
+  padding: 11px 18px;
+  border-radius: 999px;
+  background: #fff;
+  color: var(--ink-fixed);
   font-size: 0.875rem;
+  font-weight: 500;
+  white-space: nowrap;
+  box-shadow: 0 8px 24px -8px rgba(0, 0, 0, 0.35);
+  transform: translate(-50%, -50%) scale(0.4);
+  opacity: 0;
+  transition: transform 0.35s var(--ease), opacity 0.2s;
 }
 
-.st-card-go svg {
-  transition: transform 0.5s var(--ease);
+.st-case-cursor.is-on > span {
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
 }
 
-.st-card:hover .st-card-go svg {
-  transform: translateX(4px);
-}
-
-@media (max-width: 1000px) {
-  .st-rail {
-    --cols: 2;
+@media (hover: hover) and (pointer: fine) {
+  .st-case {
+    cursor: none;
   }
 }
 
-@media (max-width: 600px) {
-  .st-rail {
-    --cols: 1.15;
+@media (hover: none), (pointer: coarse) {
+  .st-case-cursor {
+    display: none;
+  }
+}
+
+@media (max-width: 760px) {
+  .st-stack {
+    --stage-h: min(620px, calc(100svh - var(--nav-h) - 72px));
+    --peek-room: 28px;
+  }
+
+  .st-stack.is-stacked .st-stack-stage {
+    top: calc(var(--nav-h) + 16px);
+  }
+
+  .st-case {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto minmax(160px, 1fr);
+  }
+
+  .st-case-media {
+    margin: 0 10px 10px;
+  }
+
+  .st-case-body {
+    gap: 10px;
+    padding-top: 20px;
+  }
+
+  .st-case-rule {
+    display: none;
+  }
+
+  .st-case-line {
+    font-size: 0.9375rem;
+  }
+}
+
+/* ─── Guides on the home page: three cards side by side ─────────────────────── */
+.st-home-guides {
+  padding-block: var(--space);
+  border-top: 1px solid var(--line);
+}
+
+.st-home-guides-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
+.st-home-guides-head .st-label {
+  margin-bottom: 20px;
+}
+
+.st-guide-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(12px, 1.4vw, 20px);
+}
+
+.st-guide-cards a {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  height: 100%;
+  padding: clamp(22px, 2.2vw, 32px);
+  border-radius: 14px;
+  background: var(--case-bg);
+  color: #fff;
+}
+
+:root[data-theme='dark'] .st-guide-cards a {
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+
+.st-guide-card-top {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: clamp(28px, 4vw, 64px);
+  font-size: 0.8125rem;
+  color: rgba(255, 255, 255, 0.5);
+  font-variant-numeric: tabular-nums;
+}
+
+.st-guide-card-title {
+  font-size: clamp(1.25rem, 1.7vw, 1.5rem);
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+
+.st-guide-card-lede {
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.9375rem;
+  text-wrap: pretty;
+}
+
+.st-guide-card-go {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: auto;
+  padding-top: 12px;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+/* The underline draws in from the left while the card is hovered. */
+.st-guide-card-go > span {
+  padding-bottom: 2px;
+  background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat;
+  transition: background-size 0.5s var(--ease);
+}
+
+.st-guide-cards a:hover .st-guide-card-go > span,
+.st-guide-cards a:focus-visible .st-guide-card-go > span {
+  background-size: 100% 1px;
+}
+
+.st-guide-card-go svg {
+  transition: transform 0.5s var(--ease);
+}
+
+.st-guide-cards a:hover .st-guide-card-go svg {
+  transform: translateX(4px);
+}
+
+@media (max-width: 900px) {
+  .st-guide-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .st-home-guides-head {
+    flex-direction: column;
+    align-items: start;
+  }
+
+  .st-guide-card-top {
+    margin-bottom: 8px;
   }
 }
 
@@ -1611,16 +1851,16 @@ html:has(.st) {
    still read as their own surface. */
 :root[data-theme='dark'] {
   color-scheme: dark;
-  background: #0e0e0d;
+  background: #000000;
 }
 
 :root[data-theme='dark'] body {
-  background: #0e0e0d;
+  background: #000000;
   color: #ececE8;
 }
 
 :root[data-theme='dark'] .st {
-  --bg: #0e0e0d;
+  --bg: #000000;
   --plate: #1a1a18;
   --ink: #ececE8;
   --ink-2: #a8a8a2;
@@ -1629,11 +1869,17 @@ html:has(.st) {
   --line-strong: rgba(236, 236, 232, 0.3);
   --on-ink: #111110;
   --ink-hover: #c8c8c3;
-  --glass: rgba(14, 14, 13, 0.88);
+  --glass: rgba(0, 0, 0, 0.88);
   /* The bands that are dark in light mode turn light here. */
   --band: #ececE8;
   --band-ink: 17, 17, 16;
   --error: #ff8a80;
+  --case-bg: #050505;
+}
+
+/* On the dark page the work cards keep a hairline edge, so the stack reads. */
+:root[data-theme='dark'] .st-case {
+  box-shadow: inset 0 0 0 1px var(--line), 0 -18px 40px -24px rgba(0, 0, 0, 0.7);
 }
 
 :root[data-theme='dark'] .st-panel {

@@ -36,15 +36,7 @@ const NAV_OFFSET = -64
 export function useSmoothScroll() {
   useEffect(() => {
     if (prefersReducedMotion()) return
-    // The project rail keeps its own sideways scroll, but only for sideways
-    // gestures: up and down over the rail stays smooth like the rest of the
-    // page. (Handing every wheel event over the rail to the browser made the
-    // page stall there, as native scrolling fought Lenis's easing.)
-    lenis = new Lenis({
-      lerp: 0.1,
-      virtualScroll: ({ deltaX, deltaY, event }) =>
-        !(Math.abs(deltaX) > Math.abs(deltaY) && event.target.closest?.('.st-rail')),
-    })
+    lenis = new Lenis({ lerp: 0.1 })
     let raf = requestAnimationFrame(function loop(time) {
       lenis?.raf(time)
       raf = requestAnimationFrame(loop)

@@ -9,6 +9,10 @@ import PixelPortrait from './PixelPortrait'
 import no20Cover from '../assets/work/cases/no20-tablet.webp'
 import sea4youCover from '../assets/work/cases/sea4you-macbook.webp'
 import hemmaCover from '../assets/work/hemma/phone-leather.webp'
+import { guides } from '../data/guides'
+import no20Logo from '../assets/logos/no20.png'
+import sea4youLogo from '../assets/logos/sea4you.png'
+import hemmaLogo from '../assets/logos/hemma.svg'
 import {
   SKETCH_PATH,
   serviceHref,
@@ -87,82 +91,174 @@ function Studio({ t, founder }) {
   )
 }
 
-// ─── Work: a rail of equal cards ─────────────────────────────────────────────
-// Each card is the project's hero image. Three to a row on wide
-// screens, fewer on narrow ones. Any number of projects fits: when there are
-// more than show at once, the rail scrolls and the arrows appear; when they all
-// fit, the arrows stay hidden.
+// ─── Work: a stack of case cards ─────────────────────────────────────────────
+// Each project is a dark card, text on the left and its hero
+// image on the right. While the section scrolls past, the cards stay put and
+// each new one slides up over the last; the ones beneath step back a little,
+// so their edges show below. Without motion (or before the script runs) the
+// cards simply follow one another down the page.
+
+// Each card carries the project's logo, white on the black card. NO20's file
+// is black, so it is turned white; Hemma's mark is a lone H, so its name
+// follows it.
+const LOGOS = {
+  no20: { src: no20Logo, h: 22, invert: true },
+  sea4you: { src: sea4youLogo, h: 21 },
+  hemma: { src: hemmaLogo, h: 20, named: true },
+}
 
 // Client cases have a page here; own products link out to their case study.
-function CaseLink({ c, children }) {
+function CaseLink({ c, className, children, ...rest }) {
   if (c.href) {
     return (
-      <a className="st-card" href={c.href} target="_blank" rel="noopener noreferrer">
+      <a className={className} href={c.href} target="_blank" rel="noopener noreferrer" {...rest}>
         {children}
       </a>
     )
   }
   return (
-    <Link className="st-card" to={`/projekt/${c.slug}`} onClick={rememberScroll}>
+    <Link className={className} to={`/projekt/${c.slug}`} onClick={rememberScroll} {...rest}>
       {children}
     </Link>
   )
 }
 
-function Work({ t, lang }) {
-  const railRef = useRef(null)
-  const [edges, setEdges] = useState({ start: true, end: true })
-  const sv = lang === 'sv'
+// How far each card beneath the top one steps down and shrinks.
+const PEEK = 14
+const SHRINK = 0.02
 
+function Work({ t }) {
+  const stackRef = useRef(null)
+  const cursorRef = useRef(null)
+  const [stacked, setStacked] = useState(false)
+  const n = t.cases.length
+
+  // Drive the stack from the scroll position: no React renders, just the
+  // transforms on each card, once per frame.
   useEffect(() => {
-    const rail = railRef.current
-    if (!rail) return
-    const update = () =>
-      setEdges({
-        start: rail.scrollLeft <= 2,
-        end: rail.scrollLeft + rail.clientWidth >= rail.scrollWidth - 2,
+    const stack = stackRef.current
+    if (!stack || prefersReducedMotion()) return
+    setStacked(true)
+    const cards = [...stack.querySelectorAll('.st-case')]
+    let raf = 0
+    const update = () => {
+      raf = 0
+      // The stage sticks at `top` until the section runs out under it; the
+      // cards are all in a little before that, so the last one rests a moment.
+      const stage = stack.firstElementChild
+      const stickAt = parseFloat(getComputedStyle(stage).top) || 0
+      const travel = (stack.offsetHeight - stage.offsetHeight) * 0.85
+      const scrolled = stickAt - stack.getBoundingClientRect().top
+      const p = Math.min(Math.max(scrolled / Math.max(travel, 1), 0), 1) * (n - 1)
+      cards.forEach((card, i) => {
+        // How far this card has come in (1 = in place), and how many cards
+        // now lie over it.
+        const inP = i === 0 ? 1 : Math.min(Math.max(p - (i - 1), 0), 1)
+        const depth = Math.max(Math.min(p, n - 1) - i, 0)
+        // Cards still to come wait below the screen, not just below the stage.
+        const y = (1 - inP) * (window.innerHeight - stickAt)
+        card.style.transform = `translate3d(0, ${y + depth * PEEK}px, 0) scale(${1 - depth * SHRINK})`
       })
-    update()
-    rail.addEventListener('scroll', update, { passive: true })
-    const ro = new ResizeObserver(update)
-    ro.observe(rail)
+    }
+    const onScroll = () => {
+      if (!raf) raf = requestAnimationFrame(update)
+    }
+    // The stage takes its stacked height on the next render; measure after.
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    window.addEventListener('resize', onScroll)
     return () => {
-      rail.removeEventListener('scroll', update)
-      ro.disconnect()
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('resize', onScroll)
+      cancelAnimationFrame(raf)
+    }
+  }, [n])
+
+  // A label follows the pointer over the cards, easing after it, on screens
+  // with a mouse.
+  useEffect(() => {
+    const stack = stackRef.current
+    const label = cursorRef.current
+    if (!stack || !label || !window.matchMedia('(hover: hover) and (pointer: fine)').matches) return
+    let x = 0
+    let y = 0
+    let tx = 0
+    let ty = 0
+    let raf = 0
+    const still = prefersReducedMotion()
+    const tick = () => {
+      x += (tx - x) * (still ? 1 : 0.2)
+      y += (ty - y) * (still ? 1 : 0.2)
+      label.style.transform = `translate3d(${x}px, ${y}px, 0)`
+      raf = Math.abs(tx - x) + Math.abs(ty - y) > 0.3 ? requestAnimationFrame(tick) : 0
+    }
+    const move = (e) => {
+      tx = e.clientX
+      ty = e.clientY
+      if (!label.classList.contains('is-on')) {
+        x = tx
+        y = ty
+        label.classList.add('is-on')
+      }
+      if (!raf) raf = requestAnimationFrame(tick)
+    }
+    const leave = () => label.classList.remove('is-on')
+    stack.addEventListener('pointermove', move)
+    stack.addEventListener('pointerleave', leave)
+    return () => {
+      stack.removeEventListener('pointermove', move)
+      stack.removeEventListener('pointerleave', leave)
+      cancelAnimationFrame(raf)
     }
   }, [])
-
-  function step(dir) {
-    const rail = railRef.current
-    const card = rail?.querySelector('li')
-    if (!card) return
-    const gap = parseFloat(getComputedStyle(rail).columnGap) || 0
-    rail.scrollBy({ left: dir * (card.offsetWidth + gap), behavior: prefersReducedMotion() ? 'auto' : 'smooth' })
-  }
-
-  const scrollable = !(edges.start && edges.end)
 
   return (
     <section className="st-work" id="work">
       <div className="st-wrap">
         <div className="st-work-head">
           <p className="st-label">{t.workLabel}</p>
-          {scrollable && (
-            <div className="st-rail-nav">
-              <button type="button" onClick={() => step(-1)} disabled={edges.start} aria-label={sv ? 'Föregående' : 'Previous'}>
-                <Arrow size={16} back />
-              </button>
-              <button type="button" onClick={() => step(1)} disabled={edges.end} aria-label={sv ? 'Nästa' : 'Next'}>
-                <Arrow size={16} />
-              </button>
-            </div>
-          )}
         </div>
-        <ul className="st-rail" ref={railRef}>
-          {t.cases.map((c) => (
-            <li key={c.slug}>
-              <CaseLink c={c}>
-                <span className="st-cover">
+        <div
+          className={`st-stack${stacked ? ' is-stacked' : ''}`}
+          ref={stackRef}
+          style={{ '--cases': n }}
+        >
+          <div className="st-stack-stage">
+            {t.cases.map((c, i) => (
+              <CaseLink
+                key={c.slug}
+                c={c}
+                className="st-case"
+                style={{ zIndex: i + 1 }}
+              >
+                <span className="st-case-text">
+                  <span className="st-case-top">
+                    <span className="st-case-name">
+                      <img
+                        src={LOGOS[c.slug].src}
+                        alt={c.name}
+                        height={LOGOS[c.slug].h}
+                        className={LOGOS[c.slug].invert ? 'is-invert' : undefined}
+                        style={{ height: LOGOS[c.slug].h }}
+                      />
+                      {LOGOS[c.slug].named && <span aria-hidden="true">{c.name}</span>}
+                    </span>
+                    <span className="st-case-num">
+                      {String(i + 1).padStart(2, '0')} / {String(n).padStart(2, '0')}
+                    </span>
+                  </span>
+                  <span className="st-case-body">
+                    <span className="st-case-rule" aria-hidden="true" />
+                    <span className="st-case-title">{c.headline}</span>
+                    <span className="st-case-line">{c.line}</span>
+                    <span className="st-case-meta">{c.tag}</span>
+                    <span className="st-case-go">
+                      {t.viewCase}
+                      <Arrow />
+                    </span>
+                  </span>
+                </span>
+                <span className="st-case-media">
                   <img
                     src={COVERS[c.slug].src}
                     alt=""
@@ -171,20 +267,17 @@ function Work({ t, lang }) {
                     style={{ objectPosition: COVERS[c.slug].focus }}
                   />
                 </span>
-                <span className="st-card-text">
-                  <span className="st-card-name">{c.name}</span>
-                  <span className="st-card-line">{c.line}</span>
-                  <span className="st-card-meta">{c.tag}</span>
-                  <span className="st-card-go">
-                    {t.viewCase}
-                    <Arrow />
-                  </span>
-                </span>
               </CaseLink>
-            </li>
-          ))}
-        </ul>
+            ))}
+          </div>
+        </div>
       </div>
+      <span className="st-case-cursor" ref={cursorRef} aria-hidden="true">
+        <span>
+          {t.workCursor}
+          <Arrow />
+        </span>
+      </span>
     </section>
   )
 }
@@ -313,6 +406,44 @@ function About({ t, about }) {
   )
 }
 
+// ─── Guides: three cards side by side, for whoever wants to read up ──────────
+function Guides({ g, lang }) {
+  return (
+    <section className="st-home-guides" id="guides">
+      <div className="st-wrap">
+        <div className="st-home-guides-head">
+          <div>
+            <p className="st-label">{g.moreLabel}</p>
+            <h2 className="st-section-title">{g.moreTitle}</h2>
+          </div>
+          <Link className="st-link" to="/guider" onClick={rememberScroll}>
+            {g.all}
+            <Arrow />
+          </Link>
+        </div>
+        <ul className="st-guide-cards">
+          {guides.slice(0, 3).map((x, i) => (
+            <li key={x.slug}>
+              <Link to={`/guider/${x.slug}`} onClick={rememberScroll}>
+                <span className="st-guide-card-top">
+                  <span>{String(i + 1).padStart(2, '0')}</span>
+                  <span>{g.minutes(x.minutes)}</span>
+                </span>
+                <span className="st-guide-card-title">{x[lang].title}</span>
+                <span className="st-guide-card-lede">{x[lang].lede}</span>
+                <span className="st-guide-card-go">
+                  <span>{g.read}</span>
+                  <Arrow />
+                </span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )
+}
+
 export default function Home({ t, lang, setLang }) {
   useEffect(() => {
     document.documentElement.lang = lang
@@ -338,13 +469,14 @@ export default function Home({ t, lang, setLang }) {
       <Nav t={h.nav} sketch={t.sketch} services={services} lang={lang} setLang={setLang} />
       <main>
         <Hero t={h} founder={t.founder} />
-        <Work t={h} lang={lang} />
+        <Work t={h} />
         <Offer t={h} web={t.webSolution} sketch={t.sketch} />
         <Compare w={t.webSolution} />
         <Services t={h} services={services} />
         <Process p={t.process} />
         <Promises p={t.promises} />
         <About t={h} about={t.about} />
+        <Guides g={t.guides} lang={lang} />
       </main>
       <Contact t={h} sketch={t.sketch} />
       <Footer t={h} services={services} footer={t.footer} lang={lang} setLang={setLang} />
