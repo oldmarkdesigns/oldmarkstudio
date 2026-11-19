@@ -8,13 +8,16 @@ import 'lenis/dist/lenis.css'
 
 export const EMAIL = 'oldmarkdesigns@gmail.com'
 
-// Webbutveckling and Apputveckling have pages of their own; the other
-// services share the service page.
-const OWN_PAGES = { webbutveckling: '/webbutveckling', apputveckling: '/apputveckling' }
-export const serviceHref = (slug) => OWN_PAGES[slug] || `/tjanst/${slug}`
+// The free sketch: the first step the site offers, from the banner, the
+// contact band and the services list.
+export const SKETCH_PATH = '/gratis-skiss'
 
-// The five services, in the order the nav, the homepage list and the footer
-// all show them.
+// Each service has a page of its own.
+const OWN_PAGES = { webbutveckling: '/webbutveckling', apputveckling: '/apputveckling', 'gratis-skiss': SKETCH_PATH }
+export const serviceHref = (slug) => OWN_PAGES[slug]
+
+// The services, in the order the nav, the homepage list and the footer all
+// show them.
 export const siteServices = (t) => t.home.serviceList
 
 // Sub-pages restore the homepage scroll position from this on "back".

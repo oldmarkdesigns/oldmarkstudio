@@ -1,7 +1,8 @@
-import { EMAIL, scrollToId, sentence } from '../home/siteUtils'
+import { Link } from 'react-router-dom'
+import { EMAIL, SKETCH_PATH, scrollToId, sentence } from '../home/siteUtils'
 import { Arrow } from '../home/site'
 import studioDesk from '../assets/work/studio-desk.webp'
-import { SubPage, PageHead, Section, RuleList, Rows } from '../home/page'
+import { SubPage, PageHead, Section, RuleList, Rows, Promises, Compare, FounderNote, GuideLinks } from '../home/page'
 
 const PRICING = 'pricing'
 
@@ -14,13 +15,10 @@ function Plan({ offer, cta, ghost = false }) {
       {offer.priceStatement && <p className="st-plan-price">{offer.priceStatement}</p>}
       <p>{offer.desc}</p>
       <RuleList items={offer.features} cols={1} />
-      <a
-        className={`st-btn${ghost ? ' st-btn--ghost' : ''}`}
-        href={`mailto:${EMAIL}?subject=${encodeURIComponent(offer.name)}`}
-      >
+      <Link className={`st-btn${ghost ? ' st-btn--ghost' : ''}`} to={SKETCH_PATH}>
         {cta}
         <Arrow />
-      </a>
+      </Link>
     </div>
   )
 }
@@ -53,6 +51,7 @@ export default function WebSolutionPage({ t, lang = 'sv', setLang }) {
             <Arrow />
           </a>
         </div>
+        <FounderNote f={t.founder} quote={t.founder.web} />
       </PageHead>
 
       <Section label={sentence(w.includedLabel)} title={w.includedTitle}>
@@ -66,17 +65,17 @@ export default function WebSolutionPage({ t, lang = 'sv', setLang }) {
         <p className="st-plan-price">{h.offerPrice}</p>
         <p>{h.oneOff}</p>
         <div className="st-actions">
-          <a className="st-btn" href={`mailto:${EMAIL}?subject=${encodeURIComponent(h.offerCtaSubject)}`}>
-            {h.offerCta}
+          <Link className="st-btn" to={SKETCH_PATH}>
+            {t.sketch.cta}
             <Arrow />
-          </a>
+          </Link>
         </div>
       </Section>
 
       <Section id={PRICING} label={sentence(w.pricingLabel)} title={w.pricingTitle} intro={w.pricingSubtitle}>
         <div className="st-plans">
-          <Plan offer={w.offer} cta={h.offerCta} />
-          <Plan offer={w.oneOff} cta={h.offerCta} ghost />
+          <Plan offer={w.offer} cta={t.sketch.cta} />
+          <Plan offer={w.oneOff} cta={t.sketch.cta} ghost />
         </div>
         <div className="st-plan-hourly">
           <h3 className="st-row-title">{w.hourly.title}</h3>
@@ -88,9 +87,15 @@ export default function WebSolutionPage({ t, lang = 'sv', setLang }) {
         </div>
       </Section>
 
+      <Compare w={w} />
+
+      <Promises p={t.promises} />
+
       <Section label={w.faqLabel} title={w.faqTitle}>
         <Rows items={w.faq.map((x) => ({ title: x.q, body: x.a }))} />
       </Section>
+
+      <GuideLinks g={t.guides} lang={lang} />
     </SubPage>
   )
 }

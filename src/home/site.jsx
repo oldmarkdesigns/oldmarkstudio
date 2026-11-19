@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 import appPhone from '../assets/work/app-phone.webp'
 import studioDesk from '../assets/work/studio-desk.webp'
 import DotGlobe from './DotGlobe'
-import { EMAIL, serviceHref, rememberScroll, scrollToTop, useGo } from './siteUtils'
+import { EMAIL, SKETCH_PATH, serviceHref, rememberScroll, scrollToId, scrollToTop, useGo } from './siteUtils'
 import './home.css'
 
 // The parts every page shares: the bar, the contact band, the footer and the
@@ -71,7 +71,7 @@ export function Mail({ copy, copied, className = '' }) {
 // that drops from the bar as one surface (two image cards and the services), on
 // hover with a short delay or on click; the page dims behind it. Below 900 px a
 // two-stroke burger opens a full-height panel that unrolls from the bar.
-export function Nav({ t, services, lang, setLang }) {
+export function Nav({ t, sketch, services, lang, setLang }) {
   const [scrolled, setScrolled] = useState(false)
   const [menu, setMenu] = useState(false)
   const [mobile, setMobile] = useState(false)
@@ -179,9 +179,36 @@ export function Nav({ t, services, lang, setLang }) {
     </li>
   ))
 
+  // The free sketch, offered in a thin line above the bar on every page but its
+  // own. It folds away once the page scrolls or a menu opens; the space below
+  // keeps the page from sliding under it at the top.
+  const banner = sketch && pathname !== SKETCH_PATH
+
+  // The main button leads to the free sketch; on that page, to its form.
+  const toSketch = (e) => {
+    toService()
+    if (pathname !== SKETCH_PATH) return
+    e.preventDefault()
+    scrollToId('#skiss')
+  }
+
   return (
     <>
+      {banner && <div className="st-banner-space" aria-hidden="true" />}
       <header className={`st-nav${scrolled ? ' is-scrolled' : ''}${menu || mobile ? ' is-open' : ''}${mobile ? ' is-mobile-open' : ''}`}>
+        {banner && (
+          <div className="st-banner">
+            <div className="st-banner-inner">
+              <Link className="st-banner-link" to={SKETCH_PATH} onClick={toService} tabIndex={scrolled ? -1 : undefined}>
+                <span>{sketch.banner}</span>
+                <span className="st-banner-go">
+                  {sketch.bannerLink}
+                  <Arrow size={12} />
+                </span>
+              </Link>
+            </div>
+          </div>
+        )}
         <div className="st-wrap st-nav-bar">
           <a className="st-logo" href="/" onClick={toTop} aria-label="Oldmark Studio">
             <DotGlobe
@@ -270,9 +297,9 @@ export function Nav({ t, services, lang, setLang }) {
             >
               {sv ? 'EN' : 'SV'}
             </button>
-            <a className="st-nav-cta" href={`mailto:${EMAIL}`} onClick={closeAll}>
-              {t.cta}
-            </a>
+            <Link className="st-nav-cta" to={SKETCH_PATH} onClick={toSketch}>
+              {sketch?.cta || t.cta}
+            </Link>
             <button
               type="button"
               ref={burgerRef}
@@ -307,9 +334,9 @@ export function Nav({ t, services, lang, setLang }) {
                 {label}
               </a>
             ))}
-            <a className="st-mobile-cta" href={`mailto:${EMAIL}`} onClick={closeAll}>
-              {t.cta}
-            </a>
+            <Link className="st-mobile-cta" to={SKETCH_PATH} onClick={toSketch}>
+              {sketch?.cta || t.cta}
+            </Link>
           </nav>
         </div>
       </header>
@@ -320,13 +347,25 @@ export function Nav({ t, services, lang, setLang }) {
 
 // ─── Contact: the dark band before the footer ────────────────────────────────
 // Sub-pages pass their own title and line; the homepage uses its own.
-export function Contact({ t, label, title, body }) {
+// `sketch` adds the free sketch as the first way in, above the address.
+export function Contact({ t, label, title, body, sketch }) {
+  const { pathname } = useLocation()
   return (
     <section className="st-contact" id="contact">
       <div className="st-wrap">
         <p className="st-label">{label || t.contactLabel}</p>
         <h2 className="st-contact-title">{title || t.contactTitle}</h2>
         <p className="st-contact-body">{body || t.contactBody}</p>
+        {sketch && (
+          <Link
+            className="st-btn st-btn--light st-contact-btn"
+            to={SKETCH_PATH}
+            onClick={pathname === '/' ? rememberScroll : undefined}
+          >
+            {sketch.cta}
+            <Arrow />
+          </Link>
+        )}
         <Mail copy={t.copy} copied={t.copied} className="st-mail--lg" />
       </div>
     </section>
@@ -386,6 +425,11 @@ export function Footer({ t, services, footer, lang, setLang }) {
                   </a>
                 </li>
               ))}
+              <li>
+                <Link to="/guider" onClick={away}>
+                  {f.guides}
+                </Link>
+              </li>
             </ul>
           </nav>
           <nav aria-label={f.services}>

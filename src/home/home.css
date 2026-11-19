@@ -659,12 +659,13 @@ html:has(.st) {
   text-wrap: balance;
 }
 
-/* Copy on the left, the interactive dot globe on the right, bottoms aligned. */
+/* Copy on the left, the interactive dot globe on the right, centred on the
+   copy's height. */
 .st-hero-grid {
   display: grid;
   grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
   gap: 40px var(--gutter);
-  align-items: end;
+  align-items: center;
 }
 
 .st-hero-orb {
@@ -1416,5 +1417,155 @@ html:has(.st) {
   .st .st-rv {
     opacity: 1;
     transform: none;
+  }
+}
+
+/* ─── Free sketch banner ───────────────────────────────────────────────────── */
+/* A thin dark line above the bar, in the fixed header. It folds away (rows
+   1fr → 0fr) once the page scrolls or a menu opens; .st-banner-space holds
+   its height in the page so nothing starts under it at the top. */
+.st {
+  --banner-h: 40px;
+}
+
+.st-banner-space {
+  height: var(--banner-h);
+}
+
+.st-banner {
+  display: grid;
+  grid-template-rows: 1fr;
+  background: #111110;
+  color: #ffffff;
+  transition: grid-template-rows 0.3s var(--ease);
+}
+
+.st-banner-inner {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.st-nav.is-scrolled .st-banner,
+.st-nav.is-open .st-banner {
+  grid-template-rows: 0fr;
+}
+
+.st-banner-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px 16px;
+  height: var(--banner-h);
+  padding-inline: var(--gutter);
+  font-size: 0.8125rem;
+  text-align: center;
+}
+
+.st-banner-go {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: rgba(255, 255, 255, 0.65);
+  white-space: nowrap;
+  transition: color 0.3s;
+}
+
+.st-banner-go svg {
+  transition: transform 0.5s var(--ease);
+}
+
+.st-banner-link:hover .st-banner-go {
+  color: #ffffff;
+}
+
+.st-banner-link:hover .st-banner-go svg {
+  transform: translateX(3px);
+}
+
+@media (max-width: 600px) {
+  .st-banner-go {
+    display: none;
+  }
+}
+
+/* ─── Light button, for the dark contact band ─────────────────────────────── */
+.st-btn--light {
+  background: #ffffff;
+  color: var(--ink);
+}
+
+.st-btn--light:hover {
+  background: #e6e6e2;
+}
+
+.st-contact-btn {
+  display: flex;
+  width: fit-content;
+  margin-bottom: 40px;
+}
+
+/* ─── Process: how long each step takes ───────────────────────────────────── */
+.st-process-steps .st-process-when {
+  font-size: 0.875rem;
+  color: var(--ink);
+}
+
+/* The way on from the process steps: a quiet link, under the hairlines. */
+.st-process-next {
+  margin-top: 40px;
+}
+
+/* Now and then a soft light blooms behind the banner's words and fades
+   again: no direction, just a short breath of glow, then a rest. Opacity and
+   scale only, so it stays composited and smooth. Not shown to visitors who
+   prefer reduced motion. */
+.st-banner-link {
+  position: relative;
+  isolation: isolate;
+}
+
+.st-banner-link::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(
+    ellipse 32% 160% at 50% 50%,
+    rgba(255, 255, 255, 0.16) 0%,
+    rgba(255, 255, 255, 0.07) 40%,
+    rgba(255, 255, 255, 0.02) 65%,
+    rgba(255, 255, 255, 0) 85%
+  );
+  opacity: 0;
+  transform: scale(0.85);
+  will-change: opacity, transform;
+  pointer-events: none;
+  animation: st-glow 6s ease-in-out 1.2s infinite;
+}
+
+/* About 2 s of glow in each 6 s: up in 0.8 s, down in 1.2 s, then still. */
+@keyframes st-glow {
+  0% {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+  13% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  33% {
+    opacity: 0;
+    transform: scale(1.12);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.12);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .st-banner-link::after {
+    display: none;
+    animation: none;
   }
 }

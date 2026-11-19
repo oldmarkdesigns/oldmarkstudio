@@ -43,6 +43,26 @@
       "source": "/projekt/deco-home",
       "destination": "/",
       "permanent": true
+    },
+    {
+      "source": "/tjanst/prototyping",
+      "destination": "/gratis-skiss",
+      "permanent": true
+    },
+    {
+      "source": "/tjanst/ux-granskning",
+      "destination": "/webbutveckling",
+      "permanent": true
+    },
+    {
+      "source": "/tjanst/branding",
+      "destination": "/webbutveckling",
+      "permanent": true
+    },
+    {
+      "source": "/tjanst/:path*",
+      "destination": "/",
+      "permanent": true
     }
   ],
   "headers": [

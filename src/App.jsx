@@ -5,9 +5,10 @@ import Home from './home/Home'
 import ProjectNo20 from './components/ProjectNo20'
 import Sea4YouPage from './components/Sea4YouPage'
 import HemmaPage from './components/HemmaPage'
-import ServicePage from './components/ServicePage'
 import WebSolutionPage from './components/WebSolutionPage'
 import AppDevPage from './components/AppDevPage'
+import SketchPage from './components/SketchPage'
+import GuidePage, { GuidesIndex } from './components/GuidePage'
 import PrivacyPage from './components/PrivacyPage'
 import RouteMeta from './RouteMeta'
 import { SubPage, NotFound } from './home/page'
@@ -24,9 +25,11 @@ export function AppRoutes() {
       <RouteMeta />
       <Routes>
         <Route path="/" element={<Home t={translations[lang]} lang={lang} setLang={setLang} />} />
-        <Route path="/tjanst/:slug" element={<ServicePage {...page} />} />
         <Route path="/webbutveckling" element={<WebSolutionPage {...page} />} />
         <Route path="/apputveckling" element={<AppDevPage {...page} />} />
+        <Route path="/gratis-skiss" element={<SketchPage {...page} />} />
+        <Route path="/guider" element={<GuidesIndex {...page} />} />
+        <Route path="/guider/:slug" element={<GuidePage {...page} />} />
         <Route path="/projekt/no20" element={<ProjectNo20 {...page} />} />
         <Route path="/projekt/sea4you" element={<Sea4YouPage {...page} />} />
         <Route path="/projekt/hemma" element={<HemmaPage {...page} />} />

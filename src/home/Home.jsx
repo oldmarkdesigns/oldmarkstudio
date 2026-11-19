@@ -9,7 +9,7 @@ import no20Cover from '../assets/work/cases/no20-tablet.webp'
 import sea4youCover from '../assets/work/cases/sea4you-macbook.webp'
 import hemmaCover from '../assets/work/hemma/phone-leather.webp'
 import {
-  EMAIL,
+  SKETCH_PATH,
   serviceHref,
   siteServices,
   rememberScroll,
@@ -20,7 +20,7 @@ import {
   sentence,
 } from './siteUtils'
 import { Arrow, Mail, Nav, Contact, Footer } from './site'
-import { Rows } from './page'
+import { Rows, Promises, Compare, FounderNote } from './page'
 
 // Each project's cover is the hero image from its case page, cropped to the
 // card. `focus` keeps the device in frame.
@@ -31,7 +31,7 @@ const COVERS = {
 }
 
 // ─── Hero: the sentence and the offer on the left, the dot globe on the right ─
-function Hero({ t }) {
+function Hero({ t, founder }) {
   return (
     <section className="st-hero" id="top">
       <div className="st-wrap st-hero-grid">
@@ -58,13 +58,13 @@ function Hero({ t }) {
           <DotGlobe />
         </div>
       </div>
-      <Studio t={t} />
+      <Studio t={t} founder={founder} />
     </section>
   )
 }
 
 // ─── The studio: what happens here, beside the desk it happens at ────────────
-function Studio({ t }) {
+function Studio({ t, founder }) {
   return (
     <div className="st-wrap st-studio">
       <figure className="st-studio-photo">
@@ -79,6 +79,7 @@ function Studio({ t }) {
             <li key={item}>{item}</li>
           ))}
         </ul>
+        <FounderNote f={founder} quote={founder.home} />
       </div>
     </div>
   )
@@ -189,7 +190,7 @@ function Work({ t, lang }) {
 // ─── Offer: why a subscription, in three numbered reasons ────────────────────
 // The prices in short beside the reasons; the full plan (what is included) is
 // on the Webbutveckling page, one click away.
-function Offer({ t, web }) {
+function Offer({ t, web, sketch }) {
   return (
     <section className="st-offer" id="offer">
       <div className="st-wrap st-split">
@@ -209,12 +210,12 @@ function Offer({ t, web }) {
         <div className="st-offer-body">
           <Rows numbered items={web.valuePoints.map((x) => ({ title: x.title, body: x.desc }))} />
           <div className="st-offer-actions">
-            <a className="st-btn" href={`mailto:${EMAIL}?subject=${encodeURIComponent(t.offerCtaSubject)}`}>
-              {t.offerCta}
+            <Link className="st-btn" to="/webbutveckling" onClick={rememberScroll}>
+              {t.offerMore}
               <Arrow />
-            </a>
-            <Link className="st-link" to="/webbutveckling" onClick={rememberScroll}>
-              {t.offerLink}
+            </Link>
+            <Link className="st-link" to={SKETCH_PATH} onClick={rememberScroll}>
+              {sketch.cta}
               <Arrow />
             </Link>
           </div>
@@ -278,10 +279,15 @@ function Process({ p }) {
             <li key={step.title}>
               <span className="st-process-num">{String(i + 1).padStart(2, '0')}</span>
               <h3>{step.title}</h3>
+              {step.when && <p className="st-process-when">{step.when}</p>}
               <p>{step.desc}</p>
             </li>
           ))}
         </ol>
+        <Link className="st-link st-process-next" to={SKETCH_PATH} onClick={rememberScroll}>
+          {p.cta}
+          <Arrow />
+        </Link>
       </div>
     </section>
   )
@@ -327,16 +333,18 @@ export default function Home({ t, lang, setLang }) {
   return (
     <div className="st">
       <div id="st-top-sentinel" className="st-sentinel" aria-hidden="true" />
-      <Nav t={h.nav} services={services} lang={lang} setLang={setLang} />
+      <Nav t={h.nav} sketch={t.sketch} services={services} lang={lang} setLang={setLang} />
       <main>
-        <Hero t={h} />
+        <Hero t={h} founder={t.founder} />
         <Work t={h} lang={lang} />
-        <Offer t={h} web={t.webSolution} />
+        <Offer t={h} web={t.webSolution} sketch={t.sketch} />
+        <Compare w={t.webSolution} />
         <Services t={h} services={services} />
         <Process p={t.process} />
+        <Promises p={t.promises} />
         <About t={h} about={t.about} />
       </main>
-      <Contact t={h} />
+      <Contact t={h} sketch={t.sketch} />
       <Footer t={h} services={services} footer={t.footer} lang={lang} setLang={setLang} />
     </div>
   )

@@ -1,5 +1,5 @@
-import { services } from './data/services'
 import translations from './translations'
+import { guides } from './data/guides'
 
 // Search and sharing metadata for every route: the title and description
 // search results show, the image link previews show, and the structured data
@@ -55,8 +55,7 @@ const organization = {
   },
   knowsAbout: [
     'Webbdesign', 'Webbutveckling', 'Hemsidor för företag', 'Apputveckling', 'iPhone-appar', 'Webbappar',
-    'UX-design', 'UI-design', 'Användbarhet', 'Tillgänglighet', 'WCAG', 'Sökmotoroptimering',
-    'Branding', 'Varumärkesidentitet', 'Grafisk profil', 'Logotyper', 'Prototyper', 'Produktdesign',
+    'UX-design', 'UI-design', 'Sökmotoroptimering', 'Produktdesign',
   ],
   hasOfferCatalog: {
     '@type': 'OfferCatalog',
@@ -123,51 +122,29 @@ const WEB_OFFERS = [
     '@type': 'Offer',
     name: 'Hemsida som månadsabonnemang',
     priceCurrency: 'SEK',
-    priceSpecification: { '@type': 'UnitPriceSpecification', minPrice: 990, priceCurrency: 'SEK', unitCode: 'MON' },
+    priceSpecification: { '@type': 'UnitPriceSpecification', minPrice: 1495, priceCurrency: 'SEK', unitCode: 'MON' },
   },
   {
     '@type': 'Offer',
     name: 'Ny hemsida som engångsprojekt',
     priceCurrency: 'SEK',
-    priceSpecification: { '@type': 'PriceSpecification', minPrice: 9900, priceCurrency: 'SEK' },
+    priceSpecification: { '@type': 'PriceSpecification', minPrice: 19900, priceCurrency: 'SEK' },
   },
 ]
-
-// Search wording for the service pages, keyed by slug.
-const SERVICE_SEO = {
-  prototyping: {
-    title: 'Prototyper – klickbar prototyp och MVP i Stockholm',
-    description: 'Testa din idé innan du bygger den. Klickbara prototyper för användartester, investerardemos och MVP – klara på 3–7 dagar. Designstudio i Stockholm.',
-    serviceType: 'Prototyper och produktdesign',
-    alternateName: ['Klickbar prototyp', 'MVP-design'],
-  },
-  'ux-granskning': {
-    title: 'UX-granskning och tillgänglighet (WCAG 2.2) i Stockholm',
-    description: 'UX-granskning och tillgänglighetsgranskning mot WCAG 2.2 AA inför EAA. Konkreta, prioriterade åtgärder för din webbplats eller app.',
-    serviceType: 'UX-granskning och tillgänglighetsgranskning',
-    alternateName: ['UX-audit', 'Tillgänglighetsgranskning', 'WCAG-granskning'],
-  },
-  branding: {
-    title: 'Branding, logotyp och grafisk profil i Stockholm',
-    description: 'Branding och varumärkesidentitet för företag: logotyp, grafisk profil, färger och typografi som håller ihop på webben och allt annat ni visar upp.',
-    serviceType: 'Branding och varumärkesidentitet',
-    alternateName: ['Grafisk profil', 'Logotypdesign', 'Visuell identitet'],
-  },
-}
 
 // Each route: path, title, description, and optionally image, type, jsonLd,
 // noindex (kept out of search) and sitemap: false (left out of the sitemap).
 export const routes = [
   {
     path: '/',
-    title: `${SITE_NAME} – Webbdesigner i Stockholm för hemsidor, appar och varumärken`,
-    description: 'Designstudio i Stockholm. Oldmark Studio designar och bygger hemsidor, appar och varumärken för företag – som engångsprojekt eller månadsabonnemang.',
+    title: `${SITE_NAME} – Webbdesigner i Stockholm för hemsidor och appar`,
+    description: 'Designstudio i Stockholm. Oldmark Studio designar och bygger hemsidor och appar för företag – som engångsprojekt eller månadsabonnemang från 1 495 kr/mån. Börja med en gratis skiss.',
     jsonLd: [organization, website],
   },
   {
     path: '/webbutveckling',
-    title: title('Hemsida som abonnemang från 990 kr/mån – webbutveckling i Stockholm'),
-    description: 'Ny hemsida för ditt företag från 990 kr/mån med design, utveckling, hosting och underhåll. Eller som engångsprojekt från 9 900 kr. Designstudio i Stockholm.',
+    title: title('Hemsida som abonnemang från 1 495 kr/mån – webbutveckling i Stockholm'),
+    description: 'Ny hemsida för ditt företag från 1 495 kr/mån med design, utveckling, hosting och underhåll, utan startavgift. Eller som engångsprojekt från 19 900 kr. Designstudio i Stockholm.',
     jsonLd: serviceLd('/webbutveckling', 'Webbutveckling', sv.webSolution.subtitle, 'Webbutveckling och webbdesign', ['Hemsida för företag', 'Webbdesign', 'Hemsida som abonnemang'], WEB_OFFERS),
   },
   {
@@ -176,17 +153,14 @@ export const routes = [
     description: 'Apputveckling i Stockholm. Jag designar och bygger iPhone-appar och webbappar som fungerar i alla telefoner – från idé till App Store.',
     jsonLd: serviceLd('/apputveckling', 'Apputveckling', 'Native iPhone-appar och webbappar.', 'Apputveckling', ['App-utveckling', 'iPhone-appar', 'Webbappar']),
   },
-  ...services.map(s => {
-    const path = `/tjanst/${s.slug}`
-    const seo = SERVICE_SEO[s.slug] || {}
-    const description = seo.description || `${s.sv.tagline} ${s.sv.intro}`
-    return {
-      path,
-      title: title(seo.title || s.sv.title),
-      description,
-      jsonLd: serviceLd(path, s.sv.title, s.sv.tagline, seo.serviceType, seo.alternateName),
-    }
-  }),
+  {
+    path: '/gratis-skiss',
+    title: title('Gratis skiss av din nya hemsida inom 3 arbetsdagar'),
+    description: 'Se hur din nya hemsida kan se ut innan du bestämmer dig. Ett samtal på 20 minuter och en gratis skiss inom 3 arbetsdagar, utan krav på att gå vidare. Webbdesigner i Stockholm.',
+    jsonLd: serviceLd('/gratis-skiss', 'Gratis skiss', 'En gratis skiss av startsidan för din nya hemsida eller app, inom 3 arbetsdagar.', 'Webbdesign', ['Gratis hemsideskiss', 'Gratis designförslag'], [
+      { '@type': 'Offer', name: 'Gratis skiss', price: 0, priceCurrency: 'SEK' },
+    ]),
+  },
   ...[
     { slug: 'no20', image: '/og/no20.jpg' },
     { slug: 'sea4you', image: '/og/sea4you.jpg' },
@@ -203,6 +177,45 @@ export const routes = [
     }
   }),
 ]
+
+routes.push(
+  {
+    path: '/guider',
+    title: title('Guider om att skaffa en ny hemsida'),
+    description: sv.guides.indexLede,
+    jsonLd: [breadcrumbs('/guider', 'Guider')],
+  },
+  ...guides.map(g => {
+    const path = `/guider/${g.slug}`
+    return {
+      path,
+      title: title(g.sv.title),
+      description: g.sv.lede,
+      type: 'article',
+      jsonLd: [
+        {
+          '@context': 'https://schema.org',
+          '@type': 'Article',
+          headline: g.sv.title,
+          description: g.sv.lede,
+          inLanguage: 'sv-SE',
+          url: `${SITE_URL}${path}`,
+          author: { '@id': PERSON_ID },
+          publisher: { '@id': ORG_ID },
+        },
+        {
+          '@context': 'https://schema.org',
+          '@type': 'BreadcrumbList',
+          itemListElement: [
+            { '@type': 'ListItem', position: 1, name: SITE_NAME, item: `${SITE_URL}/` },
+            { '@type': 'ListItem', position: 2, name: 'Guider', item: `${SITE_URL}/guider` },
+            { '@type': 'ListItem', position: 3, name: g.sv.title, item: `${SITE_URL}${path}` },
+          ],
+        },
+      ],
+    }
+  }),
+)
 
 routes.push({
   path: '/integritetspolicy',
